@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html" class="here">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html" class="here">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 4 · 60 minutes</div>
+  <div class="kicker">Session 4</div>
   <h1>The Ball Drop</h1>
   <p class="lede">Before the Mood Machine learns faces, you'll watch a much simpler model learn from data you collect yourself: how high a ball bounces. Today you collect the data, and build the two things every model needs: a guess and a way to score it.</p>
   <div class="pills"><span class="pill">Syllabus: regression methods</span><span class="pill">Starter notebook: session4-starter.ipynb</span><span class="pill">Bring: a ball and a tape measure</span></div>
 </div></div>
 <div class="page with-toc p-session4">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#plan-the-drop">Plan the Drop</a><span class="t">0-8 min</span></li><li><a href="#collect">Collect</a><span class="t">8-38 min</span></li><li><a href="#look-at-your-data">Look at Your Data</a><span class="t">38-43 min</span></li><li><a href="#a-model-is-a-guess-with-knobs">A Model Is a Guess With Knobs</a><span class="t">43-50 min</span></li><li><a href="#scoring-a-guess-the-loss">Scoring a Guess: The Loss</a><span class="t">50-58 min</span></li><li><a href="#exit-check">Exit Check</a><span class="t">58-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#plan-the-drop">Plan the Drop</a></li><li><a href="#collect">Collect</a></li><li><a href="#look-at-your-data">Look at Your Data</a></li><li><a href="#a-model-is-a-guess-with-knobs">A Model Is a Guess With Knobs</a></li><li><a href="#scoring-a-guess-the-loss">Scoring a Guess: The Loss</a></li><li><a href="#exit-check">Exit Check</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session4-starter.ipynb" download>session4-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s4_0.jpg" src="videos/s4_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -31,7 +31,7 @@
 <li>describe a model as a guess with adjustable numbers</li>
 <li>work out the mean squared error of a model by hand and in code</li>
 </ul>
-<h2 id="plan-the-drop">Plan the Drop <span class="time">0-8 min</span></h2>
+<h2 id="plan-the-drop">Plan the Drop</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s4_1.jpg" src="videos/s4_1.mp4"></video></div>
 
 <p>You'll drop a ball from at least seven heights between 0.5 m and 2 m and measure how high it bounces.</p>
@@ -58,7 +58,7 @@
 </ol>
 </div>
 </details>
-<h2 id="collect">Collect <span class="time">8-38 min</span></h2>
+<h2 id="collect">Collect</h2>
 <p>Record your results in a table like this.</p>
 <table>
 <thead>
@@ -102,7 +102,7 @@
 </tbody>
 </table>
 <p>If you finish early, try a different ball or a different floor and compare.</p>
-<h2 id="look-at-your-data">Look at Your Data <span class="time">38-43 min</span></h2>
+<h2 id="look-at-your-data">Look at Your Data</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s4_2.jpg" src="videos/s4_2.mp4"></video></div>
 
 <div class="box do">
@@ -111,7 +111,7 @@
 </div>
 <figure style="max-width:520px"><img src="assets/img/s4_scatter.png" alt="Seven points rising in a nearly straight line: bounce height against drop height"><figcaption>The backup data.</figcaption></figure>
 
-<h2 id="a-model-is-a-guess-with-knobs">A Model Is a Guess With Knobs <span class="time">43-50 min</span></h2>
+<h2 id="a-model-is-a-guess-with-knobs">A Model Is a Guess With Knobs</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s4_3.jpg" src="videos/s4_3.mp4"></video></div>
 
 <p>The dots fall roughly on a straight line, so our <strong>model</strong> is a line:</p>
@@ -125,7 +125,7 @@
 </ul>
 <p>Think of them as two knobs. Turn them and the line moves. <strong>Training</strong> means finding the knob settings that make the line fit the dots best. The Mood Machine is exactly the same idea, with 820,874 knobs instead of 2.</p>
 <p>When a model predicts a number like this, it's called <strong>regression</strong>.</p>
-<h2 id="scoring-a-guess-the-loss">Scoring a Guess: The Loss <span class="time">50-58 min</span></h2>
+<h2 id="scoring-a-guess-the-loss">Scoring a Guess: The Loss</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s4_4.jpg" src="videos/s4_4.mp4"></video></div>
 
 <p>To get better, a model needs one number that says how wrong it is. That number is the <strong>loss</strong>. We use the <strong>mean squared error</strong>:</p>
@@ -176,7 +176,7 @@
 </div>
 <figure style="max-width:520px"><img src="assets/img/s4_guess.png" alt="The data with a guessed line and red lines showing each error"><figcaption>A guess with w = 0.58 and b = 0.02. The red lines are the errors.</figcaption></figure>
 
-<h2 id="exit-check">Exit Check <span class="time">58-60 min</span></h2>
+<h2 id="exit-check">Exit Check</h2>
 <div class="box think">
 <p><span class="lbl">Think</span></p>
 <p>Guessing <code>w</code> and <code>b</code> by hand is slow. How could the computer decide which way to turn each knob? Next session answers this.</p>

@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html" class="here">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html" class="here">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 5 · 60 minutes</div>
+  <div class="kicker">Session 5</div>
   <h1>Gradient Descent</h1>
   <p class="lede">Last session you turned the knobs by guessing. Today the computer turns them itself, step by step downhill, using gradient descent: the method that trains every neural network in this unit, including the Mood Machine.</p>
   <div class="pills"><span class="pill">Syllabus: regression methods</span><span class="pill">Starter notebook: session5-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session5">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#walking-downhill-in-the-fog">Walking Downhill in the Fog</a><span class="t">0-10 min</span></li><li><a href="#watch-it-learn">Watch It Learn</a><span class="t">10-22 min</span></li><li><a href="#where-the-gradients-come-from">Where the Gradients Come From</a><span class="t">22-30 min</span></li><li><a href="#let-pytorch-do-the-calculus">Let PyTorch Do the Calculus</a><span class="t">30-45 min</span></li><li><a href="#check-against-the-exact-answer">Check Against the Exact Answer</a><span class="t">45-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#walking-downhill-in-the-fog">Walking Downhill in the Fog</a></li><li><a href="#watch-it-learn">Watch It Learn</a></li><li><a href="#where-the-gradients-come-from">Where the Gradients Come From</a></li><li><a href="#let-pytorch-do-the-calculus">Let PyTorch Do the Calculus</a></li><li><a href="#check-against-the-exact-answer">Check Against the Exact Answer</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session5-starter.ipynb" download>session5-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s5_0.jpg" src="videos/s5_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -32,7 +32,7 @@
 <li>train a model with PyTorch's automatic gradients</li>
 <li>describe how regression is used to make a prediction</li>
 </ul>
-<h2 id="walking-downhill-in-the-fog">Walking Downhill in the Fog <span class="time">0-10 min</span></h2>
+<h2 id="walking-downhill-in-the-fog">Walking Downhill in the Fog</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_1.jpg" src="videos/s5_1.mp4"></video></div>
 
 <p>Imagine you're on a hillside in thick fog, and you want to reach the bottom of the valley. You can't see the bottom. But you can feel which way the ground slopes under your feet. So you take a small step downhill, feel the slope again, and take another step.</p>
@@ -67,7 +67,7 @@
 </code></pre></div>
 
 <p>This is <strong>gradient descent</strong>.</p>
-<h2 id="watch-it-learn">Watch It Learn <span class="time">10-22 min</span></h2>
+<h2 id="watch-it-learn">Watch It Learn</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_2.jpg" src="videos/s5_2.mp4"></video></div>
 
 <p>Your data (or the backup data) is already in the explorer. Change it to your own if you like.</p>
@@ -97,7 +97,7 @@
 </ol>
 </div>
 </details>
-<h2 id="where-the-gradients-come-from">Where the Gradients Come From <span class="time">22-30 min</span></h2>
+<h2 id="where-the-gradients-come-from">Where the Gradients Come From</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_3.jpg" src="videos/s5_3.mp4"></video></div>
 
 <p>For our line and the mean squared error, the gradients are:</p>
@@ -115,7 +115,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Put your own measurements in the first cell, then run <strong>section 1</strong>. It does exactly this step. Check it against the explorer after 1 step at learning rate 0.1.</p>
 </div>
-<h2 id="let-pytorch-do-the-calculus">Let PyTorch Do the Calculus <span class="time">30-45 min</span></h2>
+<h2 id="let-pytorch-do-the-calculus">Let PyTorch Do the Calculus</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_4.jpg" src="videos/s5_4.mp4"></video></div>
 
 <p>A neural network has hundreds of thousands of weights, so nobody works out gradients by hand. If you make a value with <code>requires_grad=True</code>, PyTorch records every calculation done with it. Then <code>loss.backward()</code> works backwards through that record and puts each gradient in <code>.grad</code>.</p>
@@ -137,7 +137,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>sections 2 and 3</strong>. Watch the loss fall and <code>w</code> and <code>b</code> settle. Then do the YOUR TURN cell in <strong>section 5</strong>: try learning rates 0.01, 0.3 and 0.8, and write one sentence about each. Run <strong>section 6</strong> to see gradients pile up.</p>
 </div>
-<h2 id="check-against-the-exact-answer">Check Against the Exact Answer <span class="time">45-52 min</span></h2>
+<h2 id="check-against-the-exact-answer">Check Against the Exact Answer</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_5.jpg" src="videos/s5_5.mp4"></video></div>
 
 <p>For a straight line there's a formula, <strong>least squares</strong>, that gives the best <code>w</code> and <code>b</code> straight away. If gradient descent worked, it should land on the same values. With the backup data, both give <strong>w = 0.5771 and b = 0.0186</strong>.</p>
@@ -161,7 +161,7 @@
 </ol>
 </div>
 </details>
-<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<h2 id="check-your-understanding">Check Your Understanding</h2>
 <div class="box exam">
 <p><span class="lbl">Check your understanding</span></p>
 <p><strong>1.</strong> A garden centre has records of each day's temperature and how many bags of compost it sold. Describe how regression could be used to predict sales from the weather forecast. <span class="marks">4 points</span></p>

@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html" class="here">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html" class="here">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 3 · 60 minutes</div>
+  <div class="kicker">Session 3</div>
   <h1>Inside a Neuron</h1>
   <p class="lede">The Mood Machine is built from 394 neurons, and every one does the same small job. Today you take one apart: its weights, its bias, and the ReLU switch at the end. Then you see how neurons join into layers.</p>
   <div class="pills"><span class="pill">Syllabus: artificial neural networks</span><span class="pill">Starter notebook: session3-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session3">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#the-shape-of-a-neural-network">The Shape of a Neural Network</a><span class="t">0-10 min</span></li><li><a href="#what-one-neuron-does">What One Neuron Does</a><span class="t">10-20 min</span></li><li><a href="#the-bias">The Bias</a><span class="t">20-30 min</span></li><li><a href="#relu">ReLU</a><span class="t">30-42 min</span></li><li><a href="#a-layer-of-neurons">A Layer of Neurons</a><span class="t">42-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#the-shape-of-a-neural-network">The Shape of a Neural Network</a></li><li><a href="#what-one-neuron-does">What One Neuron Does</a></li><li><a href="#the-bias">The Bias</a></li><li><a href="#relu">ReLU</a></li><li><a href="#a-layer-of-neurons">A Layer of Neurons</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session3-starter.ipynb" download>session3-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s3_0.jpg" src="videos/s3_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -32,7 +32,7 @@
 <li>explain what ReLU does, and why a network needs it</li>
 <li>describe the layers of a neural network and count its weights</li>
 </ul>
-<h2 id="the-shape-of-a-neural-network">The Shape of a Neural Network <span class="time">0-10 min</span></h2>
+<h2 id="the-shape-of-a-neural-network">The Shape of a Neural Network</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_1.jpg" src="videos/s3_1.mp4"></video></div>
 
 <p>A neural network is made of <strong>neurons</strong> (also called nodes) arranged in <strong>layers</strong>:</p>
@@ -42,7 +42,7 @@
 <li>The <strong>output layer</strong> gives the answer. The Mood Machine has 10 output neurons, one score for each mood.</li>
 </ul>
 <p>Every neuron in one layer is connected to every neuron in the next. Each connection has a <strong>weight</strong>: a number that says how much that input matters to that neuron. Training means changing the weights until the answers come out right.</p>
-<h2 id="what-one-neuron-does">What One Neuron Does <span class="time">10-20 min</span></h2>
+<h2 id="what-one-neuron-does">What One Neuron Does</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_2.jpg" src="videos/s3_2.mp4"></video></div>
 
 <p>Every neuron does three steps:</p>
@@ -90,7 +90,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run the first two cells. Check that the notebook gives the same answer as the calculator.</p>
 </div>
-<h2 id="the-bias">The Bias <span class="time">20-30 min</span></h2>
+<h2 id="the-bias">The Bias</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_3.jpg" src="videos/s3_3.mp4"></video></div>
 
 <p>The weights decide how much each input matters. The <strong>bias</strong> is one extra number that belongs to the neuron itself, added after the inputs. It sets how easily the neuron switches on.</p>
@@ -104,7 +104,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 2</strong> to see the same inputs with three different biases. Then do the YOUR TURN cell: find the smallest bias that switches this neuron on.</p>
 </div>
-<h2 id="relu">ReLU <span class="time">30-42 min</span></h2>
+<h2 id="relu">ReLU</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_4.jpg" src="videos/s3_4.mp4"></video></div>
 
 <p><strong>ReLU</strong> stands for <strong>rectified linear unit</strong>. Its rule is simple:</p>
@@ -136,7 +136,7 @@
 </ol>
 </div>
 </details>
-<h2 id="a-layer-of-neurons">A Layer of Neurons <span class="time">42-52 min</span></h2>
+<h2 id="a-layer-of-neurons">A Layer of Neurons</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_5.jpg" src="videos/s3_5.mp4"></video></div>
 
 <p>A <strong>layer</strong> is a group of neurons that all read the same inputs. Put each neuron's weights in one row of a table <code>W</code>, and one line works out the whole layer:</p>
@@ -149,7 +149,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 5</strong>. In the last YOUR TURN cell, work out how many numbers <code>nn.Linear(3072, 256)</code> has, then check.</p>
 </div>
-<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<h2 id="check-your-understanding">Check Your Understanding</h2>
 <div class="box exam">
 <p><span class="lbl">Check your understanding</span></p>
 <p><strong>1.</strong> Describe the structure of an artificial neural network. <span class="marks">3 points</span></p>

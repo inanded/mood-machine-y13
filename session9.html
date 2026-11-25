@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html" class="here">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html" class="here">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 9 · 60 minutes</div>
+  <div class="kicker">Session 9</div>
   <h1>Back Propagation by Hand</h1>
   <p class="lede">In Session 8, one line, loss.backward(), found the gradient for all 820,874 weights. Today you do the same job yourself on a tiny network, step by step, and check every answer against PyTorch.</p>
   <div class="pills"><span class="pill">Syllabus: back propagation</span><span class="pill">Starter notebook: session9-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session9">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#a-tiny-mood-machine">A Tiny Mood Machine</a><span class="t">0-12 min</span></li><li><a href="#working-backwards">Working Backwards</a><span class="t">12-20 min</span></li><li><a href="#the-backward-pass">The Backward Pass</a><span class="t">20-38 min</span></li><li><a href="#update-and-check">Update and Check</a><span class="t">38-50 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">50-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#a-tiny-mood-machine">A Tiny Mood Machine</a></li><li><a href="#working-backwards">Working Backwards</a></li><li><a href="#the-backward-pass">The Backward Pass</a></li><li><a href="#update-and-check">Update and Check</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session9-starter.ipynb" download>session9-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s9_0.jpg" src="videos/s9_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -31,7 +31,7 @@
 <li>work backwards to find how much each weight caused the error (the backward pass)</li>
 <li>explain back propagation clearly in your own words</li>
 </ul>
-<h2 id="a-tiny-mood-machine">A Tiny Mood Machine <span class="time">0-12 min</span></h2>
+<h2 id="a-tiny-mood-machine">A Tiny Mood Machine</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_1.jpg" src="videos/s9_1.mp4"></video></div>
 
 <p>MoodNet has 3,072 inputs, two hidden layers and 10 outputs. This network has the same parts, just far fewer of them: 2 inputs, 2 hidden neurons with ReLU, and 1 output.</p>
@@ -87,7 +87,7 @@
 <p>z1 = 0.5 + 0.5 = 1, so h1 = 1. z2 = −0.5 + 1 = 0.5, so h2 = 0.5. Output = 1 + 1 = 2. Loss = (2 − 3)² = 1. The output is too small.</p>
 </div>
 </details>
-<h2 id="working-backwards">Working Backwards <span class="time">12-20 min</span></h2>
+<h2 id="working-backwards">Working Backwards</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_2.jpg" src="videos/s9_2.mp4"></video></div>
 
 <p>Back propagation answers one question for every weight: <strong>if I nudge this weight up a little, how much does the loss change?</strong> That number is the weight's <strong>gradient</strong>.</p>
@@ -124,7 +124,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="the-backward-pass">The Backward Pass <span class="time">20-38 min</span></h2>
+<h2 id="the-backward-pass">The Backward Pass</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_3.jpg" src="videos/s9_3.mp4"></video></div>
 
 <div class="box do">
@@ -164,7 +164,7 @@ PyTorch gradients for W: [[-2.0, -4.0], [-4.0, -8.0]]</pre>
 </ol>
 </div>
 </details>
-<h2 id="update-and-check">Update and Check <span class="time">38-50 min</span></h2>
+<h2 id="update-and-check">Update and Check</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_4.jpg" src="videos/s9_4.mp4"></video></div>
 
 <p>Each weight now takes a step: <strong>new weight = old weight − learning rate × gradient</strong>. With a learning rate of 0.01, v1 = 1 − 0.01 × (−2) = 1.02.</p>
@@ -188,7 +188,7 @@ PyTorch gradients for W: [[-2.0, -4.0], [-4.0, -8.0]]</pre>
 <p>One of the hidden neurons has a negative total, so ReLU outputs 0 and its slope is 0. Nothing passes back through it, so none of its weights change for this input. If a neuron's total is negative for every input, it never learns again. This is called a <strong>dead neuron</strong>.</p>
 </div>
 </details>
-<h2 id="check-your-understanding">Check Your Understanding <span class="time">50-60 min</span></h2>
+<h2 id="check-your-understanding">Check Your Understanding</h2>
 <div class="box exam">
 <p><span class="lbl">Check your understanding</span></p>
 <p><strong>1.</strong> The Mood Machine guesses a mood that is wrong. Describe how back propagation is used to improve it. <span class="marks">4 points</span></p>

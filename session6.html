@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html" class="here">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html" class="here">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 6 · 60 minutes</div>
+  <div class="kicker">Session 6</div>
   <h1>The Faces Become Data</h1>
   <p class="lede">Back to the Mood Machine. Today you find out exactly where the faces come from, turn them into a dataset, split them into training and test faces, and get them ready to feed to a network in batches.</p>
   <div class="pills"><span class="pill">Syllabus: machine learning</span><span class="pill">Starter notebook: session6-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session6">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#where-the-faces-come-from-seeds">Where the Faces Come From: Seeds</a><span class="t">0-15 min</span></li><li><a href="#a-dataset">A Dataset</a><span class="t">15-25 min</span></li><li><a href="#getting-pictures-ready">Getting Pictures Ready</a><span class="t">25-38 min</span></li><li><a href="#batches-and-epochs">Batches and Epochs</a><span class="t">38-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#where-the-faces-come-from-seeds">Where the Faces Come From: Seeds</a></li><li><a href="#a-dataset">A Dataset</a></li><li><a href="#getting-pictures-ready">Getting Pictures Ready</a></li><li><a href="#batches-and-epochs">Batches and Epochs</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session6-starter.ipynb" download>session6-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s6_0.jpg" src="videos/s6_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -32,7 +32,7 @@
 <li>explain what the three transforms do to each face, and why</li>
 <li>explain what a batch and an epoch are</li>
 </ul>
-<h2 id="where-the-faces-come-from-seeds">Where the Faces Come From: Seeds <span class="time">0-15 min</span></h2>
+<h2 id="where-the-faces-come-from-seeds">Where the Faces Come From: Seeds</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_1.jpg" src="videos/s6_1.mp4"></video></div>
 
 <p>The faces aren't photos. <code>emoji_faces.py</code> <strong>draws</strong> each one, making random choices as it goes: the face colour, its size, how far it tilts, whether it has rosy cheeks, the background colour.</p>
@@ -82,7 +82,7 @@
 <p><span class="lbl">Key idea</span></p>
 <p>Seeds make the whole project <strong>repeatable</strong>. Everyone in the class trains on exactly the same faces and is tested on exactly the same faces, so results can be compared fairly.</p>
 </div>
-<h2 id="a-dataset">A Dataset <span class="time">15-25 min</span></h2>
+<h2 id="a-dataset">A Dataset</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_2.jpg" src="videos/s6_2.mp4"></video></div>
 
 <p>A <strong>Dataset</strong> holds the examples in a numbered list. Ask it for example number 3, and it hands you a pair: (picture, mood).</p>
@@ -126,7 +126,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 2</strong>.</p>
 </div>
-<h2 id="getting-pictures-ready">Getting Pictures Ready <span class="time">25-38 min</span></h2>
+<h2 id="getting-pictures-ready">Getting Pictures Ready</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_3.jpg" src="videos/s6_3.mp4"></video></div>
 
 <p><code>make_face</code> gives an ordinary picture, with each colour stored as a whole number from 0 to 255. The network needs a tensor of small decimals. Three <strong>transforms</strong> do this, one after another:</p>
@@ -147,7 +147,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 3</strong>. Then do the YOUR TURN cell: what do 0, 0.25 and 1 become after Normalize?</p>
 </div>
-<h2 id="batches-and-epochs">Batches and Epochs <span class="time">38-52 min</span></h2>
+<h2 id="batches-and-epochs">Batches and Epochs</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_4.jpg" src="videos/s6_4.mp4"></video></div>
 
 <div class="box do">
@@ -173,7 +173,7 @@
 <p>If 90% were Happy, a model could score 90% just by always answering "Happy", without learning anything. Equal numbers of each mood stop any answer being a shortcut. Because the mood comes from the seed's last digit, any run of seeds gives equal numbers automatically.</p>
 </div>
 </details>
-<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<h2 id="check-your-understanding">Check Your Understanding</h2>
 <div class="box exam">
 <p><span class="lbl">Check your understanding</span></p>
 <p><strong>1.</strong> A neural network is trained to recognise handwritten digits. Explain why the data is split into a training set and a test set. <span class="marks">2 points</span></p>

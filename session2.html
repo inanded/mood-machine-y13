@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html" class="here">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html" class="here">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 2 · 60 minutes</div>
+  <div class="kicker">Session 2</div>
   <h1>Set Up and Tensors</h1>
   <p class="lede">Today you set up your PC to run PyTorch in Jupyter, then learn the one thing PyTorch stores everything in: the tensor. You'll paint a tiny picture with numbers and meet the faces in code.</p>
   <div class="pills"><span class="pill">Starter notebook: session2-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session2">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#set-up-jupyter">Set Up Jupyter</a><span class="t">0-15 min</span></li><li><a href="#making-tensors">Making Tensors</a><span class="t">15-25 min</span></li><li><a href="#paint-a-tiny-picture">Paint a Tiny Picture</a><span class="t">25-40 min</span></li><li><a href="#maths-on-tensors-and-batches">Maths on Tensors and Batches</a><span class="t">40-48 min</span></li><li><a href="#meet-the-faces-and-find-the-biggest-score">Meet the Faces and Find the Biggest Score</a><span class="t">48-58 min</span></li><li><a href="#exit-check">Exit Check</a><span class="t">58-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#set-up-jupyter">Set Up Jupyter</a></li><li><a href="#making-tensors">Making Tensors</a></li><li><a href="#paint-a-tiny-picture">Paint a Tiny Picture</a></li><li><a href="#maths-on-tensors-and-batches">Maths on Tensors and Batches</a></li><li><a href="#meet-the-faces-and-find-the-biggest-score">Meet the Faces and Find the Biggest Score</a></li><li><a href="#exit-check">Exit Check</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session2-starter.ipynb" download>session2-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s2_0.jpg" src="videos/s2_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -32,7 +32,7 @@
 <li>pick out and change parts of a tensor</li>
 <li>find the position of the biggest number in a tensor</li>
 </ul>
-<h2 id="set-up-jupyter">Set Up Jupyter <span class="time">0-15 min</span></h2>
+<h2 id="set-up-jupyter">Set Up Jupyter</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_1.jpg" src="videos/s2_1.mp4"></video></div>
 
 <ol>
@@ -44,7 +44,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Click the first cell and press <strong>Shift + Enter</strong>. It should print a PyTorch version starting with 2.</p>
 </div>
-<h2 id="making-tensors">Making Tensors <span class="time">15-25 min</span></h2>
+<h2 id="making-tensors">Making Tensors</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_2.jpg" src="videos/s2_2.mp4"></video></div>
 
 <p>A <strong>tensor</strong> is a grid of numbers. In PyTorch, everything is a tensor: every face, every label, every weight and every guess.</p>
@@ -94,7 +94,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 1</strong>. In the YOUR TURN cell, make a tensor with 2 rows and 4 columns holding the numbers 1 to 8, then add up its second row.</p>
 </div>
-<h2 id="paint-a-tiny-picture">Paint a Tiny Picture <span class="time">25-40 min</span></h2>
+<h2 id="paint-a-tiny-picture">Paint a Tiny Picture</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_3.jpg" src="videos/s2_3.mp4"></video></div>
 
 <p>Square brackets pick out parts of a tensor. Counting starts at 0. A colon <code>:</code> on its own means "all of them".</p>
@@ -116,7 +116,7 @@
 <p><span class="lbl">Think</span></p>
 <p>What would <code>picture[2, 1, 3] = 1.0</code> change? Say which colour, which row and which column, then try it.</p>
 </div>
-<h2 id="maths-on-tensors-and-batches">Maths on Tensors and Batches <span class="time">40-48 min</span></h2>
+<h2 id="maths-on-tensors-and-batches">Maths on Tensors and Batches</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_4.jpg" src="videos/s2_4.mp4"></video></div>
 
 <p>Maths on a tensor happens to every number at once. <code>picture * 0.5</code> halves the brightness of every pixel in one go.</p>
@@ -125,7 +125,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 3</strong>.</p>
 </div>
-<h2 id="meet-the-faces-and-find-the-biggest-score">Meet the Faces and Find the Biggest Score <span class="time">48-58 min</span></h2>
+<h2 id="meet-the-faces-and-find-the-biggest-score">Meet the Faces and Find the Biggest Score</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_5.jpg" src="videos/s2_5.mp4"></video></div>
 
 <p><code>make_face(7)</code> gives you two things: a picture and its mood number. You'll find out exactly how the faces are made in Session 6.</p>
@@ -140,7 +140,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>sections 4 and 5</strong>. In the last YOUR TURN cell, change the scores so the guess is Laughing.</p>
 </div>
-<h2 id="exit-check">Exit Check <span class="time">58-60 min</span></h2>
+<h2 id="exit-check">Exit Check</h2>
 <div class="box think">
 <p><span class="lbl">Think</span></p>
 <ol>

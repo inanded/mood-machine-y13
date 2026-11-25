@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html" class="here">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html" class="here">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 7 · 60 minutes</div>
+  <div class="kicker">Session 7</div>
   <h1>Build MoodNet</h1>
   <p class="lede">Today you build MoodNet, the neural network inside the Mood Machine, and send faces through it for the first time. By the end you have a working Mood Machine. It just hasn't learned anything yet.</p>
   <div class="pills"><span class="pill">Syllabus: artificial neural networks, deep learning</span><span class="pill">Starter notebook: session7-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session7">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#flatten-from-picture-to-list">Flatten: From Picture to List</a><span class="t">0-10 min</span></li><li><a href="#the-layers">The Layers</a><span class="t">10-25 min</span></li><li><a href="#counting-the-numbers-to-learn">Counting the Numbers to Learn</a><span class="t">25-35 min</span></li><li><a href="#scores-chances-and-a-guess">Scores, Chances and a Guess</a><span class="t">35-50 min</span></li><li><a href="#before-training">Before Training</a><span class="t">50-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#flatten-from-picture-to-list">Flatten: From Picture to List</a></li><li><a href="#the-layers">The Layers</a></li><li><a href="#counting-the-numbers-to-learn">Counting the Numbers to Learn</a></li><li><a href="#scores-chances-and-a-guess">Scores, Chances and a Guess</a></li><li><a href="#before-training">Before Training</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session7-starter.ipynb" download>session7-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s7_0.jpg" src="videos/s7_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -36,7 +36,7 @@
 <p><span class="lbl">Do this first</span></p>
 <p>Open <strong>session7-starter.ipynb</strong> and run the first cell <strong>straight away</strong>. It draws all 15,000 faces from last session, which takes about a minute. Read on while it works.</p>
 </div>
-<h2 id="flatten-from-picture-to-list">Flatten: From Picture to List <span class="time">0-10 min</span></h2>
+<h2 id="flatten-from-picture-to-list">Flatten: From Picture to List</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_1.jpg" src="videos/s7_1.mp4"></video></div>
 
 <p>A face is a <code>(3, 32, 32)</code> tensor: three grids. The neurons in a Linear layer expect one long list of inputs. <strong>Flatten</strong> unrolls the grids into a single row of 3 x 32 x 32 = <strong>3,072</strong> numbers: all of the red grid, then all of the green, then all of the blue.</p>
@@ -55,7 +55,7 @@
 <p>No. To MoodNet, input 100 and input 132 are just two inputs. It has to learn from the data which positions matter together. That's one reason it struggles with faces that are moved or tilted, which you'll test in Session 10.</p>
 </div>
 </details>
-<h2 id="the-layers">The Layers <span class="time">10-25 min</span></h2>
+<h2 id="the-layers">The Layers</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_2.jpg" src="videos/s7_2.mp4"></video></div>
 
 <div class="hl"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MoodNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -117,7 +117,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run the MoodNet cell to print its layers.</p>
 </div>
-<h2 id="counting-the-numbers-to-learn">Counting the Numbers to Learn <span class="time">25-35 min</span></h2>
+<h2 id="counting-the-numbers-to-learn">Counting the Numbers to Learn</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_3.jpg" src="videos/s7_3.mp4"></video></div>
 
 <p>Each Linear layer has <strong>one weight for every connection</strong> (inputs x neurons) and <strong>one bias for every neuron</strong>.</p>
@@ -167,7 +167,7 @@
 <p>96% of them are in the first layer, because every one of the 3,072 inputs connects to every one of its 256 neurons.</p>
 </div>
 </details>
-<h2 id="scores-chances-and-a-guess">Scores, Chances and a Guess <span class="time">35-50 min</span></h2>
+<h2 id="scores-chances-and-a-guess">Scores, Chances and a Guess</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_4.jpg" src="videos/s7_4.mp4"></video></div>
 
 <p>MoodNet's output is 10 <strong>scores</strong>, one per mood. The biggest score is the guess.</p>
@@ -204,7 +204,7 @@
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 3</strong>. It sends a batch through MoodNet. Look at the ten scores and chances for one face.</p>
 </div>
-<h2 id="before-training">Before Training <span class="time">50-60 min</span></h2>
+<h2 id="before-training">Before Training</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_5.jpg" src="videos/s7_5.mp4"></video></div>
 
 <div class="box do">

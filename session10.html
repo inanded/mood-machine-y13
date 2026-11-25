@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html" class="here">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html" class="here">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 10 · 60 minutes</div>
+  <div class="kicker">Session 10</div>
   <h1>Catch It Out</h1>
   <p class="lede">Your Mood Machine scored over 80% on faces it had never seen. Today you go looking for the faces it gets wrong: brand-new faces, faces you draw yourself, and faces turned upside down. What it gets wrong shows what it has learned.</p>
   <div class="pills"><span class="pill">Syllabus: machine learning, deep learning</span><span class="pill">Starter notebook: session10-starter.ipynb</span><span class="pill">Downloads: four test drawings</span></div>
 </div></div>
 <div class="page with-toc p-session10">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#read-brand-new-faces">Read Brand-New Faces</a><span class="t">0-8 min</span></li><li><a href="#which-moods-fool-it">Which Moods Fool It?</a><span class="t">8-16 min</span></li><li><a href="#draw-your-own-faces">Draw Your Own Faces</a><span class="t">16-38 min</span></li><li><a href="#upside-down">Upside Down</a><span class="t">38-46 min</span></li><li><a href="#should-machines-read-real-emotions">Should Machines Read Real Emotions?</a><span class="t">46-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#read-brand-new-faces">Read Brand-New Faces</a></li><li><a href="#which-moods-fool-it">Which Moods Fool It?</a></li><li><a href="#draw-your-own-faces">Draw Your Own Faces</a></li><li><a href="#upside-down">Upside Down</a></li><li><a href="#should-machines-read-real-emotions">Should Machines Read Real Emotions?</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session10-starter.ipynb" download>session10-starter.ipynb</a> <a href="downloads/drawings/happy_high.png" download>happy_high.png</a> <a href="downloads/drawings/happy_low.png" download>happy_low.png</a> <a href="downloads/drawings/sad_high.png" download>sad_high.png</a> <a href="downloads/drawings/sad_low.png" download>sad_low.png</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s10_0.jpg" src="videos/s10_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -36,7 +36,7 @@
 <p><span class="lbl">Do this first</span></p>
 <p>Put <strong>session10-starter.ipynb</strong> and the four drawings in the same folder as <strong>mood_machine.pth</strong> from Session 8. Run the first cell <strong>straight away</strong>. It loads your saved Mood Machine. If it can't find the file, it trains a new one, which takes a few minutes.</p>
 </div>
-<h2 id="read-brand-new-faces">Read Brand-New Faces <span class="time">0-8 min</span></h2>
+<h2 id="read-brand-new-faces">Read Brand-New Faces</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_1.jpg" src="videos/s10_1.mp4"></video></div>
 
 <p>The saved file only holds numbers: the 820,874 weights and biases. It doesn't hold the design of the network. So the notebook first builds an empty MoodNet, then loads the saved numbers into it.</p>
@@ -56,7 +56,7 @@
 </div>
 <figure><img src="assets/img/s10_newfaces.png" alt="Eight brand-new faces with the Mood Machine's guesses"><figcaption>Our run. Yours will differ a little.</figcaption></figure>
 
-<h2 id="which-moods-fool-it">Which Moods Fool It? <span class="time">8-16 min</span></h2>
+<h2 id="which-moods-fool-it">Which Moods Fool It?</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_2.jpg" src="videos/s10_2.mp4"></video></div>
 
 <p>The overall score hides a lot. Section 2 marks every mood separately and lists the mix-ups it makes most often.</p>
@@ -81,7 +81,7 @@ Most common mix-ups:
 <p>Happy and Winking faces have the same smile. The only difference is one eye, which is a handful of pixels out of 3,072. Sleepy and Laughing faces have big features that look like no other mood, so lots of pixels point the same way.</p>
 </div>
 </details>
-<h2 id="draw-your-own-faces">Draw Your Own Faces <span class="time">16-38 min</span></h2>
+<h2 id="draw-your-own-faces">Draw Your Own Faces</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_3.jpg" src="videos/s10_3.mp4"></video></div>
 
 <p>So far every test face was drawn by the same program as the training faces. Now you test it with faces drawn by a person.</p>
@@ -117,7 +117,7 @@ Most common mix-ups:
 <p><span class="lbl">Key idea: what has it learned?</span></p>
 <p>The Mood Machine doesn't know what a smile is. It has never been told that faces have mouths. All it sees is 3,072 numbers, and it has learned which numbers, in which positions, tend to go with each mood. Move the mouth to a place where the training faces never had one, and those patterns no longer match.</p>
 </div>
-<h2 id="upside-down">Upside Down <span class="time">38-46 min</span></h2>
+<h2 id="upside-down">Upside Down</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_4.jpg" src="videos/s10_4.mp4"></video></div>
 
 <div class="box do">
@@ -131,7 +131,7 @@ Most common mix-ups:
 <p>This is true of machine learning in general: a model is only reliable on data like the data it learned from. A self-driving system trained only in sunny weather, or a medical model trained on one hospital's scanner, can fail in the same way.</p>
 </div>
 </details>
-<h2 id="should-machines-read-real-emotions">Should Machines Read Real Emotions? <span class="time">46-60 min</span></h2>
+<h2 id="should-machines-read-real-emotions">Should Machines Read Real Emotions?</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_5.jpg" src="videos/s10_5.mp4"></video></div>
 
 <p>The Mood Machine reads cartoon moods. Real emotion recognition systems claim to read people's feelings from their faces, voices or body language. Companies have sold them for job interviews, watching students in class, and monitoring staff at work.</p>

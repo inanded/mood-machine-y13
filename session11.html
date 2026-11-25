@@ -11,16 +11,16 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html" class="here">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html" class="here">11</a><a href="glossary.html">Glossary</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
-  <div class="kicker">Session 11 · 60 minutes</div>
+  <div class="kicker">Session 11</div>
   <h1>The Mood Machine Challenge</h1>
   <p class="lede">Today you compete to train the best Mood Machine. You run your own experiments, changing one setting at a time, and explain what made the difference. First you'll see the trap every machine learning engineer watches for: overfitting.</p>
   <div class="pills"><span class="pill">Syllabus: machine learning, deep learning</span><span class="pill">Starter notebook: session11-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session11">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#overfitting-in-action">Overfitting in Action</a><span class="t">0-12 min</span></li><li><a href="#the-challenge">The Challenge</a><span class="t">12-17 min</span></li><li><a href="#run-your-experiments">Run Your Experiments</a><span class="t">17-45 min</span></li><li><a href="#share-and-explain">Share and Explain</a><span class="t">45-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#overfitting-in-action">Overfitting in Action</a></li><li><a href="#the-challenge">The Challenge</a></li><li><a href="#run-your-experiments">Run Your Experiments</a></li><li><a href="#share-and-explain">Share and Explain</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session11-starter.ipynb" download>session11-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s11_0.jpg" src="videos/s11_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -35,7 +35,7 @@
 <p><span class="lbl">Do this first</span></p>
 <p>Open <strong>session11-starter.ipynb</strong> and run the first cell <strong>straight away</strong>. It draws all 15,000 faces, which takes about a minute.</p>
 </div>
-<h2 id="overfitting-in-action">Overfitting in Action <span class="time">0-12 min</span></h2>
+<h2 id="overfitting-in-action">Overfitting in Action</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_1.jpg" src="videos/s11_1.mp4"></video></div>
 
 <p>Every run today prints two scores:</p>
@@ -59,7 +59,7 @@ epoch 20  training 85.8 %   test 65.0 %</pre>
 <p><span class="lbl">Key idea</span></p>
 <p>When the training accuracy climbs well above the test accuracy, the model is overfitting. Only the test accuracy tells you how well it works on new data, so only the test accuracy counts in the challenge.</p>
 </div>
-<h2 id="the-challenge">The Challenge <span class="time">12-17 min</span></h2>
+<h2 id="the-challenge">The Challenge</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_2.jpg" src="videos/s11_2.mp4"></video></div>
 
 <p><code>train_mood_machine</code> trains a new Mood Machine with the settings you choose and prints both scores. Everyone is marked on the same 3,000 test faces, so the results are fair to compare.</p>
@@ -105,7 +105,7 @@ epoch 20  training 85.8 %   test 65.0 %</pre>
 <li>Record <strong>every</strong> run in a table, including the ones that made it worse.</li>
 <li>Each run takes about a minute, so predict the result before you run.</li>
 </ol>
-<h2 id="run-your-experiments">Run Your Experiments <span class="time">17-45 min</span></h2>
+<h2 id="run-your-experiments">Run Your Experiments</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_3.jpg" src="videos/s11_3.mp4"></video></div>
 
 <div class="box do">
@@ -128,9 +128,9 @@ epoch 20  training 85.8 %   test 65.0 %</pre>
 </ul>
 </div>
 </details>
-<h2 id="share-and-explain">Share and Explain <span class="time">45-52 min</span></h2>
+<h2 id="share-and-explain">Share and Explain</h2>
 <p>Put your best test accuracy and its settings on the class leaderboard. Then explain to someone else why you think your change worked. Use what you know about the learning rate, epochs, the amount of training data and overfitting.</p>
-<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<h2 id="check-your-understanding">Check Your Understanding</h2>
 <div class="box exam">
 <p><span class="lbl">Check your understanding</span></p>
 <p><strong>1.</strong> A system that spots plant diseases from photos scores 96% on its test set. When farmers use it with their own photos, it does much worse. Suggest <strong>two</strong> reasons why. <span class="marks">2 points</span></p>
