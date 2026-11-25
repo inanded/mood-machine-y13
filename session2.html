@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set Up and Tensors | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session2">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html" class="here">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 2 · 60 minutes</div>
+  <h1>Set Up and Tensors</h1>
+  <p class="lede">Today you set up your PC to run PyTorch in Jupyter, then learn the one thing PyTorch stores everything in: the tensor. You'll paint a tiny picture with numbers and meet the faces in code.</p>
+  <div class="pills"><span class="pill">Starter notebook: session2-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session2">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#set-up-jupyter">Set Up Jupyter</a><span class="t">0-15 min</span></li><li><a href="#making-tensors">Making Tensors</a><span class="t">15-25 min</span></li><li><a href="#paint-a-tiny-picture">Paint a Tiny Picture</a><span class="t">25-40 min</span></li><li><a href="#maths-on-tensors-and-batches">Maths on Tensors and Batches</a><span class="t">40-48 min</span></li><li><a href="#meet-the-faces-and-find-the-biggest-score">Meet the Faces and Find the Biggest Score</a><span class="t">48-58 min</span></li><li><a href="#exit-check">Exit Check</a><span class="t">58-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session2-starter.ipynb" download>session2-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s2_0.jpg" src="videos/s2_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>start Jupyter and run code in a notebook</li>
+<li>make a tensor and read its shape</li>
+<li>pick out and change parts of a tensor</li>
+<li>find the position of the biggest number in a tensor</li>
+</ul>
+<h2 id="set-up-jupyter">Set Up Jupyter <span class="time">0-15 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_1.jpg" src="videos/s2_1.mp4"></video></div>
+
+<ol>
+<li>Follow the <a href="setup.html">Setup page</a> to make your mood-machine folder and start Jupyter.</li>
+<li>Download <strong>session2-starter.ipynb</strong> from the top of this page and move it into your mood-machine folder.</li>
+<li>Open it from the Jupyter page.</li>
+</ol>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Click the first cell and press <strong>Shift + Enter</strong>. It should print a PyTorch version starting with 2.</p>
+</div>
+<h2 id="making-tensors">Making Tensors <span class="time">15-25 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_2.jpg" src="videos/s2_2.mp4"></video></div>
+
+<p>A <strong>tensor</strong> is a grid of numbers. In PyTorch, everything is a tensor: every face, every label, every weight and every guess.</p>
+<p>Tensors can have any number of <strong>dimensions</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Dimensions</th>
+<th>Example</th>
+<th>Shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>a list of 3 scores</td>
+<td><code>(3)</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>a table with 2 rows and 3 columns</td>
+<td><code>(2, 3)</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>one colour picture: 3 colours, 4 rows, 4 columns</td>
+<td><code>(3, 4, 4)</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>a batch of 64 face pictures</td>
+<td><code>(64, 3, 32, 32)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every tensor carries three facts you'll check again and again:</p>
+<ul>
+<li><strong>shape</strong>: how many numbers in each direction</li>
+<li><strong>dtype</strong>: what kind of numbers. We use <code>float32</code>, which means decimals.</li>
+<li><strong>device</strong>: where it lives. <code>cpu</code> is the PC's main processor.</li>
+</ul>
+<div class="hl"><pre><span></span><code><span class="n">blank</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>     <span class="c1"># a tiny 4 x 4 colour picture, all black</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>      <span class="c1"># the same size, filled with random numbers</span>
+</code></pre></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 1</strong>. In the YOUR TURN cell, make a tensor with 2 rows and 4 columns holding the numbers 1 to 8, then add up its second row.</p>
+</div>
+<h2 id="paint-a-tiny-picture">Paint a Tiny Picture <span class="time">25-40 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_3.jpg" src="videos/s2_3.mp4"></video></div>
+
+<p>Square brackets pick out parts of a tensor. Counting starts at 0. A colon <code>:</code> on its own means "all of them".</p>
+<p>For a picture, the first number picks the colour grid: <strong>0 is red, 1 is green, 2 is blue</strong>. The next two pick the row and the column.</p>
+<div class="hl"><pre><span></span><code><span class="n">picture</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>   <span class="c1"># start all black</span>
+<span class="n">picture</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>                 <span class="c1"># the whole red grid, turned up full</span>
+<span class="n">picture</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span>           <span class="c1"># green grid, row 0, every column</span>
+</code></pre></div>
+
+<p>The top row now has red and green turned up, which makes yellow. The rest is red.</p>
+<figure style="max-width:260px"><img src="assets/img/s2_tiny.png" alt="A 4 by 4 picture: a yellow top row and red below"></figure>
+
+<p>To draw a picture, its colour needs to be the <strong>last</strong> dimension, not the first. <code>picture.permute(1, 2, 0)</code> reorders the shape from <code>(3, 4, 4)</code> to <code>(4, 4, 3)</code>.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 2</strong>. In the YOUR TURN cell, make the bottom row white.</p>
+</div>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<p>What would <code>picture[2, 1, 3] = 1.0</code> change? Say which colour, which row and which column, then try it.</p>
+</div>
+<h2 id="maths-on-tensors-and-batches">Maths on Tensors and Batches <span class="time">40-48 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_4.jpg" src="videos/s2_4.mp4"></video></div>
+
+<p>Maths on a tensor happens to every number at once. <code>picture * 0.5</code> halves the brightness of every pixel in one go.</p>
+<p><code>torch.stack</code> piles pictures of the same shape into one tensor with a new dimension at the front. Three <code>(3, 4, 4)</code> pictures become one <code>(3, 3, 4, 4)</code> tensor: 3 pictures, 3 colours, 4 rows, 4 columns. The Mood Machine learns from batches of 64 faces, shape <code>(64, 3, 32, 32)</code>.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 3</strong>.</p>
+</div>
+<h2 id="meet-the-faces-and-find-the-biggest-score">Meet the Faces and Find the Biggest Score <span class="time">48-58 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s2_5.jpg" src="videos/s2_5.mp4"></video></div>
+
+<p><code>make_face(7)</code> gives you two things: a picture and its mood number. You'll find out exactly how the faces are made in Session 6.</p>
+<p>The Mood Machine will give 10 scores, one per mood. Its guess is whichever score is biggest. <code>argmax</code> finds the <strong>position</strong> of the biggest number:</p>
+<div class="hl"><pre><span></span><code><span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+<span class="n">best</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>     <span class="c1"># 3, the position of 3.4</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">CLASSES</span><span class="p">[</span><span class="n">best</span><span class="p">])</span>              <span class="c1"># Surprised</span>
+</code></pre></div>
+
+<p><code>.item()</code> turns a one-number tensor into an ordinary Python number.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>sections 4 and 5</strong>. In the last YOUR TURN cell, change the scores so the guess is Laughing.</p>
+</div>
+<h2 id="exit-check">Exit Check <span class="time">58-60 min</span></h2>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>A face tensor has shape <code>(3, 32, 32)</code>. What does each number mean?</li>
+<li>What shape is a batch of 64 faces?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>3 colour channels, 32 rows, 32 columns.</li>
+<li><code>(64, 3, 32, 32)</code>.</li>
+</ol>
+</div>
+</details>
+<div class="box stretch">
+<p><span class="lbl">Stretch</span></p>
+<p>Paint an 8 x 8 smiley face into a tensor: yellow background, two dark eyes and a dark mouth. Draw it with <code>plt.imshow(picture.permute(1, 2, 0))</code>. How many numbers does your face use?</p>
+</div>
+  <div class="prevnext"><a class="pn prev" href="session1.html"><small>Back</small>Can a Computer Read a Face?</a><a class="pn next" href="session3.html"><small>Next</small>Inside a Neuron</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can a Computer Read a Face? | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session1">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html" class="here">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 1 · 60 minutes</div>
+  <h1>Can a Computer Read a Face?</h1>
+  <p class="lede">Over this unit you will build the Mood Machine: an AI that looks at a cartoon face and says what mood it shows. Today there's no code. You'll find out why a computer has to learn this instead of following rules, how it sees a picture, and the three ways a machine can learn.</p>
+  <div class="pills"><span class="pill">Syllabus: machine learning, deep learning, reinforcement learning</span><span class="pill">No notebook today</span></div>
+</div></div>
+<div class="page with-toc p-session1">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#rules-or-examples">Rules or Examples?</a><span class="t">0-15 min</span></li><li><a href="#a-picture-is-just-numbers">A Picture Is Just Numbers</a><span class="t">15-30 min</span></li><li><a href="#three-ways-a-machine-can-learn">Three Ways a Machine Can Learn</a><span class="t">30-50 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">50-60 min</span></li></ol></div></aside>
+  <main><div class="video"><video controls preload="metadata" playsinline poster="videos/s1_0.jpg" src="videos/s1_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>explain why the Mood Machine learns from examples instead of following rules</li>
+<li>explain how a computer sees a colour picture as numbers</li>
+<li>say whether a task uses supervised, unsupervised or reinforcement learning</li>
+</ul>
+<h2 id="rules-or-examples">Rules or Examples? <span class="time">0-15 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s1_1.jpg" src="videos/s1_1.mp4"></video></div>
+
+<p>These are the faces the Mood Machine will learn to read. There are ten moods.</p>
+<figure><img src="assets/img/s2_faces.png" alt="Ten cartoon faces labelled Happy, Sad, Angry, Surprised, Sleepy, Winking, Laughing, Worried, Cool and Neutral"></figure>
+
+<div class="box think">
+<p><span class="lbl">Try this</span></p>
+<p>Write a rule that a computer could follow to decide if a face is <strong>Happy</strong>. Plain English is fine.</p>
+<p>Then test it against the other faces:</p>
+<ol>
+<li>Does your rule also say "Happy" for the Winking and Laughing faces? They smile too.</li>
+<li>Would it still work if the face were tilted, or on a different coloured background?</li>
+<li>Now write a rule for <strong>Worried</strong>. Is it easier or harder?</li>
+</ol>
+</div>
+<details>
+<summary>What usually happens</summary>
+<div>
+<p>"If the mouth curves up, it's happy" sounds easy. But a computer only sees dots of colour. It doesn't know which dots are the mouth. Winking and Laughing faces smile too, and tilting a face moves every dot. Nobody could write a rule for every possible face.</p>
+<p><strong>Machine learning</strong> turns this round. You don't write the rules. You give the computer thousands of example faces, each with the right answer attached, and it works out its own rules by spotting patterns. The right answer attached to each example is called a <strong>label</strong>.</p>
+</div>
+</details>
+<p>You have probably used machine learning today without noticing: a phone unlocking when it sees your face, an email service catching junk mail, a video app choosing what to show you next.</p>
+<h2 id="a-picture-is-just-numbers">A Picture Is Just Numbers <span class="time">15-30 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s1_2.jpg" src="videos/s1_2.mp4"></video></div>
+
+<p>To you, a picture is a face. To a computer, it's a grid of tiny squares called <strong>pixels</strong>. Every face in this project is 32 pixels wide and 32 pixels tall: 1,024 pixels.</p>
+<p>Each pixel's colour is a mix of three amounts of light: <strong>red</strong>, <strong>green</strong> and <strong>blue</strong>. Each amount is a number from 0 (none) to 1 (full).</p>
+<table>
+<thead>
+<tr>
+<th>Colour</th>
+<th>Red</th>
+<th>Green</th>
+<th>Blue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Black</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>White</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Pure red</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Yellow (red + green)</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Pink, like the face below</td>
+<td>0.93</td>
+<td>0.58</td>
+<td>0.77</td>
+</tr>
+</tbody>
+</table>
+<p>So a colour picture is <strong>three grids</strong> of numbers, one for each colour. These are called <strong>colour channels</strong>.</p>
+<div class="box key">
+<p><span class="lbl">Key idea</span></p>
+<p>One face = 32 x 32 pixels x 3 colours = <strong>3,072 numbers</strong>. When the Mood Machine "looks at" a face, it does maths on 3,072 numbers. It never sees eyes or a mouth: only numbers in positions.</p>
+</div>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>What are the red, green and blue numbers for a grey pixel halfway between black and white?</li>
+<li>A colour photo is 100 pixels wide and 50 pixels tall. How many numbers describe it?</li>
+<li>Two faces are identical except that one is shifted one pixel to the right. To you they look the same. To the computer, how many of the 3,072 numbers might have changed?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>0.5, 0.5, 0.5.</li>
+<li>100 x 50 x 3 = 15,000.</li>
+<li>Potentially almost all of them, because every number now describes a different spot on the face. This is one reason the Mood Machine finds some faces hard, as you'll see in Session 10.</li>
+</ol>
+</div>
+</details>
+<h2 id="three-ways-a-machine-can-learn">Three Ways a Machine Can Learn <span class="time">30-50 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s1_3.jpg" src="videos/s1_3.mp4"></video></div>
+
+<p>The Mood Machine learns from faces that come with the right answer. That's one of three ways a machine can learn.</p>
+<table>
+<thead>
+<tr>
+<th>Kind of learning</th>
+<th>What the data looks like</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Supervised</strong></td>
+<td>Every example has the right answer (a label)</td>
+<td>The Mood Machine: faces labelled with their mood</td>
+</tr>
+<tr>
+<td><strong>Unsupervised</strong></td>
+<td>No answers at all. The system finds patterns or groups by itself</td>
+<td>Sorting shoppers into groups that buy similar things</td>
+</tr>
+<tr>
+<td><strong>Reinforcement</strong></td>
+<td>No answers, but a score after each action</td>
+<td>A program learning a game by playing it over and over</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Supervised learning</strong> comes in two types. If the answer is a category, like a mood, it's <strong>classification</strong>. If the answer is a number, like a height, it's <strong>regression</strong>. You'll do regression in Sessions 4 and 5.</p>
+<p><strong>Reinforcement learning</strong> has its own words. The learner is the <strong>agent</strong>. The world it acts in is the <strong>environment</strong>. After each <strong>action</strong> it gets a <strong>reward</strong> (or a penalty), and over time it learns a <strong>policy</strong>: a way of choosing actions that earns the most reward.</p>
+<p>There's one more term you need. A <strong>neural network</strong> is a large calculation made of many simple parts called neurons, and it is what the Mood Machine is. Machine learning that uses neural networks with many layers is called <strong>deep learning</strong>. It works especially well on pictures, sound and text, where the patterns are hard to describe in rules. You'll look inside a neuron in Session 3.</p>
+<div data-widget="sort"></div>
+
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<p>Make up your own example of each kind of learning. For your reinforcement learning example, name the agent, its actions, and what it gets rewarded for.</p>
+</div>
+<h2 id="check-your-understanding">Check Your Understanding <span class="time">50-60 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s1_4.jpg" src="videos/s1_4.mp4"></video></div>
+
+<div class="box exam">
+<p><span class="lbl">Check your understanding</span></p>
+<p><strong>1.</strong> Explain the difference between normal programming and machine learning. Use the Mood Machine as your example. <span class="marks">2 points</span></p>
+<p><strong>2.</strong> A robot learns to walk by trying movements. It gets a point each time it moves forward without falling. Which kind of learning is this? Explain how you know. <span class="marks">2 points</span></p>
+<p><strong>3.</strong> A shop wants to sort its customers into groups with similar buying habits, without deciding the groups in advance. Which kind of learning should it use? Explain why. <span class="marks">2 points</span></p>
+</div>
+<details>
+<summary>What a full answer includes</summary>
+<div>
+<p><strong>1</strong> In normal programming a person writes the rules, such as "if the mouth curves up, say Happy". In machine learning the computer works out its own rules from lots of labelled examples, such as thousands of faces with their moods.</p>
+<p><strong>2</strong> Reinforcement learning. The robot isn't given right answers. It takes actions and gets a reward (a point) for good ones.</p>
+<p><strong>3</strong> Unsupervised learning. There are no labels and the groups aren't known in advance, so the system has to find the groups itself.</p>
+</div>
+</details>
+  <div class="prevnext"><a class="pn prev" href="setup.html"><small>Back</small>Getting Started with Jupyter</a><a class="pn next" href="session2.html"><small>Next</small>Set Up and Tensors</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

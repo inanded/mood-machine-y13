@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="glossary">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html" class="here">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Key terms for topic 18.1</div>
+  <h1>Glossary</h1>
+  <p class="lede">The words you need for this unit, in the order you meet them.</p>
+  
+</div></div>
+<div class="page no-toc p-glossary">
+  
+  <main><table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Artificial intelligence (AI)</td>
+<td>A system that does a task we would call intelligent if a person did it.</td>
+</tr>
+<tr>
+<td>Machine learning (ML)</td>
+<td>AI that improves at a task by learning from data instead of following hand-written rules.</td>
+</tr>
+<tr>
+<td>Deep learning</td>
+<td>Machine learning using artificial neural networks with many hidden layers.</td>
+</tr>
+<tr>
+<td>Supervised learning</td>
+<td>Learning from labelled data, where each example comes with the right answer.</td>
+</tr>
+<tr>
+<td>Classification</td>
+<td>Supervised learning that predicts a category, such as a mood.</td>
+</tr>
+<tr>
+<td>Regression</td>
+<td>Supervised learning that predicts a number, such as a bounce height.</td>
+</tr>
+<tr>
+<td>Unsupervised learning</td>
+<td>Learning from unlabelled data by finding structure, such as clusters.</td>
+</tr>
+<tr>
+<td>Reinforcement learning</td>
+<td>An agent learns a policy by taking actions in an environment and receiving rewards or penalties.</td>
+</tr>
+<tr>
+<td>Agent, environment, reward, policy</td>
+<td>In reinforcement learning: the learner, the world it acts in, the feedback score, and its strategy for choosing actions.</td>
+</tr>
+<tr>
+<td>Artificial neural network</td>
+<td>Layers of connected nodes (neurons): an input layer, one or more hidden layers and an output layer.</td>
+</tr>
+<tr>
+<td>Neuron / node</td>
+<td>Multiplies each input by a weight, adds them and a bias, then applies an activation function.</td>
+</tr>
+<tr>
+<td>Weight</td>
+<td>The number on a connection that scales an input. Learned during training.</td>
+</tr>
+<tr>
+<td>Bias</td>
+<td>A number that belongs to a neuron, added to its weighted inputs before the activation function. It sets how easily the neuron switches on. Learned during training.</td>
+</tr>
+<tr>
+<td>Activation function</td>
+<td>A function applied to a neuron's total, such as ReLU. It lets networks model relationships that are not straight lines.</td>
+</tr>
+<tr>
+<td>ReLU</td>
+<td>Rectified linear unit: outputs the total if it is positive, otherwise 0. The bend at 0 is what lets a network learn patterns that aren't straight lines.</td>
+</tr>
+<tr>
+<td>Tensor</td>
+<td>A grid of numbers with any number of dimensions.</td>
+</tr>
+<tr>
+<td>Seed</td>
+<td>The starting number for a random number generator. The same seed always gives the same "random" numbers, so results can be repeated.</td>
+</tr>
+<tr>
+<td>Dataset</td>
+<td>A numbered collection of examples, each a pair of input and right answer.</td>
+</tr>
+<tr>
+<td>Forward pass</td>
+<td>Sending inputs through the network, layer by layer, to get its output.</td>
+</tr>
+<tr>
+<td>Loss function</td>
+<td>A single number measuring how wrong the model's outputs are.</td>
+</tr>
+<tr>
+<td>Mean squared error (MSE)</td>
+<td>The mean of the squared differences between predictions and actual values.</td>
+</tr>
+<tr>
+<td>Softmax</td>
+<td>Turns a list of scores into chances that are all positive and add up to 1.</td>
+</tr>
+<tr>
+<td>Cross-entropy loss</td>
+<td>The loss used for classification: −log of the chance given to the right class. Close to 0 when the model is sure and right, large when it is sure and wrong.</td>
+</tr>
+<tr>
+<td>Gradient</td>
+<td>How much the loss changes when a parameter changes, and in which direction.</td>
+</tr>
+<tr>
+<td>Gradient descent</td>
+<td>Repeatedly moving each parameter a small step against its gradient to reduce the loss.</td>
+</tr>
+<tr>
+<td>Learning rate</td>
+<td>The size of each gradient descent step.</td>
+</tr>
+<tr>
+<td>Optimiser</td>
+<td>The code that changes the weights using their gradients, such as plain gradient descent (SGD) or Adam.</td>
+</tr>
+<tr>
+<td>Adam</td>
+<td>An optimiser that builds up speed in directions the gradients keep pointing, and gives every weight its own step size.</td>
+</tr>
+<tr>
+<td>Back propagation</td>
+<td>Working backwards from the loss through the network with the chain rule to find the gradient for every weight, so the weights can be adjusted to reduce the error.</td>
+</tr>
+<tr>
+<td>Chain rule</td>
+<td>The rule for differentiating a function of a function: multiply the rates of change along the path.</td>
+</tr>
+<tr>
+<td>Epoch</td>
+<td>One complete pass through the training data.</td>
+</tr>
+<tr>
+<td>Batch</td>
+<td>A group of examples processed together in one training step.</td>
+</tr>
+<tr>
+<td>Training set / test set</td>
+<td>Data the model learns from / data held back to check it works on examples it has not seen.</td>
+</tr>
+<tr>
+<td>Overfitting</td>
+<td>Fitting the training data so closely that performance on new data gets worse.</td>
+</tr>
+<tr>
+<td>Confusion matrix</td>
+<td>A table of real classes against predicted classes, showing which mistakes a model makes.</td>
+</tr>
+<tr>
+<td>Extrapolation</td>
+<td>Predicting for inputs outside the range of the training data.</td>
+</tr>
+</tbody>
+</table>
+  <div class="prevnext"><a class="pn prev" href="session11.html"><small>Back</small>The Mood Machine Challenge</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

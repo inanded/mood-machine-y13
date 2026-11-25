@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Faces Become Data | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session6">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html" class="here">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 6 · 60 minutes</div>
+  <h1>The Faces Become Data</h1>
+  <p class="lede">Back to the Mood Machine. Today you find out exactly where the faces come from, turn them into a dataset, split them into training and test faces, and get them ready to feed to a network in batches.</p>
+  <div class="pills"><span class="pill">Syllabus: machine learning</span><span class="pill">Starter notebook: session6-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session6">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#where-the-faces-come-from-seeds">Where the Faces Come From: Seeds</a><span class="t">0-15 min</span></li><li><a href="#a-dataset">A Dataset</a><span class="t">15-25 min</span></li><li><a href="#getting-pictures-ready">Getting Pictures Ready</a><span class="t">25-38 min</span></li><li><a href="#batches-and-epochs">Batches and Epochs</a><span class="t">38-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session6-starter.ipynb" download>session6-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s6_0.jpg" src="videos/s6_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>explain what a seed is and why it makes the faces repeatable</li>
+<li>explain why training faces and test faces are kept apart</li>
+<li>explain what the three transforms do to each face, and why</li>
+<li>explain what a batch and an epoch are</li>
+</ul>
+<h2 id="where-the-faces-come-from-seeds">Where the Faces Come From: Seeds <span class="time">0-15 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_1.jpg" src="videos/s6_1.mp4"></video></div>
+
+<p>The faces aren't photos. <code>emoji_faces.py</code> <strong>draws</strong> each one, making random choices as it goes: the face colour, its size, how far it tilts, whether it has rosy cheeks, the background colour.</p>
+<p>But computers can't make truly random numbers. They use a recipe that turns one starting number into a long list of numbers that look random. That starting number is called the <strong>seed</strong>.</p>
+<ul>
+<li><strong>The same seed always gives the same list</strong>, so the same choices, so the same face. <code>make_face(42)</code> is the same face on every computer in the room, today and next year.</li>
+<li><strong>A different seed gives a different list</strong>, so a different face.</li>
+</ul>
+<p>The seed also decides the mood. The mood is the seed's last digit: the remainder when you divide by 10.</p>
+<table>
+<thead>
+<tr>
+<th>Seed</th>
+<th>Seed ÷ 10 leaves</th>
+<th>Mood</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7</td>
+<td>7</td>
+<td>Worried</td>
+</tr>
+<tr>
+<td>17</td>
+<td>7</td>
+<td>Worried</td>
+</tr>
+<tr>
+<td>1,007</td>
+<td>7</td>
+<td>Worried</td>
+</tr>
+<tr>
+<td>40</td>
+<td>0</td>
+<td>Happy</td>
+</tr>
+</tbody>
+</table>
+<p>So any 10 seeds in a row give one face of each mood.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 1</strong>. The first cell makes two lists from seed 42: they're identical. Seed 43 gives a different list. Then check that <code>make_face(42)</code> gives the same face twice. In the YOUR TURN cell, work out the mood of seed 123 before you check.</p>
+</div>
+<div class="box key">
+<p><span class="lbl">Key idea</span></p>
+<p>Seeds make the whole project <strong>repeatable</strong>. Everyone in the class trains on exactly the same faces and is tested on exactly the same faces, so results can be compared fairly.</p>
+</div>
+<h2 id="a-dataset">A Dataset <span class="time">15-25 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_2.jpg" src="videos/s6_2.mp4"></video></div>
+
+<p>A <strong>Dataset</strong> holds the examples in a numbered list. Ask it for example number 3, and it hands you a pair: (picture, mood).</p>
+<div class="hl"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EmojiFaces</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">how_many</span><span class="p">,</span> <span class="n">first_seed</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">faces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">first_seed</span><span class="p">,</span> <span class="n">first_seed</span> <span class="o">+</span> <span class="n">how_many</span><span class="p">):</span>
+            <span class="n">picture</span><span class="p">,</span> <span class="n">mood</span> <span class="o">=</span> <span class="n">make_face</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
+                <span class="n">picture</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</code></pre></div>
+
+<ul>
+<li><code>__init__</code> draws all the faces once and stores them.</li>
+<li><code>__len__</code> says how many there are.</li>
+<li><code>__getitem__</code> hands over face number <code>idx</code>.</li>
+</ul>
+<p>We make two datasets that are never mixed:</p>
+<ul>
+<li><strong>Training faces</strong>: 12,000, from seeds 0 to 11,999. The Mood Machine learns from these.</li>
+<li><strong>Test faces</strong>: 3,000, from seed 1,000,000. They're kept back and only used to mark it.</li>
+</ul>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<p>Why not test the Mood Machine on the faces it learned from? What would go wrong if the test faces used seeds 0 to 2,999?</p>
+</div>
+<details>
+<summary>Answer</summary>
+<div>
+<p>Seeds 0 to 2,999 are already training faces, so the test would use exact copies of faces the model learned from. It could score well just by remembering them. Think of a student who memorises last year's exam paper: full marks on that paper, but it proves nothing. A fair test uses questions they've never seen.</p>
+</div>
+</details>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 2</strong>.</p>
+</div>
+<h2 id="getting-pictures-ready">Getting Pictures Ready <span class="time">25-38 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_3.jpg" src="videos/s6_3.mp4"></video></div>
+
+<p><code>make_face</code> gives an ordinary picture, with each colour stored as a whole number from 0 to 255. The network needs a tensor of small decimals. Three <strong>transforms</strong> do this, one after another:</p>
+<div class="hl"><pre><span></span><code><span class="n">get_ready</span> <span class="o">=</span> <span class="n">v2</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">v2</span><span class="o">.</span><span class="n">ToImage</span><span class="p">(),</span>                                              <span class="c1"># 1</span>
+    <span class="n">v2</span><span class="o">.</span><span class="n">ToDtype</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>                     <span class="c1"># 2</span>
+    <span class="n">v2</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span>   <span class="c1"># 3</span>
+<span class="p">])</span>
+</code></pre></div>
+
+<ol>
+<li><strong>ToImage</strong> turns the picture into a tensor of shape <code>(3, 32, 32)</code>.</li>
+<li><strong>ToDtype</strong> turns each whole number from 0 to 255 into a decimal from 0 to 1, by dividing by 255.</li>
+<li><strong>Normalize</strong> works out (value − 0.5) ÷ 0.5 for every number. That moves the range from 0 to 1 into −1 to 1, centred on 0.</li>
+</ol>
+<p><strong>Why?</strong> Each neuron multiplies its inputs by weights and adds them up. If the inputs were as big as 255, those totals and their gradients would be huge, and gradient descent would overshoot, just like a learning rate that's too big. Small numbers centred on 0 keep everything a sensible size.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 3</strong>. Then do the YOUR TURN cell: what do 0, 0.25 and 1 become after Normalize?</p>
+</div>
+<h2 id="batches-and-epochs">Batches and Epochs <span class="time">38-52 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s6_4.jpg" src="videos/s6_4.mp4"></video></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run the first cell of <strong>section 4</strong> now. It draws all 15,000 faces, which takes about a minute.</p>
+</div>
+<p>A <strong>DataLoader</strong> hands the faces to the network in <strong>batches</strong> of 64. The network looks at a whole batch, works out the average loss, and takes one step downhill. Learning from one face at a time would be slow and jumpy. Averaging over 64 gives a steadier direction.</p>
+<p>For the training faces, the DataLoader also <strong>shuffles</strong> them into a new order every time, so the network can't learn anything from the order.</p>
+<p>12,000 ÷ 64 = 187.5, so there are <strong>188 batches</strong> (the last has only 32 faces). One trip through all 188 batches is an <strong>epoch</strong>. The Mood Machine will train for several epochs, seeing every face several times.</p>
+<figure><img src="assets/img/s6_batch.png" alt="Sixteen faces from one shuffled batch with their mood labels"><figcaption>Part of one shuffled batch.</figcaption></figure>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run the rest of <strong>section 4</strong>. One batch has shape <code>(64, 3, 32, 32)</code>. Then do the last YOUR TURN cell: count the faces of each mood.</p>
+</div>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<p>Every mood has exactly 1,200 training faces. Why does that matter? What could a model get away with if 90% of the faces were Happy?</p>
+</div>
+<details>
+<summary>Answer</summary>
+<div>
+<p>If 90% were Happy, a model could score 90% just by always answering "Happy", without learning anything. Equal numbers of each mood stop any answer being a shortcut. Because the mood comes from the seed's last digit, any run of seeds gives equal numbers automatically.</p>
+</div>
+</details>
+<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<div class="box exam">
+<p><span class="lbl">Check your understanding</span></p>
+<p><strong>1.</strong> A neural network is trained to recognise handwritten digits. Explain why the data is split into a training set and a test set. <span class="marks">2 points</span></p>
+<p><strong>2.</strong> Give <strong>one</strong> reason why pixel values are scaled before training. <span class="marks">1 point</span></p>
+<p><strong>3.</strong> Explain what is meant by an epoch. <span class="marks">1 point</span></p>
+</div>
+<details>
+<summary>What a full answer includes</summary>
+<div>
+<p><strong>1</strong> The training set is used to adjust the weights. The test set is data the network hasn't seen, so it shows whether the network works on new data rather than just remembering the training data.</p>
+<p><strong>2</strong> One of: to keep the totals and gradients inside the network from getting too big / to help training settle on good weights / so no input counts for more just because its numbers are bigger.</p>
+<p><strong>3</strong> One complete pass through all of the training data.</p>
+</div>
+</details>
+  <div class="prevnext"><a class="pn prev" href="session5.html"><small>Back</small>Gradient Descent</a><a class="pn next" href="session7.html"><small>Next</small>Build MoodNet</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

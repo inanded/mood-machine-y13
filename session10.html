@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catch It Out | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session10">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html" class="here">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 10 · 60 minutes</div>
+  <h1>Catch It Out</h1>
+  <p class="lede">Your Mood Machine scored over 80% on faces it had never seen. Today you go looking for the faces it gets wrong: brand-new faces, faces you draw yourself, and faces turned upside down. What it gets wrong shows what it has learned.</p>
+  <div class="pills"><span class="pill">Syllabus: machine learning, deep learning</span><span class="pill">Starter notebook: session10-starter.ipynb</span><span class="pill">Downloads: four test drawings</span></div>
+</div></div>
+<div class="page with-toc p-session10">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#read-brand-new-faces">Read Brand-New Faces</a><span class="t">0-8 min</span></li><li><a href="#which-moods-fool-it">Which Moods Fool It?</a><span class="t">8-16 min</span></li><li><a href="#draw-your-own-faces">Draw Your Own Faces</a><span class="t">16-38 min</span></li><li><a href="#upside-down">Upside Down</a><span class="t">38-46 min</span></li><li><a href="#should-machines-read-real-emotions">Should Machines Read Real Emotions?</a><span class="t">46-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session10-starter.ipynb" download>session10-starter.ipynb</a> <a href="downloads/drawings/happy_high.png" download>happy_high.png</a> <a href="downloads/drawings/happy_low.png" download>happy_low.png</a> <a href="downloads/drawings/sad_high.png" download>sad_high.png</a> <a href="downloads/drawings/sad_low.png" download>sad_low.png</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s10_0.jpg" src="videos/s10_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>load a saved model and use it on new pictures</li>
+<li>find which moods fool the Mood Machine, and suggest why</li>
+<li>explain what the Mood Machine has learned, and why it fails on some faces</li>
+<li>discuss whether machines should read real people's emotions</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">Do this first</span></p>
+<p>Put <strong>session10-starter.ipynb</strong> and the four drawings in the same folder as <strong>mood_machine.pth</strong> from Session 8. Run the first cell <strong>straight away</strong>. It loads your saved Mood Machine. If it can't find the file, it trains a new one, which takes a few minutes.</p>
+</div>
+<h2 id="read-brand-new-faces">Read Brand-New Faces <span class="time">0-8 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_1.jpg" src="videos/s10_1.mp4"></video></div>
+
+<p>The saved file only holds numbers: the 820,874 weights and biases. It doesn't hold the design of the network. So the notebook first builds an empty MoodNet, then loads the saved numbers into it.</p>
+<p><code>read_mood</code> takes any picture, gets it ready, and returns the mood the Mood Machine thinks it shows and how sure it is:</p>
+<div class="hl"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">read_mood</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">picture</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">get_ready</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>     <span class="c1"># a batch of one face</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">chances</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>    <span class="c1"># scores -&gt; chances</span>
+    <span class="n">best</span> <span class="o">=</span> <span class="n">chances</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">CLASSES</span><span class="p">[</span><span class="n">best</span><span class="p">],</span> <span class="n">chances</span><span class="p">[</span><span class="n">best</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</code></pre></div>
+
+<p><code>unsqueeze(0)</code> turns one face into a batch of one, because MoodNet always expects a batch.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 1</strong>. It reads eight faces from seed 5,000,000 upwards. No one has used these seeds before, so they're new to the Mood Machine. Right answers are in green, wrong ones in red.</p>
+</div>
+<figure><img src="assets/img/s10_newfaces.png" alt="Eight brand-new faces with the Mood Machine's guesses"><figcaption>Our run. Yours will differ a little.</figcaption></figure>
+
+<h2 id="which-moods-fool-it">Which Moods Fool It? <span class="time">8-16 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_2.jpg" src="videos/s10_2.mp4"></video></div>
+
+<p>The overall score hides a lot. Section 2 marks every mood separately and lists the mix-ups it makes most often.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Predict first: which mood do you think it finds hardest? Then run <strong>section 2</strong>.</p>
+</div>
+<pre class="out">Happy 45 %    Sad 78 %       Angry 90 %    Surprised 99 %   Sleepy 100 %
+Winking 79 %  Laughing 100 %  Worried 97 %  Cool 99 %        Neutral 80 %
+Most common mix-ups:
+  Happy read as Winking 119 times
+  Sad read as Neutral 43 times
+  Happy read as Neutral 38 times</pre>
+
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<p>Look at a Happy face and a Winking face from Session 2. Why do you think the Mood Machine mixes them up so often? Why are Sleepy and Laughing so easy?</p>
+</div>
+<details>
+<summary>One explanation</summary>
+<div>
+<p>Happy and Winking faces have the same smile. The only difference is one eye, which is a handful of pixels out of 3,072. Sleepy and Laughing faces have big features that look like no other mood, so lots of pixels point the same way.</p>
+</div>
+</details>
+<h2 id="draw-your-own-faces">Draw Your Own Faces <span class="time">16-38 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_3.jpg" src="videos/s10_3.mp4"></video></div>
+
+<p>So far every test face was drawn by the same program as the training faces. Now you test it with faces drawn by a person.</p>
+<p><strong>Start with the four test drawings.</strong> They are simple yellow faces, the same in every way except the mouth. Two smile and two frown. In each pair, one mouth sits higher on the face and one sits lower.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Predict what the Mood Machine will say for each of the four drawings. Write your predictions down. Then run <strong>section 3</strong>.</p>
+</div>
+<figure><img src="assets/img/s10_drawings.png" alt="Four drawn faces: two smiling and two frowning, with mouths high and low, and the Mood Machine's answers"><figcaption>Our run. The smile drawn lower down was read as Sad, 93% sure.</figcaption></figure>
+
+<p>The two smiles are the same shape. Moving the smile down the face turned "Happy, 78%" into "Sad, 93%".</p>
+<p><strong>Now draw your own.</strong> Each pair works as an experiment: change <strong>one</strong> thing and see whether the Mood Machine changes its mind.</p>
+<ol>
+<li>Open <strong>Paint</strong>. Press <strong>Ctrl + W</strong> to open <strong>Resize and skew</strong>, choose <strong>Pixels</strong>, untick <strong>Maintain aspect ratio</strong>, and set the size to 320 by 320. A square canvas stops the face being squashed when it's shrunk.</li>
+<li>Fill the background with a colour, then draw a large circle for the face and fill it.</li>
+<li>Add eyes and a mouth with a thick brush. The picture gets shrunk to 32 by 32, so thin lines vanish.</li>
+<li>Choose <strong>Save as</strong>, then <strong>PNG picture</strong>. Save it in your mood-machine folder with a name like <code>my_happy.png</code>.</li>
+<li>Add the name to <code>my_drawings</code> in the YOUR TURN cell and run it.</li>
+</ol>
+<p>Ideas to test, one at a time:</p>
+<ul>
+<li>the same face with the mouth higher, then lower</li>
+<li>a bigger smile, then a smaller one</li>
+<li>a white face, a green face, a face with no outline</li>
+<li>a face that fills the whole canvas, then a small face in one corner</li>
+<li>an angry face with eyebrows, then the same face with the eyebrows rubbed out</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">Record</span></p>
+<p>Keep a table: what you changed, what the Mood Machine said, how sure it was, and whether that matched what you expected. Compare with the people next to you. Did anyone find a change that always fools it?</p>
+</div>
+<div class="box key">
+<p><span class="lbl">Key idea: what has it learned?</span></p>
+<p>The Mood Machine doesn't know what a smile is. It has never been told that faces have mouths. All it sees is 3,072 numbers, and it has learned which numbers, in which positions, tend to go with each mood. Move the mouth to a place where the training faces never had one, and those patterns no longer match.</p>
+</div>
+<h2 id="upside-down">Upside Down <span class="time">38-46 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_4.jpg" src="videos/s10_4.mp4"></video></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Predict first: what accuracy will the Mood Machine get on the test faces turned upside down? Write it down, then run <strong>section 4</strong>.</p>
+</div>
+<details>
+<summary>What we got</summary>
+<div>
+<p>86.7% upright, 11.8% upside down: no better than guessing. You can read an upside-down smile easily. The Mood Machine can't, because every pixel has moved.</p>
+<p>This is true of machine learning in general: a model is only reliable on data like the data it learned from. A self-driving system trained only in sunny weather, or a medical model trained on one hospital's scanner, can fail in the same way.</p>
+</div>
+</details>
+<h2 id="should-machines-read-real-emotions">Should Machines Read Real Emotions? <span class="time">46-60 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s10_5.jpg" src="videos/s10_5.mp4"></video></div>
+
+<p>The Mood Machine reads cartoon moods. Real emotion recognition systems claim to read people's feelings from their faces, voices or body language. Companies have sold them for job interviews, watching students in class, and monitoring staff at work.</p>
+<p>The <strong>EU AI Act</strong> bans AI that infers people's emotions in workplaces and schools, except for medical or safety reasons. The ban has applied across the EU since 2 February 2025. There are two main worries. First, the school or employer has power over the person being watched. Second, scientists don't agree that a face reliably shows what someone feels.</p>
+<div class="box think">
+<p><span class="lbl">Discuss</span></p>
+<ol>
+<li>Your Mood Machine failed on faces unlike its training faces. What might happen to a real system trained mostly on one group of people's faces?</li>
+<li>Each cartoon face was drawn to show exactly one mood. Is a real face like that?</li>
+<li>Outside work and school, emotion recognition is allowed but treated as high-risk. Think of one use you'd accept and one you wouldn't. What's the difference?</li>
+</ol>
+</div>
+  <div class="prevnext"><a class="pn prev" href="session9.html"><small>Back</small>Back Propagation by Hand</a><a class="pn next" href="session11.html"><small>Next</small>The Mood Machine Challenge</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

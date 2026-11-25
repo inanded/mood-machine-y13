@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Train the Mood Machine | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session8">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html" class="here">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 8 · 60 minutes</div>
+  <h1>Train the Mood Machine</h1>
+  <p class="lede">Today the Mood Machine learns. First you'll see exactly how it scores a wrong guess and how it decides how far to move each weight. Then you'll train it from 10% to over 80%, and save it.</p>
+  <div class="pills"><span class="pill">Syllabus: neural networks, back propagation</span><span class="pill">Starter notebook: session8-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session8">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#scoring-a-guess-cross-entropy-loss">Scoring a Guess: Cross-Entropy Loss</a><span class="t">0-15 min</span></li><li><a href="#changing-the-weights-the-optimiser">Changing the Weights: The Optimiser</a><span class="t">15-27 min</span></li><li><a href="#the-training-loop">The Training Loop</a><span class="t">27-35 min</span></li><li><a href="#train">Train!</a><span class="t">35-55 min</span></li><li><a href="#save-it">Save It</a><span class="t">55-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session8-starter.ipynb" download>session8-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s8_0.jpg" src="videos/s8_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>explain how cross-entropy loss scores a guess</li>
+<li>explain what an optimiser does, and what Adam does differently from plain gradient descent</li>
+<li>name the five steps of the training loop, and say which one is back propagation</li>
+<li>train the Mood Machine and save it</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">Do this first</span></p>
+<p>Open <strong>session8-starter.ipynb</strong> and run the first cell <strong>straight away</strong>. It rebuilds the faces and MoodNet, which takes about a minute.</p>
+</div>
+<h2 id="scoring-a-guess-cross-entropy-loss">Scoring a Guess: Cross-Entropy Loss <span class="time">0-15 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s8_1.jpg" src="videos/s8_1.mp4"></video></div>
+
+<p>For the bounce line, the loss was the mean squared error. For picking one mood out of ten, we use <strong>cross-entropy loss</strong>. It works in two steps:</p>
+<ol>
+<li><strong>Softmax</strong> turns the 10 scores into 10 chances that add up to 100% (you met this in Session 7).</li>
+<li>The loss looks <strong>only at the chance given to the right mood</strong>, and works out <strong>−log(chance)</strong>.</li>
+</ol>
+<p>You don't need to know logarithms in detail. What matters is the shape:</p>
+<table>
+<thead>
+<tr>
+<th>Chance given to the right mood</th>
+<th>Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>99%</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>90%</td>
+<td>0.11</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>0.69</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>2.30</td>
+</tr>
+<tr>
+<td>1%</td>
+<td>4.61</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Sure and <strong>right</strong>: the loss is close to 0.</li>
+<li>Unsure: the loss is middling.</li>
+<li>Sure and <strong>wrong</strong> (it gave the right mood a tiny chance): the loss is <strong>huge</strong>.</li>
+</ul>
+<p>So training is pushed hardest to fix the guesses where the network was confidently wrong. Before training, every mood gets about a 10% chance, so the loss starts near 2.3.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 1</strong>. Check that working out −log(chance) by hand gives the same loss as PyTorch's <code>nn.CrossEntropyLoss</code>. Then do the YOUR TURN cell: change the scores to make the loss very small, then very big.</p>
+</div>
+<h2 id="changing-the-weights-the-optimiser">Changing the Weights: The Optimiser <span class="time">15-27 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s8_2.jpg" src="videos/s8_2.mp4"></video></div>
+
+<p>The <strong>optimiser</strong> is the part of the code that changes the weights, using the gradients that back propagation finds. It is the "step downhill" from Session 5.</p>
+<p><strong>Plain gradient descent</strong> (called SGD in PyTorch) does exactly what you did with the bounce line: every weight moves by learning rate × its gradient, every step.</p>
+<p><strong>Adam</strong> is the optimiser we use. It's gradient descent with two improvements:</p>
+<ol>
+<li><strong>It builds up speed.</strong> It keeps a running average of each weight's recent gradients. If a weight keeps being pushed the same way, it keeps moving that way, like a ball rolling downhill. Jumpy gradients from single batches cancel out, so the path is smoother.</li>
+<li><strong>Each weight gets its own step size.</strong> Weights whose gradients are usually large take smaller steps. Weights whose gradients are usually tiny take bigger steps. So all 820,874 weights make progress, not just the ones with big gradients.</li>
+</ol>
+<div class="hl"><pre><span></span><code><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimiser</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>model.parameters()</code> hands the optimiser all 820,874 weights and biases. <code>lr=0.001</code> is the learning rate.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 2</strong>, then <strong>section 3</strong>. It trains two fresh MoodNets for one epoch each, from the same starting weights: one with plain gradient descent, one with Adam.</p>
+</div>
+<pre class="out">plain gradient descent after one epoch: 15.2 %
+Adam after one epoch: 74.6 %</pre>
+
+<p>With the same learning rate, plain gradient descent barely moved. Adam was already at 75%.</p>
+<h2 id="the-training-loop">The Training Loop <span class="time">27-35 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s8_3.jpg" src="videos/s8_3.mp4"></video></div>
+
+<p>For every batch of 64 faces, the loop does five steps:</p>
+<div class="hl"><pre><span></span><code><span class="n">guesses</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>            <span class="c1"># 1. make guesses</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">guesses</span><span class="p">,</span> <span class="n">moods</span><span class="p">)</span>    <span class="c1"># 2. how wrong were they?</span>
+<span class="n">optimiser</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>             <span class="c1"># 3. wipe old gradients</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>                   <span class="c1"># 4. find new gradients (back propagation)</span>
+<span class="n">optimiser</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>                  <span class="c1"># 5. nudge the weights</span>
+</code></pre></div>
+
+<ol>
+<li><strong>Forward pass.</strong> The 64 faces go through MoodNet. Out come 64 sets of 10 scores.</li>
+<li><strong>Loss.</strong> Cross-entropy compares the scores with the right moods and averages over the batch.</li>
+<li><strong>Wipe the old gradients.</strong> Otherwise they pile up, as you saw in Session 5.</li>
+<li><strong>Back propagation.</strong> <code>loss.backward()</code> works backwards from the loss through every layer and finds the gradient for every weight and bias. In Session 9 you'll do this by hand.</li>
+<li><strong>Update.</strong> Adam moves every weight a small step downhill.</li>
+</ol>
+<p>The marking function, <code>check_accuracy</code>, runs the test faces through and counts how many guesses are right. It never changes a weight, so it has no <code>backward()</code> and no <code>step()</code>.</p>
+<h2 id="train">Train! <span class="time">35-55 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s8_4.jpg" src="videos/s8_4.mp4"></video></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 4</strong>. Five epochs take one to three minutes. Write down the test accuracy after each one.</p>
+</div>
+<p>When we ran it:</p>
+<pre class="out">before training: 10.2 %
+epoch 1  last batch loss 0.881  test accuracy 76.0 %
+epoch 2  last batch loss 0.356  test accuracy 81.8 %
+epoch 3  last batch loss 0.489  test accuracy 82.4 %
+epoch 4  last batch loss 0.231  test accuracy 82.5 %
+epoch 5  last batch loss 0.187  test accuracy 86.7 %</pre>
+
+<p>Your numbers will be close to these, but not the same.</p>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>Most of the improvement happens in the first epoch. Why?</li>
+<li>The loss shown is for the last batch only. Why does it jump around more than the accuracy?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>At the start the network is very wrong, so the loss and the gradients are big, and each step makes a big difference. Near the bottom of the valley the slope is gentler.</li>
+<li>One batch is only 64 faces, and some batches are harder than others. The accuracy is measured over all 3,000 test faces, so it's much steadier.</li>
+</ol>
+</div>
+</details>
+<h2 id="save-it">Save It <span class="time">55-60 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s8_5.jpg" src="videos/s8_5.mp4"></video></div>
+
+<p>Everything the Mood Machine has learned lives in the notebook's memory. Close Jupyter and it's gone. Saving writes all 820,874 learned numbers into <strong>mood_machine.pth</strong> in your mood-machine folder. You'll load it in Session 10.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 5</strong>. Check that mood_machine.pth appears on the Jupyter page.</p>
+</div>
+<div class="box exam">
+<p><span class="lbl">Check your understanding</span></p>
+<p><strong>1.</strong> Describe what happens in <strong>one</strong> training step of the Mood Machine. <span class="marks">4 points</span></p>
+<p><strong>2.</strong> Explain why a network that is confident and wrong is given a large loss. <span class="marks">2 points</span></p>
+</div>
+<details>
+<summary>What a full answer includes</summary>
+<div>
+<p><strong>1</strong> Any 4 of:</p>
+<ul>
+<li>a batch of training faces goes forward through the network</li>
+<li>the network gives a score for each mood</li>
+<li>the scores are compared with the correct moods to work out the loss</li>
+<li>the error is passed backwards through the network (back propagation)</li>
+<li>this finds the gradient for every weight</li>
+<li>each weight is changed a little to reduce the loss, by an amount set by the learning rate (and, for Adam, its own step size)</li>
+</ul>
+<p><strong>2</strong> Cross-entropy uses −log of the chance given to the right answer. A confident wrong guess gives the right answer a tiny chance, and −log of a tiny number is large. A large loss means large gradients, so training corrects those mistakes most strongly.</p>
+</div>
+</details>
+  <div class="prevnext"><a class="pn prev" href="session7.html"><small>Back</small>Build MoodNet</a><a class="pn next" href="session9.html"><small>Next</small>Back Propagation by Hand</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

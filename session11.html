@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Mood Machine Challenge | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session11">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html" class="here">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 11 · 60 minutes</div>
+  <h1>The Mood Machine Challenge</h1>
+  <p class="lede">Today you compete to train the best Mood Machine. You run your own experiments, changing one setting at a time, and explain what made the difference. First you'll see the trap every machine learning engineer watches for: overfitting.</p>
+  <div class="pills"><span class="pill">Syllabus: machine learning, deep learning</span><span class="pill">Starter notebook: session11-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session11">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#overfitting-in-action">Overfitting in Action</a><span class="t">0-12 min</span></li><li><a href="#the-challenge">The Challenge</a><span class="t">12-17 min</span></li><li><a href="#run-your-experiments">Run Your Experiments</a><span class="t">17-45 min</span></li><li><a href="#share-and-explain">Share and Explain</a><span class="t">45-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session11-starter.ipynb" download>session11-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s11_0.jpg" src="videos/s11_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>explain overfitting and spot it from two scores</li>
+<li>run a fair test to improve a model</li>
+<li>explain why a change helped or didn't, using what you've learned</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">Do this first</span></p>
+<p>Open <strong>session11-starter.ipynb</strong> and run the first cell <strong>straight away</strong>. It draws all 15,000 faces, which takes about a minute.</p>
+</div>
+<h2 id="overfitting-in-action">Overfitting in Action <span class="time">0-12 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_1.jpg" src="videos/s11_1.mp4"></video></div>
+
+<p>Every run today prints two scores:</p>
+<ul>
+<li><strong>Training accuracy</strong>: on the faces it learned from.</li>
+<li><strong>Test accuracy</strong>: on the 3,000 faces it has never seen.</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 1</strong>. It trains a Mood Machine on only 500 faces, for 20 epochs, and prints both scores every 4 epochs.</p>
+</div>
+<pre class="out">epoch 4   training 53.6 %   test 40.2 %
+epoch 8   training 70.8 %   test 54.3 %
+epoch 12  training 80.4 %   test 61.8 %
+epoch 16  training 84.0 %   test 64.3 %
+epoch 20  training 85.8 %   test 65.0 %</pre>
+
+<p>The gap keeps growing. With only 500 faces to learn from, seen 20 times each, the Mood Machine starts to <strong>memorise</strong> those faces: the exact colours, sizes and tilts of each one. That helps it on the training faces and does nothing for new ones. This is <strong>overfitting</strong>.</p>
+<p>It's like the student who memorised last year's exam paper: great on that paper, worse on a new one. Training on 12,000 faces makes overfitting much harder, because there are too many to memorise.</p>
+<div class="box key">
+<p><span class="lbl">Key idea</span></p>
+<p>When the training accuracy climbs well above the test accuracy, the model is overfitting. Only the test accuracy tells you how well it works on new data, so only the test accuracy counts in the challenge.</p>
+</div>
+<h2 id="the-challenge">The Challenge <span class="time">12-17 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_2.jpg" src="videos/s11_2.mp4"></video></div>
+
+<p><code>train_mood_machine</code> trains a new Mood Machine with the settings you choose and prints both scores. Everyone is marked on the same 3,000 test faces, so the results are fair to compare.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Starts at</th>
+<th>What it changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hidden</code></td>
+<td>256</td>
+<td>how many neurons in the first hidden layer</td>
+</tr>
+<tr>
+<td><code>learning_rate</code></td>
+<td>0.001</td>
+<td>how big each step downhill is</td>
+</tr>
+<tr>
+<td><code>epochs</code></td>
+<td>3</td>
+<td>how many times it goes through the training faces</td>
+</tr>
+<tr>
+<td><code>training_faces</code></td>
+<td>12000</td>
+<td>how many training faces it learns from</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>1</td>
+<td>the random starting weights</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The rules:</strong></p>
+<ol>
+<li>Change <strong>one</strong> setting at a time, so you know what made the difference.</li>
+<li>Record <strong>every</strong> run in a table, including the ones that made it worse.</li>
+<li>Each run takes about a minute, so predict the result before you run.</li>
+</ol>
+<h2 id="run-your-experiments">Run Your Experiments <span class="time">17-45 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_3.jpg" src="videos/s11_3.mp4"></video></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 2</strong> to get the starting score. Then use the YOUR TURN cell for your experiments.</p>
+</div>
+<p>As an example, here's what changing the number of training faces did in our run:</p>
+<pre class="out">1000 training faces:   training 41.0 %   test 38.7 %
+3000 training faces:   training 76.8 %   test 74.0 %
+12000 training faces:  training 83.7 %   test 82.2 %</pre>
+
+<details>
+<summary>Stuck for ideas?</summary>
+<div>
+<ul>
+<li>Does training for more epochs keep helping, or does it stop?</li>
+<li>Is a bigger hidden layer always better? Is it slower?</li>
+<li>Can you find a learning rate that's too big for the Mood Machine, like 0.8 was for the bounce line?</li>
+<li>How much does the score change if you <strong>only</strong> change the seed? If two settings differ by less than that, you can't say one is better.</li>
+</ul>
+</div>
+</details>
+<h2 id="share-and-explain">Share and Explain <span class="time">45-52 min</span></h2>
+<p>Put your best test accuracy and its settings on the class leaderboard. Then explain to someone else why you think your change worked. Use what you know about the learning rate, epochs, the amount of training data and overfitting.</p>
+<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<div class="box exam">
+<p><span class="lbl">Check your understanding</span></p>
+<p><strong>1.</strong> A system that spots plant diseases from photos scores 96% on its test set. When farmers use it with their own photos, it does much worse. Suggest <strong>two</strong> reasons why. <span class="marks">2 points</span></p>
+<p><strong>2.</strong> Explain the difference between machine learning and deep learning. <span class="marks">2 points</span></p>
+<p><strong>3.</strong> A heating system learns to save energy. It changes the settings and gets a score based on energy used and how comfortable people say they are. Which kind of learning is this? Explain why it suits the task. <span class="marks">3 points</span></p>
+</div>
+<details>
+<summary>What a full answer includes</summary>
+<div>
+<p><strong>1</strong> Any 2 of:</p>
+<ul>
+<li>the farmers' photos are different from the training photos (lighting, angle, background, quality)</li>
+<li>the training photos didn't cover the conditions or plants found on real farms</li>
+<li>the model has overfitted to details of its training photos</li>
+<li>the test photos came from the same place as the training photos, so the test didn't show the problem</li>
+</ul>
+<p><strong>2</strong> Machine learning: systems that learn from data instead of following rules a person wrote. Deep learning: a kind of machine learning that uses neural networks with many hidden layers.</p>
+<p><strong>3</strong> Reinforcement learning: the system takes actions and gets a reward (the score), not right answers. It suits the task because nobody knows the best setting for every situation, so it has to learn by trying, and it can keep adjusting as the weather and the building's use change.</p>
+</div>
+</details>
+  <div class="prevnext"><a class="pn prev" href="session10.html"><small>Back</small>Catch It Out</a><a class="pn next" href="glossary.html"><small>Next</small>Glossary</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

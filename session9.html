@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Back Propagation by Hand | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session9">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html" class="here">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 9 · 60 minutes</div>
+  <h1>Back Propagation by Hand</h1>
+  <p class="lede">In Session 8, one line, loss.backward(), found the gradient for all 820,874 weights. Today you do the same job yourself on a tiny network, step by step, and check every answer against PyTorch.</p>
+  <div class="pills"><span class="pill">Syllabus: back propagation</span><span class="pill">Starter notebook: session9-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session9">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#a-tiny-mood-machine">A Tiny Mood Machine</a><span class="t">0-12 min</span></li><li><a href="#working-backwards">Working Backwards</a><span class="t">12-20 min</span></li><li><a href="#the-backward-pass">The Backward Pass</a><span class="t">20-38 min</span></li><li><a href="#update-and-check">Update and Check</a><span class="t">38-50 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">50-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session9-starter.ipynb" download>session9-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s9_0.jpg" src="videos/s9_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>work out a network's output from its inputs and weights (the forward pass)</li>
+<li>work backwards to find how much each weight caused the error (the backward pass)</li>
+<li>explain back propagation clearly in your own words</li>
+</ul>
+<h2 id="a-tiny-mood-machine">A Tiny Mood Machine <span class="time">0-12 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_1.jpg" src="videos/s9_1.mp4"></video></div>
+
+<p>MoodNet has 3,072 inputs, two hidden layers and 10 outputs. This network has the same parts, just far fewer of them: 2 inputs, 2 hidden neurons with ReLU, and 1 output.</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inputs</td>
+<td>x1 = 1, x2 = 2</td>
+</tr>
+<tr>
+<td>Weights into hidden neuron 1</td>
+<td>W11 = 0.5, W12 = 0.25</td>
+</tr>
+<tr>
+<td>Weights into hidden neuron 2</td>
+<td>W21 = −0.5, W22 = 0.5</td>
+</tr>
+<tr>
+<td>Weights into the output</td>
+<td>v1 = 1, v2 = 2</td>
+</tr>
+<tr>
+<td>Right answer (target)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Loss</td>
+<td>(output − target)²</td>
+</tr>
+</tbody>
+</table>
+<p>There are no biases, to keep the sums short. The numbers are chosen so you can work everything out in your head.</p>
+<div class="box do">
+<p><span class="lbl">Work it out</span></p>
+<p>Work out the forward pass, one step at a time, using the same three steps as every neuron in Session 3:</p>
+<ol>
+<li>z1 = W11 × x1 + W12 × x2, and h1 = ReLU(z1)</li>
+<li>z2 = W21 × x1 + W22 × x2, and h2 = ReLU(z2)</li>
+<li>output = v1 × h1 + v2 × h2</li>
+<li>loss = (output − 3)²</li>
+</ol>
+<p>Then run the first two cells of your notebook to check.</p>
+</div>
+<details>
+<summary>Check</summary>
+<div>
+<p>z1 = 0.5 + 0.5 = 1, so h1 = 1. z2 = −0.5 + 1 = 0.5, so h2 = 0.5. Output = 1 + 1 = 2. Loss = (2 − 3)² = 1. The output is too small.</p>
+</div>
+</details>
+<h2 id="working-backwards">Working Backwards <span class="time">12-20 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_2.jpg" src="videos/s9_2.mp4"></video></div>
+
+<p>Back propagation answers one question for every weight: <strong>if I nudge this weight up a little, how much does the loss change?</strong> That number is the weight's <strong>gradient</strong>.</p>
+<p>The loss depends on the output. The output depends on the hidden neurons. The hidden neurons depend on the weights. So you start at the loss and work backwards, one link at a time, <strong>multiplying</strong> as you go. This is called the <strong>chain rule</strong>.</p>
+<p>Think of a row of gears. Turn the first gear and each gear turns the next. If gear A turns gear B twice as fast, and B turns C three times as fast, then A turns C six times as fast. Each link in the network is a gear, and the gradient is how fast the loss turns when you turn one weight.</p>
+<p>These are the only rules you need:</p>
+<table>
+<thead>
+<tr>
+<th>To go from...</th>
+<th>...multiply by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>loss to output</td>
+<td>2 × (output − target)</td>
+</tr>
+<tr>
+<td>output to an output weight (v)</td>
+<td>the value that weight multiplied (h)</td>
+</tr>
+<tr>
+<td>output to a hidden neuron (h)</td>
+<td>the weight on its connection (v)</td>
+</tr>
+<tr>
+<td>through ReLU</td>
+<td>1 if z was positive, 0 if it was negative</td>
+</tr>
+<tr>
+<td>hidden neuron to an input weight (W)</td>
+<td>the input that weight multiplied (x)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-backward-pass">The Backward Pass <span class="time">20-38 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_3.jpg" src="videos/s9_3.mp4"></video></div>
+
+<div class="box do">
+<p><span class="lbl">Work it out</span></p>
+<p>Work out each gradient, in this order, using the table above. Type each answer into the YOUR TURN cell as you go.</p>
+<ol>
+<li>loss to output</li>
+<li>the two output weights, v1 and v2</li>
+<li>the two hidden neurons, h1 and h2</li>
+<li>through ReLU, for z1 and z2</li>
+<li>the four input weights, W11, W12, W21 and W22</li>
+</ol>
+<p>Only step through the diagram after you've tried each one.</p>
+</div>
+<div data-widget="backprop"></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run your YOUR TURN cell. Then run the next cell. <code>loss.backward()</code> should give exactly the same numbers:</p>
+</div>
+<pre class="out">PyTorch gradients for v: [-2.0, -1.0]
+PyTorch gradients for W: [[-2.0, -4.0], [-4.0, -8.0]]</pre>
+
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>Every gradient is negative. Which way will each weight move?</li>
+<li>W22's gradient (−8) is the biggest. Why does that weight matter most?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>The update takes away learning rate × gradient, so every weight goes <strong>up</strong>. That makes sense: the output (2) is below the target (3), and every weight here pushes the output up.</li>
+<li>It's on the path with the biggest numbers: its input is x2 = 2, and the next weight along is v2 = 2.</li>
+</ol>
+</div>
+</details>
+<h2 id="update-and-check">Update and Check <span class="time">38-50 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s9_4.jpg" src="videos/s9_4.mp4"></video></div>
+
+<p>Each weight now takes a step: <strong>new weight = old weight − learning rate × gradient</strong>. With a learning rate of 0.01, v1 = 1 − 0.01 × (−2) = 1.02.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 3</strong>. With a learning rate of 0.01, one step brings the loss down from 1 to 0.22. Then do the YOUR TURN cell with a learning rate of 0.05.</p>
+</div>
+<details>
+<summary>What happens with 0.05?</summary>
+<div>
+<p>The loss goes <strong>up</strong>, to 2.98. The step is so big that the output jumps from 2 to about 4.7: further past the target than it started below it. It's the same overshoot as the bounce line with a learning rate of 0.8.</p>
+</div>
+</details>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 4</strong>. It builds the same shape of network with PyTorch layers, like MoodNet, and prints every gradient. Look for a hidden neuron whose gradients are all 0.</p>
+</div>
+<details>
+<summary>Why are some gradients 0?</summary>
+<div>
+<p>One of the hidden neurons has a negative total, so ReLU outputs 0 and its slope is 0. Nothing passes back through it, so none of its weights change for this input. If a neuron's total is negative for every input, it never learns again. This is called a <strong>dead neuron</strong>.</p>
+</div>
+</details>
+<h2 id="check-your-understanding">Check Your Understanding <span class="time">50-60 min</span></h2>
+<div class="box exam">
+<p><span class="lbl">Check your understanding</span></p>
+<p><strong>1.</strong> The Mood Machine guesses a mood that is wrong. Describe how back propagation is used to improve it. <span class="marks">4 points</span></p>
+<p><strong>2.</strong> Explain what the learning rate does when weights are updated. <span class="marks">2 points</span></p>
+</div>
+<details>
+<summary>What a full answer includes</summary>
+<div>
+<p><strong>1</strong> Any 4 of:</p>
+<ul>
+<li>the output is compared with the right answer to work out the loss (error)</li>
+<li>the error is passed backwards through the network, from the output layer towards the input layer</li>
+<li>the chain rule is used to find how much each weight added to the error (its gradient)</li>
+<li>each weight is changed in the direction that reduces the error</li>
+<li>by an amount set by its gradient and the learning rate</li>
+<li>this is repeated for many faces and many epochs until the error is small</li>
+</ul>
+<p><strong>2</strong> It sets how big each change to the weights is. Too big and the changes overshoot, so the error can go up. Too small and learning is very slow.</p>
+</div>
+</details>
+<div class="box stretch">
+<p><span class="lbl">Stretch</span></p>
+<p>Change W21 from −0.5 to −2 and work out the forward and backward passes again. Which gradients become 0? Check in a new cell.</p>
+</div>
+  <div class="prevnext"><a class="pn prev" href="session8.html"><small>Back</small>Train the Mood Machine</a><a class="pn next" href="session10.html"><small>Next</small>Catch It Out</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

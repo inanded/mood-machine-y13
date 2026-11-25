@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside a Neuron | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session3">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html" class="here">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 3 · 60 minutes</div>
+  <h1>Inside a Neuron</h1>
+  <p class="lede">The Mood Machine is built from 394 neurons, and every one does the same small job. Today you take one apart: its weights, its bias, and the ReLU switch at the end. Then you see how neurons join into layers.</p>
+  <div class="pills"><span class="pill">Syllabus: artificial neural networks</span><span class="pill">Starter notebook: session3-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session3">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#the-shape-of-a-neural-network">The Shape of a Neural Network</a><span class="t">0-10 min</span></li><li><a href="#what-one-neuron-does">What One Neuron Does</a><span class="t">10-20 min</span></li><li><a href="#the-bias">The Bias</a><span class="t">20-30 min</span></li><li><a href="#relu">ReLU</a><span class="t">30-42 min</span></li><li><a href="#a-layer-of-neurons">A Layer of Neurons</a><span class="t">42-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session3-starter.ipynb" download>session3-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s3_0.jpg" src="videos/s3_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>work out a neuron's output from its inputs, weights and bias</li>
+<li>explain what the bias does</li>
+<li>explain what ReLU does, and why a network needs it</li>
+<li>describe the layers of a neural network and count its weights</li>
+</ul>
+<h2 id="the-shape-of-a-neural-network">The Shape of a Neural Network <span class="time">0-10 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_1.jpg" src="videos/s3_1.mp4"></video></div>
+
+<p>A neural network is made of <strong>neurons</strong> (also called nodes) arranged in <strong>layers</strong>:</p>
+<ul>
+<li>The <strong>input layer</strong> takes in the data. Each number gets its own input. One face is 3,072 numbers, so the Mood Machine has 3,072 inputs.</li>
+<li>The <strong>hidden layers</strong> sit in the middle and do the work. The Mood Machine has two: 256 neurons, then 128.</li>
+<li>The <strong>output layer</strong> gives the answer. The Mood Machine has 10 output neurons, one score for each mood.</li>
+</ul>
+<p>Every neuron in one layer is connected to every neuron in the next. Each connection has a <strong>weight</strong>: a number that says how much that input matters to that neuron. Training means changing the weights until the answers come out right.</p>
+<h2 id="what-one-neuron-does">What One Neuron Does <span class="time">10-20 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_2.jpg" src="videos/s3_2.mp4"></video></div>
+
+<p>Every neuron does three steps:</p>
+<ol>
+<li><strong>Multiply</strong> each input by the weight on its connection.</li>
+<li><strong>Add</strong> them all up, then add the neuron's <strong>bias</strong>.</li>
+<li>Put the total through the <strong>activation function</strong>. Ours is <strong>ReLU</strong>.</li>
+</ol>
+<p>Here's a neuron with two inputs, worked through:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Working</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multiply</td>
+<td>0.4 x 0.5 and −0.6 x 0.8</td>
+<td>0.20 and −0.48</td>
+</tr>
+<tr>
+<td>Add up</td>
+<td>0.20 + (−0.48)</td>
+<td>−0.28</td>
+</tr>
+<tr>
+<td>Add the bias</td>
+<td>−0.28 + 0.1</td>
+<td>−0.18</td>
+</tr>
+<tr>
+<td>ReLU</td>
+<td>−0.18 is negative, so it becomes 0</td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Move the sliders in the calculator and watch each step change.</p>
+<div data-widget="neuron"></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run the first two cells. Check that the notebook gives the same answer as the calculator.</p>
+</div>
+<h2 id="the-bias">The Bias <span class="time">20-30 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_3.jpg" src="videos/s3_3.mp4"></video></div>
+
+<p>The weights decide how much each input matters. The <strong>bias</strong> is one extra number that belongs to the neuron itself, added after the inputs. It sets how easily the neuron switches on.</p>
+<ul>
+<li>A <strong>positive</strong> bias gives the neuron a head start. It can switch on even when its inputs are weak.</li>
+<li>A <strong>negative</strong> bias holds it back. The inputs have to add up to more before it switches on.</li>
+</ul>
+<p>Think of a smoke alarm. The inputs are the amount of smoke. The bias is how sensitive the alarm is set to be. Turn the sensitivity up and a little smoke sets it off. Turn it down and it needs a lot.</p>
+<p>Without a bias, a neuron whose inputs are all 0 would always output 0, whatever its weights. The bias lets it respond even then. Like the weights, every bias is learned during training.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 2</strong> to see the same inputs with three different biases. Then do the YOUR TURN cell: find the smallest bias that switches this neuron on.</p>
+</div>
+<h2 id="relu">ReLU <span class="time">30-42 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_4.jpg" src="videos/s3_4.mp4"></video></div>
+
+<p><strong>ReLU</strong> stands for <strong>rectified linear unit</strong>. Its rule is simple:</p>
+<ul>
+<li>If the total is <strong>negative</strong>, the output is <strong>0</strong>. The neuron stays switched off.</li>
+<li>If the total is <strong>positive</strong>, it passes <strong>straight through</strong> unchanged.</li>
+</ul>
+<figure style="max-width:480px"><img src="assets/img/s3_relu.png" alt="Graph of ReLU: flat at zero for negative totals, then a straight diagonal line for positive totals"><figcaption>ReLU: flat at 0 for negative totals, a straight diagonal for positive ones.</figcaption></figure>
+
+<p><strong>Why does a network need it?</strong> Without an activation function, every neuron just multiplies and adds. Put one multiply-and-add layer after another and you still only get a multiply-and-add: one straight-line relationship, however many layers you stack. The notebook proves it: two layers with nothing between them give exactly the same answer as one combined layer.</p>
+<p>ReLU puts a bend in the line. With thousands of neurons each bending at a different point, the network can build up complicated shapes, like the difference between a smile and a frown. This is what lets a deep network learn things a straight line never could.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>sections 3 and 4</strong>. In section 4, compare "two layers, no ReLU" with "one combined layer". They give the same answer. Then look at the answer with ReLU in between.</p>
+</div>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>Use the calculator to find settings that output exactly 0. Why do so many different settings give 0?</li>
+<li>A neuron's total is negative for every face it sees. What does it output, and does it help the network at all?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>ReLU turns every negative total into 0, so any settings that make the total negative give 0.</li>
+<li>It always outputs 0, so it adds nothing. You'll meet this "dead neuron" again in Session 9.</li>
+</ol>
+</div>
+</details>
+<h2 id="a-layer-of-neurons">A Layer of Neurons <span class="time">42-52 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s3_5.jpg" src="videos/s3_5.mp4"></video></div>
+
+<p>A <strong>layer</strong> is a group of neurons that all read the same inputs. Put each neuron's weights in one row of a table <code>W</code>, and one line works out the whole layer:</p>
+<div class="hl"><pre><span></span><code><span class="n">layer_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">W</span> <span class="o">@</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>@</code> is <strong>matrix multiplication</strong>. For each row of <code>W</code>, it multiplies by the inputs and adds up: steps 1 and 2 for every neuron at once. <code>b</code> holds one bias per neuron.</p>
+<p>In practice, <code>nn.Linear(inputs, neurons)</code> makes the weights and biases for you, starting them at small random numbers. Each layer has <strong>one weight for every connection</strong> and <strong>one bias for every neuron</strong>. <code>nn.Linear(2, 3)</code> has 2 x 3 = 6 weights and 3 biases.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 5</strong>. In the last YOUR TURN cell, work out how many numbers <code>nn.Linear(3072, 256)</code> has, then check.</p>
+</div>
+<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<div class="box exam">
+<p><span class="lbl">Check your understanding</span></p>
+<p><strong>1.</strong> Describe the structure of an artificial neural network. <span class="marks">3 points</span></p>
+<p><strong>2.</strong> A neuron has inputs 1 and 2, weights 0.5 and −0.5, and a bias of 0.2. Work out its output after ReLU. <span class="marks">2 points</span></p>
+<p><strong>3.</strong> Explain why a neural network uses an activation function such as ReLU. <span class="marks">2 points</span></p>
+</div>
+<details>
+<summary>What a full answer includes</summary>
+<div>
+<p><strong>1</strong> Any 3 of:</p>
+<ul>
+<li>an input layer, one or more hidden layers and an output layer</li>
+<li>the layers are made of neurons (nodes)</li>
+<li>neurons in neighbouring layers are connected, and each connection has a weight</li>
+<li>each neuron adds up its weighted inputs and a bias, then applies an activation function</li>
+<li>the output layer gives the answer, for example one score per category</li>
+</ul>
+<p><strong>2</strong> 1 x 0.5 + 2 x (−0.5) + 0.2 = −0.3. ReLU turns a negative total into 0, so the output is <strong>0</strong>.</p>
+<p><strong>3</strong> Without it, every layer only multiplies and adds, so any number of layers behaves like one straight-line calculation. The activation function adds a bend, so the network can learn complicated, non-linear patterns.</p>
+</div>
+</details>
+  <div class="prevnext"><a class="pn prev" href="session2.html"><small>Back</small>Set Up and Tensors</a><a class="pn next" href="session4.html"><small>Next</small>The Ball Drop</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradient Descent | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session5">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html" class="here">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 5 · 60 minutes</div>
+  <h1>Gradient Descent</h1>
+  <p class="lede">Last session you turned the knobs by guessing. Today the computer turns them itself, step by step downhill, using gradient descent: the method that trains every neural network in this unit, including the Mood Machine.</p>
+  <div class="pills"><span class="pill">Syllabus: regression methods</span><span class="pill">Starter notebook: session5-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session5">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#walking-downhill-in-the-fog">Walking Downhill in the Fog</a><span class="t">0-10 min</span></li><li><a href="#watch-it-learn">Watch It Learn</a><span class="t">10-22 min</span></li><li><a href="#where-the-gradients-come-from">Where the Gradients Come From</a><span class="t">22-30 min</span></li><li><a href="#let-pytorch-do-the-calculus">Let PyTorch Do the Calculus</a><span class="t">30-45 min</span></li><li><a href="#check-against-the-exact-answer">Check Against the Exact Answer</a><span class="t">45-52 min</span></li><li><a href="#check-your-understanding">Check Your Understanding</a><span class="t">52-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session5-starter.ipynb" download>session5-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s5_0.jpg" src="videos/s5_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>explain what a gradient is and how gradient descent uses it</li>
+<li>explain what the learning rate does, and what goes wrong when it's too big</li>
+<li>train a model with PyTorch's automatic gradients</li>
+<li>describe how regression is used to make a prediction</li>
+</ul>
+<h2 id="walking-downhill-in-the-fog">Walking Downhill in the Fog <span class="time">0-10 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_1.jpg" src="videos/s5_1.mp4"></video></div>
+
+<p>Imagine you're on a hillside in thick fog, and you want to reach the bottom of the valley. You can't see the bottom. But you can feel which way the ground slopes under your feet. So you take a small step downhill, feel the slope again, and take another step.</p>
+<table>
+<thead>
+<tr>
+<th>On the hill</th>
+<th>In machine learning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How high you are</td>
+<td>the <strong>loss</strong></td>
+</tr>
+<tr>
+<td>Where you're standing</td>
+<td>the values of the <strong>weights</strong></td>
+</tr>
+<tr>
+<td>The slope under your feet</td>
+<td>the <strong>gradient</strong></td>
+</tr>
+<tr>
+<td>How big your steps are</td>
+<td>the <strong>learning rate</strong></td>
+</tr>
+</tbody>
+</table>
+<p>For each weight, the <strong>gradient</strong> says two things: which direction makes the loss go <strong>up</strong>, and how steep the slope is. So to go downhill, you step the <strong>opposite</strong> way:</p>
+<div class="hl"><pre><span></span><code>new weight = old weight − learning rate × gradient
+</code></pre></div>
+
+<p>This is <strong>gradient descent</strong>.</p>
+<h2 id="watch-it-learn">Watch It Learn <span class="time">10-22 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_2.jpg" src="videos/s5_2.mp4"></video></div>
+
+<p>Your data (or the backup data) is already in the explorer. Change it to your own if you like.</p>
+<ol>
+<li>Press <strong>1 step</strong> five times. Each time, watch the line move, the red errors shrink and the loss fall. The <strong>Last step</strong> box shows the exact sum.</li>
+<li>Press <strong>100 steps</strong>. Then tick <em>Show the least-squares line</em> (see the last section on this page).</li>
+<li>Press <strong>0.01 slow</strong>, then <strong>100 steps</strong>, and compare how far the line gets.</li>
+<li>Press <strong>0.8 too big</strong>, then <strong>1 step</strong> a few times. Watch what happens.</li>
+</ol>
+<div data-widget="gd"></div>
+
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>On the first step, both gradients are negative. Why does that make <code>w</code> and <code>b</code> go <strong>up</strong>?</li>
+<li>The learning rate stays the same, but the steps get smaller as the line gets close. Why?</li>
+<li>What went wrong with a learning rate of 0.8?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>The update takes away learning rate × gradient. Taking away a negative number makes the value bigger.</li>
+<li>Each step is learning rate × gradient. Near the bottom of the valley the ground is almost flat, so the gradient is small, and so is the step.</li>
+<li>Each step jumped right over the bottom of the valley and landed higher up the other side. Every step made it worse, so the loss grew and grew. A learning rate that's too big is one of the commonest reasons training fails.</li>
+</ol>
+</div>
+</details>
+<h2 id="where-the-gradients-come-from">Where the Gradients Come From <span class="time">22-30 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_3.jpg" src="videos/s5_3.mp4"></video></div>
+
+<p>For our line and the mean squared error, the gradients are:</p>
+<ul>
+<li>gradient for <code>w</code> = mean of 2 × error × drop height</li>
+<li>gradient for <code>b</code> = mean of 2 × error</li>
+</ul>
+<p>where error = prediction − measurement. You don't need to work these out yourself: they come from differentiating the loss. But it's worth checking one step by hand.</p>
+<p><strong>Worked example.</strong> Start at w = 0 and b = 0 with the backup data. The gradients are −2.1386 and −1.48. With a learning rate of 0.1:</p>
+<ul>
+<li>new w = 0 − 0.1 × (−2.1386) = 0.2139</li>
+<li>new b = 0 − 0.1 × (−1.48) = 0.148</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Put your own measurements in the first cell, then run <strong>section 1</strong>. It does exactly this step. Check it against the explorer after 1 step at learning rate 0.1.</p>
+</div>
+<h2 id="let-pytorch-do-the-calculus">Let PyTorch Do the Calculus <span class="time">30-45 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_4.jpg" src="videos/s5_4.mp4"></video></div>
+
+<p>A neural network has hundreds of thousands of weights, so nobody works out gradients by hand. If you make a value with <code>requires_grad=True</code>, PyTorch records every calculation done with it. Then <code>loss.backward()</code> works backwards through that record and puts each gradient in <code>.grad</code>.</p>
+<p>Training repeats four steps:</p>
+<div class="hl"><pre><span></span><code><span class="n">loss</span> <span class="o">=</span> <span class="p">((</span><span class="n">w</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>     <span class="c1"># 1. how wrong are we?</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>                          <span class="c1"># 2. find the gradients</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">w</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span>          <span class="c1"># 3. step downhill</span>
+    <span class="n">b</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">grad</span>
+<span class="n">w</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>                           <span class="c1"># 4. wipe the gradients</span>
+<span class="n">b</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+</code></pre></div>
+
+<ul>
+<li><code>torch.no_grad()</code> tells PyTorch not to record the update itself as part of the calculation.</li>
+<li>Step 4 matters: each <code>backward()</code> <strong>adds</strong> to whatever gradient is already stored. Without the wipe, old gradients pile up and the steps get bigger and bigger. Section 6 of the notebook shows it happening.</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>sections 2 and 3</strong>. Watch the loss fall and <code>w</code> and <code>b</code> settle. Then do the YOUR TURN cell in <strong>section 5</strong>: try learning rates 0.01, 0.3 and 0.8, and write one sentence about each. Run <strong>section 6</strong> to see gradients pile up.</p>
+</div>
+<h2 id="check-against-the-exact-answer">Check Against the Exact Answer <span class="time">45-52 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_5.jpg" src="videos/s5_5.mp4"></video></div>
+
+<p>For a straight line there's a formula, <strong>least squares</strong>, that gives the best <code>w</code> and <code>b</code> straight away. If gradient descent worked, it should land on the same values. With the backup data, both give <strong>w = 0.5771 and b = 0.0186</strong>.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 4</strong>. Then do the last YOUR TURN cell: predict the bounce from a 3 m drop.</p>
+</div>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>If a formula gives the exact answer, why do neural networks use gradient descent?</li>
+<li>Why should you trust your 3 m prediction less than one for 1.5 m?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>The formula only exists for simple models like a straight line. A neural network has far too many weights, joined in complicated ways, for any formula. Gradient descent works for any model whose gradients can be worked out.</li>
+<li>You only measured drops from 0.5 m to 2 m. At 3 m the model assumes the line carries on, with no evidence. Predicting outside your data is called <strong>extrapolation</strong>. The Mood Machine has the same problem with faces unlike its training faces.</li>
+</ol>
+</div>
+</details>
+<h2 id="check-your-understanding">Check Your Understanding <span class="time">52-60 min</span></h2>
+<div class="box exam">
+<p><span class="lbl">Check your understanding</span></p>
+<p><strong>1.</strong> A garden centre has records of each day's temperature and how many bags of compost it sold. Describe how regression could be used to predict sales from the weather forecast. <span class="marks">4 points</span></p>
+<p><strong>2.</strong> Explain what happens if the learning rate is too big. <span class="marks">2 points</span></p>
+</div>
+<details>
+<summary>What a full answer includes</summary>
+<div>
+<p><strong>1</strong> Any 4 of:</p>
+<ul>
+<li>the link between temperature (input) and sales (output) is modelled, for example as a line y = wx + b</li>
+<li>the model's predictions for past days are compared with the real sales</li>
+<li>the errors are measured with a loss function, such as the mean squared error</li>
+<li>the weights are changed to make the loss smaller, using gradient descent</li>
+<li>this is repeated until the loss stops going down</li>
+<li>the finished model is given the forecast temperature to predict sales</li>
+</ul>
+<p><strong>2</strong> Each step jumps past the lowest point of the loss. The loss gets bigger instead of smaller, and the model never settles on good weights.</p>
+</div>
+</details>
+  <div class="prevnext"><a class="pn prev" href="session4.html"><small>Back</small>The Ball Drop</a><a class="pn next" href="session6.html"><small>Next</small>The Faces Become Data</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

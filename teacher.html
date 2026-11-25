@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teacher Notes | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="teacher">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html" class="here">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">For the teacher</div>
+  <h1>Teacher Notes</h1>
+  <p class="lede">How the eleven sessions run, what to prepare, where students get stuck, and what each session's numbers should look like.</p>
+  <div class="pills"><span class="pill">11 sessions · 60 minutes each</span><span class="pill">9618 topic 18.1</span></div>
+</div></div>
+<div class="page with-toc p-teacher">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#how-the-unit-runs">How the Unit Runs</a></li><li><a href="#before-the-unit">Before the Unit</a></li><li><a href="#session-notes">Session Notes</a></li><li><a href="#worked-notebooks">Worked Notebooks</a></li><li><a href="#check-your-understanding-questions">Check Your Understanding Questions</a></li></ol></div></aside>
+  <main><h2 id="how-the-unit-runs">How the Unit Runs</h2>
+<p>Students work down each session page at their own pace. The times next to each heading are a guide to where the class should be. Every page opens with a video guide: the key ideas, then the notebook step by step. Students can watch it at the start, or you can play it to the class. The page is the teaching: project it for the whole-class moments below, and spend the rest of the lesson with individuals.</p>
+<table>
+<thead>
+<tr>
+<th>Session</th>
+<th>What students do</th>
+<th>Whole-class moments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Can a Computer Read a Face?</td>
+<td>Rules vs examples; pictures as numbers; three kinds of learning</td>
+<td>Rules starter; learning-types sort; exit check</td>
+</tr>
+<tr>
+<td>2 Set Up and Tensors</td>
+<td>Set up Jupyter; tensors, shapes and maths; paint a tiny picture; meet the faces; argmax</td>
+<td>Getting everyone's Jupyter running</td>
+</tr>
+<tr>
+<td>3 Inside a Neuron</td>
+<td>One neuron worked through; bias; ReLU and why it's needed; a layer</td>
+<td>Calculator on the board; the "two layers without ReLU" proof</td>
+</tr>
+<tr>
+<td>4 The Ball Drop</td>
+<td>Plan a fair test, collect bounce data outside, score a guessed line with MSE</td>
+<td>Planning the readings; best guess so far</td>
+</tr>
+<tr>
+<td>5 Gradient Descent</td>
+<td>Fog analogy; one step by hand; the explorer; autograd; least squares; extrapolation</td>
+<td>Learning rate 0.8 on the explorer</td>
+</tr>
+<tr>
+<td>6 The Faces Become Data</td>
+<td>Seeds; a Dataset; train and test sets; transforms; DataLoader, batches and epochs</td>
+<td>Why test faces are kept apart</td>
+</tr>
+<tr>
+<td>7 Build MoodNet</td>
+<td>Flatten; layers; counting 820,874 parameters; softmax; untrained 10%</td>
+<td>Counting the parameters</td>
+</tr>
+<tr>
+<td>8 Train the Mood Machine</td>
+<td>Cross-entropy; plain gradient descent vs Adam; the training loop; train and save</td>
+<td>The five steps of the loop</td>
+</tr>
+<tr>
+<td>9 Back Propagation by Hand</td>
+<td>Forward and backward pass on a 2-2-1 network; check with PyTorch; dead neurons</td>
+<td>Step through the diagram together after students try it</td>
+</tr>
+<tr>
+<td>10 Catch It Out</td>
+<td>New faces; which moods fool it; drawn faces; upside down; emotion AI and the law</td>
+<td>Drawing predictions; upside-down prediction; ethics discussion</td>
+</tr>
+<tr>
+<td>11 The Mood Machine Challenge</td>
+<td>Overfitting demo; fair-test experiments; leaderboard</td>
+<td>Leaderboard and explanations</td>
+</tr>
+</tbody>
+</table>
+<h2 id="before-the-unit">Before the Unit</h2>
+<ul>
+<li><strong>PCs.</strong> Python 3.13 with torch, torchvision, matplotlib and notebook, installed for all users, on every PC students will use. Test from a student account: double-click Start Jupyter and run the test cell on the Setup page.</li>
+<li><strong>Files.</strong> Put <code>emoji_faces.py</code> and <code>Start Jupyter.bat</code> in the class Team as well as on this site. Windows can block a .bat file downloaded from the internet; if it does, the copy in Teams is the fallback.</li>
+<li><strong>Saved work.</strong> Check whether students' Documents folder follows them between PCs. Sessions 7, 8, 10 and 11 rebuild the faces in their first cell, so no session depends on an earlier notebook. Session 10 loads mood_machine.pth from Session 8, and trains a new one if it's missing.</li>
+<li><strong>Session 4 kit.</strong> Balls (tennis balls bounce consistently), tape measures fixed upright against a wall, a hard flat surface. Readings are taken by a partner watching at eye level beside the tape. The backup data covers a wet day.</li>
+<li><strong>Session 10 kit.</strong> Paint on every PC. The four test drawings are on the Session 10 page.</li>
+<li><strong>Network.</strong> Check this site and the videos load on the school network and on student PCs.</li>
+</ul>
+<h2 id="session-notes">Session Notes</h2>
+<h3>Session 1</h3>
+<p>There's no notebook this session. Let students try writing a rule for Happy for a few minutes before anyone mentions machine learning, then test their rules against Winking and Laughing.</p>
+<h3>Session 2</h3>
+<p>Set-up comes first. Expect one or two students to hit a problem; the <a href="setup.html">Setup page</a> troubleshooting table covers the common ones. Pair a student up rather than holding up the class.</p>
+<h3>Session 3</h3>
+<p>The common confusion is between weights and bias: one weight per connection, one bias per neuron. The section 4 proof (two layers with nothing between them equal one combined layer) is worth showing on the board.</p>
+<h3>Session 4</h3>
+<p>Outdoor safety: drops from 2 m at most, with the person dropping standing on the ground. Three drops per height, take the mean. Students keep their data for Session 5.</p>
+<h3>Session 5</h3>
+<p>Backup data results: gradient descent and least squares both give <strong>w = 0.5771, b = 0.0186</strong>; the first step from (0, 0) at learning rate 0.1 gives (0.2139, 0.148); learning rate 0.8 blows up; the 3 m prediction is 1.75 m.</p>
+<h3>Session 6</h3>
+<p>Make sure the seed idea lands: same seed, same face, on every PC. Mood is seed mod 10, so every mood has exactly 1,200 training faces. Students should start the section 4 cell early: drawing 15,000 faces takes about a minute.</p>
+<h3>Session 7</h3>
+<p>Students must run the first cell straight away. Untrained accuracy is about 10%; ours was 10.2%. Parameter count: 786,688 + 32,896 + 1,290 = 820,874.</p>
+<h3>Session 8</h3>
+<p>Students must run the first cell straight away. One epoch from the same start: plain gradient descent 15.2%, Adam 74.6%. Five epochs take one to three minutes. Our run: 10.2% before training, then 76.0%, 81.8%, 82.4%, 82.5% and 86.7%. Students' runs will vary. Make sure everyone saves <strong>mood_machine.pth</strong>.</p>
+<h3>Session 9</h3>
+<p>No paper: students work each step out, type it into the YOUR TURN cell, then check. They should try each step before pressing Next on the diagram. The common mistake is using v instead of h for the output weights' gradients.</p>
+<p>All values: z = (1, 0.5); h = (1, 0.5); output = 2; loss = 1; loss to output = −2; v gradients (−2, −1); h gradients (−2, −4); W gradients [[−2, −4], [−4, −8]]. Learning rate 0.01 gives loss 0.22; 0.05 gives 2.98.</p>
+<h3>Session 10</h3>
+<p>Our run: Happy was the hardest mood (45%), read as Winking 119 times. Drawings: happy_high read as Happy 78%, happy_low as Sad 93%, sad_high as Sad 95%, sad_low as Neutral 91%. Upside-down faces scored 11.8% against 86.7% upright.</p>
+<p>The ethics discussion rests on Article 5(1)(f) of the EU AI Act, in force since 2 February 2025: AI that infers emotions is banned in workplaces and education institutions, except for medical or safety reasons. Elsewhere, emotion recognition is treated as high-risk.</p>
+<h3>Session 11</h3>
+<p>Overfitting demo (500 faces, 20 epochs): training 85.8%, test 65.0%. Put a leaderboard on the board: name, test accuracy, settings. Push students to repeat their best run with two or three seeds before claiming a win.</p>
+<h2 id="worked-notebooks">Worked Notebooks</h2>
+<p>Every session has a complete notebook with all YOUR TURN cells filled in. They are not on this site, because the site is public. Keep them in a teacher-only folder in Teams.</p>
+<h2 id="check-your-understanding-questions">Check Your Understanding Questions</h2>
+<p>Every session ends with written questions that ask students to explain an idea in full, with a model answer listing the points a full answer includes. They are original questions written for this unit. The point counts tell students how much detail is expected. The same questions work as exam preparation: together, they cover all four syllabus points.</p>
+  <div class="prevnext"><a class="pn prev" href="glossary.html"><small>Back</small>Glossary</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

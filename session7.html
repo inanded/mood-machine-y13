@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build MoodNet | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="session7">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html" class="here">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Session 7 · 60 minutes</div>
+  <h1>Build MoodNet</h1>
+  <p class="lede">Today you build MoodNet, the neural network inside the Mood Machine, and send faces through it for the first time. By the end you have a working Mood Machine. It just hasn't learned anything yet.</p>
+  <div class="pills"><span class="pill">Syllabus: artificial neural networks, deep learning</span><span class="pill">Starter notebook: session7-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-session7">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#flatten-from-picture-to-list">Flatten: From Picture to List</a><span class="t">0-10 min</span></li><li><a href="#the-layers">The Layers</a><span class="t">10-25 min</span></li><li><a href="#counting-the-numbers-to-learn">Counting the Numbers to Learn</a><span class="t">25-35 min</span></li><li><a href="#scores-chances-and-a-guess">Scores, Chances and a Guess</a><span class="t">35-50 min</span></li><li><a href="#before-training">Before Training</a><span class="t">50-60 min</span></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/session7-starter.ipynb" download>session7-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/s7_0.jpg" src="videos/s7_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
+
+<p><strong>By the end of today you can:</strong></p>
+<ul>
+<li>describe MoodNet's layers and what each does to a face</li>
+<li>count the weights and biases in a network</li>
+<li>explain how ten scores become a guess and a set of chances</li>
+<li>explain why an untrained network gets about 10% right</li>
+</ul>
+<div class="box do">
+<p><span class="lbl">Do this first</span></p>
+<p>Open <strong>session7-starter.ipynb</strong> and run the first cell <strong>straight away</strong>. It draws all 15,000 faces from last session, which takes about a minute. Read on while it works.</p>
+</div>
+<h2 id="flatten-from-picture-to-list">Flatten: From Picture to List <span class="time">0-10 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_1.jpg" src="videos/s7_1.mp4"></video></div>
+
+<p>A face is a <code>(3, 32, 32)</code> tensor: three grids. The neurons in a Linear layer expect one long list of inputs. <strong>Flatten</strong> unrolls the grids into a single row of 3 x 32 x 32 = <strong>3,072</strong> numbers: all of the red grid, then all of the green, then all of the blue.</p>
+<p>For a batch, it unrolls each face separately: <code>(64, 3, 32, 32)</code> becomes <code>(64, 3072)</code>.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 1</strong> to see the shapes before and after.</p>
+</div>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<p>After Flatten, two pixels that were next to each other, one above the other, end up 32 places apart in the list. Does MoodNet know they were neighbours?</p>
+</div>
+<details>
+<summary>Answer</summary>
+<div>
+<p>No. To MoodNet, input 100 and input 132 are just two inputs. It has to learn from the data which positions matter together. That's one reason it struggles with faces that are moved or tilted, which you'll test in Session 10.</p>
+</div>
+</details>
+<h2 id="the-layers">The Layers <span class="time">10-25 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_2.jpg" src="videos/s7_2.mp4"></video></div>
+
+<div class="hl"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MoodNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The class has two parts:</p>
+<ul>
+<li><code>__init__</code> <strong>builds</strong> the layers once, with random starting weights.</li>
+<li><code>forward</code> says what <strong>happens to a batch of faces</strong> as it passes through. Sending data through like this is called a <strong>forward pass</strong>.</li>
+</ul>
+<p>Following one face through <code>forward</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Layer</th>
+<th>Numbers out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Flatten</td>
+<td>3,072</td>
+</tr>
+<tr>
+<td>2</td>
+<td>hidden1: 256 neurons, each reading all 3,072 inputs, then ReLU</td>
+<td>256</td>
+</tr>
+<tr>
+<td>3</td>
+<td>hidden2: 128 neurons, each reading all 256, then ReLU</td>
+<td>128</td>
+</tr>
+<tr>
+<td>4</td>
+<td>output: 10 neurons, each reading all 128</td>
+<td>10 scores</td>
+</tr>
+</tbody>
+</table>
+<p>There's no ReLU after the output layer: the scores can be any size, positive or negative. Two hidden layers make MoodNet a small <strong>deep</strong> network.</p>
+<p><code>torch.manual_seed(1)</code> before building it sets the seed for the random starting weights, so everyone in the class starts from the same MoodNet.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run the MoodNet cell to print its layers.</p>
+</div>
+<h2 id="counting-the-numbers-to-learn">Counting the Numbers to Learn <span class="time">25-35 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_3.jpg" src="videos/s7_3.mp4"></video></div>
+
+<p>Each Linear layer has <strong>one weight for every connection</strong> (inputs x neurons) and <strong>one bias for every neuron</strong>.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Work out each layer before you run the YOUR TURN cell that checks.</p>
+</div>
+<details>
+<summary>Check your working</summary>
+<div>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Weights</th>
+<th>Biases</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hidden1</td>
+<td>3,072 x 256 = 786,432</td>
+<td>256</td>
+<td>786,688</td>
+</tr>
+<tr>
+<td>hidden2</td>
+<td>256 x 128 = 32,768</td>
+<td>128</td>
+<td>32,896</td>
+</tr>
+<tr>
+<td>output</td>
+<td>128 x 10 = 1,280</td>
+<td>10</td>
+<td>1,290</td>
+</tr>
+<tr>
+<td><strong>MoodNet</strong></td>
+<td></td>
+<td></td>
+<td><strong>820,874</strong></td>
+</tr>
+</tbody>
+</table>
+<p>96% of them are in the first layer, because every one of the 3,072 inputs connects to every one of its 256 neurons.</p>
+</div>
+</details>
+<h2 id="scores-chances-and-a-guess">Scores, Chances and a Guess <span class="time">35-50 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_4.jpg" src="videos/s7_4.mp4"></video></div>
+
+<p>MoodNet's output is 10 <strong>scores</strong>, one per mood. The biggest score is the guess.</p>
+<p>Scores are hard to compare, so we turn them into <strong>chances</strong> with a function called <strong>softmax</strong>. Softmax makes every score positive and scales them so they add up to 1 (100%). A bigger score always gets a bigger chance.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Happy</th>
+<th>Sad</th>
+<th>...</th>
+<th>Neutral</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Score</td>
+<td>2.0</td>
+<td>0.5</td>
+<td>...</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>Chance</td>
+<td>44%</td>
+<td>10%</td>
+<td>...</td>
+<td>6%</td>
+</tr>
+</tbody>
+</table>
+<p>In Session 8 you'll see that the loss is worked out from these chances.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 3</strong>. It sends a batch through MoodNet. Look at the ten scores and chances for one face.</p>
+</div>
+<h2 id="before-training">Before Training <span class="time">50-60 min</span></h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s7_5.jpg" src="videos/s7_5.mp4"></video></div>
+
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 4</strong> to mark the untrained MoodNet on all 3,000 test faces.</p>
+</div>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<ol>
+<li>The ten chances are all close to 10%. Why?</li>
+<li>The accuracy is about 10%. Why that number?</li>
+</ol>
+</div>
+<details>
+<summary>Answers</summary>
+<div>
+<ol>
+<li>The weights start as small random numbers, so every score is small and none stands out. Softmax of ten nearly equal scores gives ten nearly equal chances.</li>
+<li>MoodNet is guessing. With ten moods, each equally common, a guess is right about one time in ten. Next session, training changes that.</li>
+</ol>
+</div>
+</details>
+<div class="box stretch">
+<p><span class="lbl">Stretch</span></p>
+<p><code>MoodNet(hidden=512)</code> doubles the first hidden layer. Work out how many numbers it has to learn, then check. You can test whether a bigger network reads faces better in the Session 11 challenge.</p>
+</div>
+  <div class="prevnext"><a class="pn prev" href="session6.html"><small>Back</small>The Faces Become Data</a><a class="pn next" href="session8.html"><small>Next</small>Train the Mood Machine</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

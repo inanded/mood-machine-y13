@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Started with Jupyter | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="setup">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html" class="here">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="teacher.html">Teacher</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Do this in Session 2</div>
+  <h1>Getting Started with Jupyter</h1>
+  <p class="lede">You write and run all your code in Jupyter Notebook, which opens in your web browser. Step 1 is for Session 2 only. Steps 2 and 3 are how you start every lesson.</p>
+  <div class="pills"><span class="pill">About 10 minutes the first time</span></div>
+</div></div>
+<div class="page with-toc p-setup">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#1-set-up-your-folder">1. Set Up Your Folder</a></li><li><a href="#2-start-jupyter">2. Start Jupyter</a></li><li><a href="#3-open-today-s-notebook">3. Open Today's Notebook</a></li><li><a href="#4-run-code">4. Run Code</a></li><li><a href="#5-when-you-see-a-red-box">5. When You See a Red Box</a></li><li><a href="#6-save-and-stop">6. Save and Stop</a></li></ol></div></aside>
+  <main><h2 id="1-set-up-your-folder">1. Set Up Your Folder</h2>
+<p>All your work for the unit lives in one folder. You only do this once.</p>
+<ol>
+<li>Open File Explorer and go to <strong>Documents</strong>.</li>
+<li>Make a new folder called <strong>mood-machine</strong> (New, then Folder).</li>
+<li>Download these two files and move them into that folder. They are also in the class Team's Files.</li>
+</ol>
+<div class="dl">
+<a href="downloads/emoji_faces.py" download>emoji_faces.py</a>
+<a href="downloads/Start%20Jupyter.bat" download>Start Jupyter.bat</a>
+</div>
+
+<p><strong>emoji_faces.py</strong> draws the faces. <strong>Start Jupyter</strong> starts Jupyter for you. Windows may hide the ".bat" and ".py" endings, so the files can appear as just <em>emoji_faces</em> and <em>Start Jupyter</em>.</p>
+<figure class="shot"><img src="assets/img/g01_folder.jpg" alt="The mood-machine folder in File Explorer, holding emoji_faces and Start Jupyter"><figcaption>Your folder should look like this.</figcaption></figure>
+
+<h2 id="2-start-jupyter">2. Start Jupyter</h2>
+<p>Do this at the start of every lesson. In your mood-machine folder, <strong>double-click Start Jupyter</strong>.</p>
+<p>A black window opens and fills with text. This is Jupyter running. <strong>Leave it open</strong> for the whole lesson: if you close it, Jupyter stops and your code won't run. You can minimise it.</p>
+<figure class="shot"><img src="assets/img/g02_terminal.jpg" alt="The black Jupyter window"><figcaption>The Jupyter window. Leave it open while you work.</figcaption></figure>
+
+<p>After a few seconds your browser opens a page called Jupyter showing the files in your folder. The address starts <strong>localhost:8888</strong>, which means the page comes from your own computer, not the internet.</p>
+<figure class="shot"><img src="assets/img/g03_home.jpg" alt="The Jupyter page listing the files in your folder"><figcaption>The Jupyter page lists the files in your mood-machine folder.</figcaption></figure>
+
+<p>If the browser doesn't open, look near the bottom of the black window for a line starting <strong>http://localhost:8888/tree?token=</strong>. Copy the whole line into your browser's address bar.</p>
+<p>If the black window closes straight away, or Windows shows a warning instead of the black window, tell your teacher.</p>
+<h2 id="3-open-today-s-notebook">3. Open Today's Notebook</h2>
+<p>A notebook is a file that holds your code and what it printed. Each session has a starter notebook with the code and tasks for that lesson.</p>
+<ol>
+<li>Download the starter notebook from the top of the session's page and move it into your mood-machine folder.</li>
+<li>On the Jupyter page, click the notebook's name to open it. It opens in a new tab.</li>
+</ol>
+<p>You can also make a blank notebook: click <strong>New</strong> (top right), then <strong>Python 3 (ipykernel)</strong>. Click the word <strong>Untitled</strong> at the top to rename it. Type over the highlighted word only and keep <strong>.ipynb</strong> on the end, or Jupyter won't know the file is a notebook.</p>
+<figure class="shot" style="max-width:420px"><img src="assets/img/g04_new.jpg" alt="The New menu with Python 3 (ipykernel) at the top"><figcaption>The New menu. Python 3 (ipykernel) makes a blank notebook.</figcaption></figure>
+
+<h2 id="4-run-code">4. Run Code</h2>
+<p>Code goes in the grey boxes, called <strong>cells</strong>. Click a cell, then press <strong>Shift + Enter</strong> to run it. The output appears underneath and Jupyter moves to the next cell.</p>
+<p>Test that everything works by running this in any cell:</p>
+<div class="hl"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">emoji_faces</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_face</span><span class="p">,</span> <span class="n">CLASSES</span>
+<span class="n">picture</span><span class="p">,</span> <span class="n">mood</span> <span class="o">=</span> <span class="n">make_face</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">picture</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">CLASSES</span><span class="p">[</span><span class="n">mood</span><span class="p">])</span>
+</code></pre></div>
+
+<p>You should see a version number starting with 2, then <strong>(32, 32) 7 Worried</strong>.</p>
+<figure class="shot"><img src="assets/img/g08_ran.jpg" alt="A notebook after running the test cell, showing the version number and (32, 32) 7 Worried"><figcaption>The test cell after running.</figcaption></figure>
+
+<p>The number in square brackets to the left of a cell, such as <strong>[1]</strong>, counts the cells in the order you ran them. While a cell is running it shows <strong>[*]</strong>: wait for it to change to a number before running the next one.</p>
+<h2 id="5-when-you-see-a-red-box">5. When You See a Red Box</h2>
+<p>A red box under a cell is an error message. Read the <strong>last line</strong> first: it names the problem. Here the file name was mistyped as emoji_face instead of emoji_faces, so Python couldn't find it.</p>
+<figure class="shot"><img src="assets/img/g09_error.jpg" alt="An error. The last line says No module named emoji_face"><figcaption>Read the last line of an error first.</figcaption></figure>
+
+<p>Fix the code in the cell, then press Shift + Enter again. Errors are normal, and reading them is part of programming.</p>
+<table>
+<thead>
+<tr>
+<th>Last line of the error</th>
+<th>What it usually means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>No module named 'emoji_faces'</code></td>
+<td>emoji_faces.py isn't in your mood-machine folder, or the name is misspelt</td>
+</tr>
+<tr>
+<td><code>NameError: name '...' is not defined</code></td>
+<td>You used a name before making it. Run the earlier cells first</td>
+</tr>
+<tr>
+<td><code>SyntaxError</code></td>
+<td>A typing slip: a missing bracket, colon or quotation mark</td>
+</tr>
+<tr>
+<td><code>IndentationError</code></td>
+<td>The spaces at the start of a line don't line up</td>
+</tr>
+<tr>
+<td><code>TypeError</code> mentioning <code>ellipsis</code></td>
+<td>You left a <code>...</code> in a YOUR TURN cell. Replace it with your answer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-save-and-stop">6. Save and Stop</h2>
+<p><strong>At the end of a lesson:</strong></p>
+<ol>
+<li>Press <strong>Ctrl + S</strong> to save the notebook.</li>
+<li>Close the notebook tab and the Jupyter tab in your browser.</li>
+<li>Close the black window. That stops Jupyter.</li>
+</ol>
+<p><strong>Next lesson:</strong> double-click Start Jupyter again. If you want to go back to an old notebook, open it and choose <strong>Run</strong>, then <strong>Run All Cells</strong>. Python forgets everything when Jupyter stops, so this runs your code again.</p>
+  <div class="prevnext"><a class="pn prev" href="index.html"><small>Back</small>The Mood Machine</a><a class="pn next" href="session1.html"><small>Next</small>Can a Computer Read a Face?</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
