@@ -102,12 +102,38 @@
 <p><code>model.parameters()</code> hands the optimiser all 820,874 weights and biases. <code>lr=0.001</code> is the learning rate.</p>
 <div class="box do">
 <p><span class="lbl">In your notebook</span></p>
-<p>Run <strong>section 2</strong>, then <strong>section 3</strong>. It trains two fresh MoodNets for one epoch each, from the same starting weights: one with plain gradient descent, one with Adam.</p>
+<p>Run <strong>section 2</strong>. In the FINISH THE LINES cell, fill in the three gaps: steps 3 to 5 of the training loop. Then run <strong>section 3</strong>. It trains two fresh MoodNets for one epoch each, from the same starting weights: one with plain gradient descent, one with Adam.</p>
 </div>
 <pre class="out">plain gradient descent after one epoch: 15.2 %
 Adam after one epoch: 74.6 %</pre>
 
 <p>With the same learning rate, plain gradient descent barely moved. Adam was already at 75%.</p>
+<details>
+<summary>Hint for the FINISH THE LINES cell</summary>
+<div>
+<p>The three gaps are steps 3, 4 and 5 of the training loop: wipe, find, nudge. The method names are in the code under <strong>The Training Loop</strong> below.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="n">practice_opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="n">practice_opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Try the CHANGE ONE THING cell after section 3. Predict first: will an Adam learning rate of 0.01 beat 0.001? What about 0.1? Then run it with each.</p>
+</div>
+<details>
+<summary>What we found</summary>
+<div>
+<p>After one epoch, 0.001 scored 74.6% and 0.01 scored 69.7%: a little worse. With 0.1 the steps are far too big, and the Mood Machine scored 10.0%: no better than guessing. Adam adjusts each weight's step size, but it can't rescue a learning rate that big.</p>
+</div>
+</details>
 <h2 id="the-training-loop">The Training Loop</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s8_3.jpg" src="videos/s8_3.mp4"></video></div>
 
@@ -132,7 +158,7 @@ Adam after one epoch: 74.6 %</pre>
 
 <div class="box do">
 <p><span class="lbl">In your notebook</span></p>
-<p>Run <strong>section 4</strong>. Five epochs take one to three minutes. Write down the test accuracy after each one.</p>
+<p>Type your PREDICT guess for the accuracy after epoch 1 at the top of the cell, then run <strong>section 4</strong>. Five epochs take one to three minutes. Write down the test accuracy after each one.</p>
 </div>
 <p>When we ran it:</p>
 <pre class="out">before training: 10.2 %

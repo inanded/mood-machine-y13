@@ -148,6 +148,16 @@
 <pre class="out">PyTorch gradients for v: [-2.0, -1.0]
 PyTorch gradients for W: [[-2.0, -4.0], [-4.0, -8.0]]</pre>
 
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>In the CHANGE ONE THING cell, the first input changes from 1 to 3. Predict first: which gradients will change, and will any become 0? Then run it.</p>
+</div>
+<details>
+<summary>What happens</summary>
+<div>
+<p>The totals become z1 = 2 and z2 = −0.5. Hidden neuron 2's total is now negative, so ReLU outputs 0 and blocks everything behind it: the gradients for v2, W21 and W22 all become 0. The output is still 2 and the loss is still 1, but only neuron 1's weights would learn from this example. W11's gradient grows to −6, because its input is now 3.</p>
+</div>
+</details>
 <div class="box think">
 <p><span class="lbl">Think</span></p>
 <ol>

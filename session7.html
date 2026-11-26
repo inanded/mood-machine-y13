@@ -123,8 +123,14 @@
 <p>Each Linear layer has <strong>one weight for every connection</strong> (inputs x neurons) and <strong>one bias for every neuron</strong>.</p>
 <div class="box do">
 <p><span class="lbl">In your notebook</span></p>
-<p>Work out each layer before you run the YOUR TURN cell that checks.</p>
+<p>Work out each layer before you run the YOUR TURN cell that checks. Then work out how many numbers <code>MoodNet(hidden=512)</code> has, and run the CHANGE ONE THING cell to check. Finally, finish the line that makes the first layer.</p>
 </div>
+<details>
+<summary>Check: MoodNet(hidden=512)</summary>
+<div>
+<p>3,072 × 512 + 512 = 1,573,376 for the first layer, 512 × 128 + 128 = 65,664 for the second, and 1,290 for the output: <strong>1,640,330</strong> in all. Doubling the first hidden layer nearly doubles the whole network, because almost every number is in that first layer.</p>
+</div>
+</details>
 <details>
 <summary>Check your working</summary>
 <div>
@@ -229,7 +235,7 @@
 </details>
 <div class="box stretch">
 <p><span class="lbl">Stretch</span></p>
-<p><code>MoodNet(hidden=512)</code> doubles the first hidden layer. Work out how many numbers it has to learn, then check. You can test whether a bigger network reads faces better in the Session 11 challenge.</p>
+<p>Make a copy of the MoodNet class with a third hidden layer of 64 neurons, between <code>hidden2</code> and <code>output</code>. Work out how many numbers it has to learn, then check. You can test whether a deeper network reads faces better in the Session 11 challenge.</p>
 </div>
   <div class="prevnext"><a class="pn prev" href="session6.html"><small>Back</small>The Faces Become Data</a><a class="pn next" href="session8.html"><small>Next</small>Train the Mood Machine</a></div>
   </main>
