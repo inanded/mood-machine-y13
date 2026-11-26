@@ -11,7 +11,7 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html" class="here">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html" class="here">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat Sheet</a><a href="olympiad.html">Olympiad</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
   <div class="kicker">Session 5</div>
@@ -20,7 +20,7 @@
   <div class="pills"><span class="pill">Syllabus: regression methods</span><span class="pill">Starter notebook: session5-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session5">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#walking-downhill-in-the-fog">Walking Downhill in the Fog</a></li><li><a href="#watch-it-learn">Watch It Learn</a></li><li><a href="#where-the-gradients-come-from">Where the Gradients Come From</a></li><li><a href="#let-pytorch-do-the-calculus">Let PyTorch Do the Calculus</a></li><li><a href="#check-against-the-exact-answer">Check Against the Exact Answer</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#walking-downhill-in-the-fog">Walking Downhill in the Fog</a></li><li><a href="#watch-it-learn">Watch It Learn</a></li><li><a href="#where-the-gradients-come-from">Where the Gradients Come From</a></li><li><a href="#let-pytorch-do-the-calculus">Let PyTorch Do the Calculus</a></li><li><a href="#check-against-the-exact-answer">Check Against the Exact Answer</a></li><li><a href="#write-it-yourself">Write It Yourself</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session5-starter.ipynb" download>session5-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s5_0.jpg" src="videos/s5_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -31,6 +31,7 @@
 <li>explain what the learning rate does, and what goes wrong when it's too big</li>
 <li>train a model with PyTorch's automatic gradients</li>
 <li>describe how regression is used to make a prediction</li>
+<li>write a training loop yourself, from an outline</li>
 </ul>
 <h2 id="walking-downhill-in-the-fog">Walking Downhill in the Fog</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_1.jpg" src="videos/s5_1.mp4"></video></div>
@@ -161,6 +162,108 @@
 </ol>
 </div>
 </details>
+<h2 id="write-it-yourself">Write It Yourself</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s5_6.jpg" src="videos/s5_6.mp4"></video></div>
+
+<p>So far <code>fit()</code> has done the training for you. Now you write the training loop yourself, in an empty cell. The notebook gives you an outline in comments: each comment is one step, and you write the code for it. You have seen every step already in <strong>section 3</strong>, and the <a href="cheatsheet.html">cheat sheet</a> has them all in one place.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Go to <strong>section 7</strong>. Write code under each comment. Then run the <strong>CHECK</strong> cell. It tells you if your line matches least squares, and what to look at if it doesn't.</p>
+<p>Try each step yourself first. Open a hint only when you're stuck, and open them in order.</p>
+</div>
+<details>
+<summary>Hint for step 1: make w and b</summary>
+<div>
+<p><code>requires_grad=True</code> tells PyTorch to track gradients. Look at the first line of <strong>section 2</strong>.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<details>
+<summary>Hint for step 3a: the loss</summary>
+<div>
+<p>The prediction is <code>w * x + b</code>. Take away <code>y</code>, square it, then take the mean.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">((</span><span class="n">w</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<details>
+<summary>Hint for steps 3b to 3d: gradients, step, wipe</summary>
+<div>
+<p>One method finds the gradients. Then each weight goes down by <code>learning_rate * its gradient</code>, inside <code>with torch.no_grad():</code>. Finally <code>.grad.zero_()</code> wipes each gradient. Everything is indented inside the <code>for</code> loop.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code>    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">w</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span>
+        <span class="n">b</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">b</span><span class="o">.</span><span class="n">grad</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<details>
+<summary>Hint for step 4: save the answers</summary>
+<div>
+<p><code>.item()</code> turns a one-number tensor into an ordinary number. Put these after the loop, not inside it.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="n">w_mine</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="n">b_mine</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<div class="box think">
+<p><span class="lbl">If it doesn't work</span></p>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Likely cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>w</code> and <code>b</code> grow huge, or become <code>nan</code></td>
+<td>You forgot to wipe the gradients, or the learning rate is too big</td>
+</tr>
+<tr>
+<td><code>w</code> and <code>b</code> never change</td>
+<td>The update is outside the loop, or you wrote <code>+</code> instead of <code>-</code></td>
+</tr>
+<tr>
+<td><code>IndentationError</code></td>
+<td>The lines inside the loop need four spaces at the start</td>
+</tr>
+<tr>
+<td><code>element 0 of tensors does not require grad</code></td>
+<td>You forgot <code>requires_grad=True</code></td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="check-your-understanding">Check Your Understanding</h2>
 <div class="box exam">
 <p><span class="lbl">Check your understanding</span></p>

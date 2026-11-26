@@ -11,7 +11,7 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html" class="here">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html" class="here">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat Sheet</a><a href="olympiad.html">Olympiad</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
   <div class="kicker">Session 8</div>
@@ -20,7 +20,7 @@
   <div class="pills"><span class="pill">Syllabus: neural networks, back propagation</span><span class="pill">Starter notebook: session8-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session8">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#scoring-a-guess-cross-entropy-loss">Scoring a Guess: Cross-Entropy Loss</a></li><li><a href="#changing-the-weights-the-optimiser">Changing the Weights: The Optimiser</a></li><li><a href="#the-training-loop">The Training Loop</a></li><li><a href="#train">Train!</a></li><li><a href="#save-it">Save It</a></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#scoring-a-guess-cross-entropy-loss">Scoring a Guess: Cross-Entropy Loss</a></li><li><a href="#changing-the-weights-the-optimiser">Changing the Weights: The Optimiser</a></li><li><a href="#the-training-loop">The Training Loop</a></li><li><a href="#train">Train!</a></li><li><a href="#save-it">Save It</a></li><li><a href="#stretch-write-the-loop-yourself">Stretch: Write the Loop Yourself</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session8-starter.ipynb" download>session8-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s8_0.jpg" src="videos/s8_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
@@ -185,6 +185,51 @@ epoch 5  last batch loss 0.187  test accuracy 86.7 %</pre>
 <li>each weight is changed a little to reduce the loss, by an amount set by the learning rate (and, for Adam, its own step size)</li>
 </ul>
 <p><strong>2</strong> Cross-entropy uses −log of the chance given to the right answer. A confident wrong guess gives the right answer a tiny chance, and −log of a tiny number is large. A large loss means large gradients, so training corrects those mistakes most strongly.</p>
+</div>
+</details>
+<h2 id="stretch-write-the-loop-yourself">Stretch: Write the Loop Yourself</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s8_6.jpg" src="videos/s8_6.mp4"></video></div>
+
+<p>If you finish early, train a brand-new MoodNet for one epoch with a loop you write yourself. It's the same five steps as <code>train_one_epoch()</code>, and the same four steps you wrote for the bounce line in Session 5, plus moving each batch to the device. The <a href="cheatsheet.html">cheat sheet</a> has the pattern.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Go to <strong>section 6</strong>. Write code under each comment, then run the <strong>CHECK</strong> cell. After one epoch your Mood Machine should score over 60%.</p>
+</div>
+<details>
+<summary>Hint for steps 1 to 3: the model, loss and optimiser</summary>
+<div>
+<p>Look at the first cell of <strong>section 4</strong>: you need the same three things, with new names. Training mode is one method call on the model.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="n">my_model</span> <span class="o">=</span> <span class="n">MoodNet</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">my_loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">my_optimiser</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">my_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">my_model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<details>
+<summary>Hint for step 4: the loop</summary>
+<div>
+<p><code>for faces, moods in train_loader:</code> gives you one batch at a time. Inside the loop, follow the five steps of the training loop on this page, in order.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="k">for</span> <span class="n">faces</span><span class="p">,</span> <span class="n">moods</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+    <span class="n">faces</span><span class="p">,</span> <span class="n">moods</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">moods</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">guesses</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">my_loss_fn</span><span class="p">(</span><span class="n">guesses</span><span class="p">,</span> <span class="n">moods</span><span class="p">)</span>
+    <span class="n">my_optimiser</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">my_optimiser</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div>
+
+</div>
+</details>
 </div>
 </details>
   <div class="prevnext"><a class="pn prev" href="session7.html"><small>Back</small>Build MoodNet</a><a class="pn next" href="session9.html"><small>Next</small>Back Propagation by Hand</a></div>

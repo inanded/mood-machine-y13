@@ -11,58 +11,85 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html" class="here">11</a><a href="glossary.html">Glossary</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html" class="here">11</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat Sheet</a><a href="olympiad.html">Olympiad</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
   <div class="kicker">Session 11</div>
   <h1>The Mood Machine Challenge</h1>
-  <p class="lede">Today you compete to train the best Mood Machine. You run your own experiments, changing one setting at a time, and explain what made the difference. First you'll see the trap every machine learning engineer watches for: overfitting.</p>
+  <p class="lede">Today you compete to train the best Mood Machine. You run your own experiments, changing one setting at a time, and report an honest final score. First you'll meet the third pile of faces, and the trap every machine learning engineer watches for: overfitting.</p>
   <div class="pills"><span class="pill">Syllabus: machine learning, deep learning</span><span class="pill">Starter notebook: session11-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-session11">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#overfitting-in-action">Overfitting in Action</a></li><li><a href="#the-challenge">The Challenge</a></li><li><a href="#run-your-experiments">Run Your Experiments</a></li><li><a href="#share-and-explain">Share and Explain</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#three-piles-of-faces">Three Piles of Faces</a></li><li><a href="#overfitting-in-action">Overfitting in Action</a></li><li><a href="#the-challenge">The Challenge</a></li><li><a href="#run-your-experiments">Run Your Experiments</a></li><li><a href="#mark-it-once">Mark It Once</a></li><li><a href="#harder-build-your-own-experiment">Harder: Build Your Own Experiment</a></li><li><a href="#share-and-explain">Share and Explain</a></li><li><a href="#check-your-understanding">Check Your Understanding</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/session11-starter.ipynb" download>session11-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/s11_0.jpg" src="videos/s11_0.mp4"></video><p style="margin:8px 0 0">A short introduction. Each section below has its own video: the idea first, then the matching notebook steps. Captions are built in.</p></div>
 
 <p><strong>By the end of today you can:</strong></p>
 <ul>
+<li>explain why data is split into training, validation and test sets</li>
 <li>explain overfitting and spot it from two scores</li>
-<li>run a fair test to improve a model</li>
-<li>explain why a change helped or didn't, using what you've learned</li>
+<li>run a fair test to improve a model, and report an honest final score</li>
+<li>if you take the harder route: write a whole experiment yourself, with early stopping</li>
 </ul>
 <div class="box do">
 <p><span class="lbl">Do this first</span></p>
 <p>Open <strong>session11-starter.ipynb</strong> and run the first cell <strong>straight away</strong>. It draws all 15,000 faces, which takes about a minute.</p>
 </div>
-<h2 id="overfitting-in-action">Overfitting in Action</h2>
+<h2 id="three-piles-of-faces">Three Piles of Faces</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_1.jpg" src="videos/s11_1.mp4"></video></div>
 
-<p>Every run today prints two scores:</p>
-<ul>
-<li><strong>Training accuracy</strong>: on the faces it learned from.</li>
-<li><strong>Test accuracy</strong>: on the 3,000 faces it has never seen.</li>
-</ul>
-<div class="box do">
-<p><span class="lbl">In your notebook</span></p>
-<p>Run <strong>section 1</strong>. It trains a Mood Machine on only 500 faces, for 20 epochs, and prints both scores every 4 epochs.</p>
-</div>
-<pre class="out">epoch 4   training 53.6 %   test 40.2 %
-epoch 8   training 70.8 %   test 54.3 %
-epoch 12  training 80.4 %   test 61.8 %
-epoch 16  training 84.0 %   test 64.3 %
-epoch 20  training 85.8 %   test 65.0 %</pre>
-
-<p>The gap keeps growing. With only 500 faces to learn from, seen 20 times each, the Mood Machine starts to <strong>memorise</strong> those faces: the exact colours, sizes and tilts of each one. That helps it on the training faces and does nothing for new ones. This is <strong>overfitting</strong>.</p>
-<p>It's like the student who memorised last year's exam paper: great on that paper, worse on a new one. Training on 12,000 faces makes overfitting much harder, because there are too many to memorise.</p>
+<p>Today you'll choose settings by trying lots of them and keeping the best. That needs a third pile of faces.</p>
+<table>
+<thead>
+<tr>
+<th>Pile</th>
+<th>How many</th>
+<th>Use it to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Training</strong></td>
+<td>10,000</td>
+<td>change the weights</td>
+</tr>
+<tr>
+<td><strong>Validation</strong></td>
+<td>2,000</td>
+<td>compare settings and choose the best</td>
+</tr>
+<tr>
+<td><strong>Test</strong></td>
+<td>3,000</td>
+<td>report the final score, <strong>once</strong>, at the very end</td>
+</tr>
+</tbody>
+</table>
+<p>Why not compare settings on the test faces? If you try 20 settings and keep the one with the best test score, you have chosen the settings that suit those 3,000 faces. Some of that score is luck, and the test faces have stopped being new. Your final score would look better than the Mood Machine is. The validation faces take the knocks instead, and the test faces stay untouched until the end.</p>
 <div class="box key">
 <p><span class="lbl">Key idea</span></p>
-<p>When the training accuracy climbs well above the test accuracy, the model is overfitting. Only the test accuracy tells you how well it works on new data, so only the test accuracy counts in the challenge.</p>
+<p>Training faces teach. Validation faces choose. Test faces judge, once.</p>
 </div>
-<h2 id="the-challenge">The Challenge</h2>
+<h2 id="overfitting-in-action">Overfitting in Action</h2>
 <div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_2.jpg" src="videos/s11_2.mp4"></video></div>
 
-<p><code>train_mood_machine</code> trains a new Mood Machine with the settings you choose and prints both scores. Everyone is marked on the same 3,000 test faces, so the results are fair to compare.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 2</strong>. It trains a Mood Machine on only 500 faces, for 20 epochs, and prints the training and validation scores every 4 epochs.</p>
+</div>
+<pre class="out">epoch 4   training 53.6 %   validation 38.0 %
+epoch 8   training 70.8 %   validation 50.8 %
+epoch 12  training 80.4 %   validation 59.5 %
+epoch 16  training 84.0 %   validation 62.4 %
+epoch 20  training 85.8 %   validation 63.5 %</pre>
+
+<p>The gap keeps growing. With only 500 faces to learn from, seen 20 times each, the Mood Machine starts to <strong>memorise</strong> those faces: the exact colours, sizes and tilts of each one. That helps it on the training faces and does nothing for new ones. This is <strong>overfitting</strong>.</p>
+<p>It's like the student who memorised last year's exam paper: great on that paper, worse on a new one. Training on 10,000 faces makes overfitting much harder, because there are too many to memorise.</p>
+<h2 id="the-challenge">The Challenge</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_3.jpg" src="videos/s11_3.mp4"></video></div>
+
+<p><code>train_mood_machine</code> trains a new Mood Machine with the settings you choose and prints the training and validation scores.</p>
 <table>
 <thead>
 <tr>
@@ -89,7 +116,7 @@ epoch 20  training 85.8 %   test 65.0 %</pre>
 </tr>
 <tr>
 <td><code>training_faces</code></td>
-<td>12000</td>
+<td>10000</td>
 <td>how many training faces it learns from</td>
 </tr>
 <tr>
@@ -102,20 +129,22 @@ epoch 20  training 85.8 %   test 65.0 %</pre>
 <p><strong>The rules:</strong></p>
 <ol>
 <li>Change <strong>one</strong> setting at a time, so you know what made the difference.</li>
+<li>Compare runs by their <strong>validation</strong> score.</li>
 <li>Record <strong>every</strong> run in a table, including the ones that made it worse.</li>
 <li>Each run takes about a minute, so predict the result before you run.</li>
 </ol>
+<p>There are two routes. <strong>Route A</strong> uses <code>train_mood_machine()</code>. <strong>Route B</strong> is harder: you write the whole experiment yourself (see the last section). Both routes finish by marking the test faces once.</p>
 <h2 id="run-your-experiments">Run Your Experiments</h2>
-<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_3.jpg" src="videos/s11_3.mp4"></video></div>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_4.jpg" src="videos/s11_4.mp4"></video></div>
 
 <div class="box do">
 <p><span class="lbl">In your notebook</span></p>
-<p>Run <strong>section 2</strong> to get the starting score. Then use the YOUR TURN cell for your experiments.</p>
+<p>Run <strong>section 3</strong> to get the starting score. Then use the YOUR TURN cell for your experiments.</p>
 </div>
 <p>As an example, here's what changing the number of training faces did in our run:</p>
-<pre class="out">1000 training faces:   training 41.0 %   test 38.7 %
-3000 training faces:   training 76.8 %   test 74.0 %
-12000 training faces:  training 83.7 %   test 82.2 %</pre>
+<pre class="out">1000 training faces:   training 41.0 %   validation 37.9 %
+3000 training faces:   training 76.8 %   validation 72.3 %
+10000 training faces:  training 83.3 %   validation 81.2 %</pre>
 
 <details>
 <summary>Stuck for ideas?</summary>
@@ -128,14 +157,90 @@ epoch 20  training 85.8 %   test 65.0 %</pre>
 </ul>
 </div>
 </details>
+<h2 id="mark-it-once">Mark It Once</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_5.jpg" src="videos/s11_5.mp4"></video></div>
+
+<p>When you have chosen your best settings, put them in the <strong>section 4</strong> cell and run it. It trains a Mood Machine with those settings and marks the 3,000 test faces. That's your final score. Don't go back and tune again: if you do, the test faces are no longer new.</p>
+<p>In our run, six epochs scored 85.8% on the validation faces and <strong>85.1%</strong> on the test faces. The two are close, which is what you'd expect when the test faces were kept out of the choosing.</p>
+<h2 id="harder-build-your-own-experiment">Harder: Build Your Own Experiment</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/s11_6.jpg" src="videos/s11_6.mp4"></video></div>
+
+<p>Route B replaces <code>train_mood_machine()</code> with code you write yourself, in <strong>section 5</strong>. Follow the comments. The <a href="cheatsheet.html">cheat sheet</a> has every pattern you need.</p>
+<p>Your experiment should also <strong>keep the best epoch</strong>. After every epoch, check the validation score. If it's the best so far, save the model. Then, if later epochs get worse, you still have the best one. This is called <strong>early stopping</strong>, and in our run it mattered: the score went up, dipped, then rose again.</p>
+<pre class="out">epoch 1  validation 70.6 %
+epoch 2  validation 81.2 %
+epoch 3  validation 79.0 %
+epoch 4  validation 85.2 %
+epoch 5  validation 86.0 %</pre>
+
+<p>When you've finished, run the <strong>CHECK</strong> cell. It loads your saved model and marks it on the validation faces. Then mark the test faces once, as in Route A.</p>
+<details>
+<summary>Hint for steps 1 and 2: the loader, model, loss and optimiser</summary>
+<div>
+<p>You need a <code>DataLoader</code> of <code>train_part</code> with <code>batch_size=64</code> and <code>shuffle=True</code>, then a MoodNet, a loss function and an optimiser, as in Session 8.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="n">my_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_part</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">my_net</span> <span class="o">=</span> <span class="n">MoodNet</span><span class="p">(</span><span class="n">hidden</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">my_opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">my_net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">my_loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">best_val</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<details>
+<summary>Hint for step 4: one epoch at a time</summary>
+<div>
+<p>You need two loops, one inside the other: <code>for epoch in range(1, 6):</code> on the outside, and <code>for faces, moods in my_loader:</code> inside it. The inside loop is the five-step training loop. After it, still inside the epoch loop, work out the validation score.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="n">my_net</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">faces</span><span class="p">,</span> <span class="n">moods</span> <span class="ow">in</span> <span class="n">my_loader</span><span class="p">:</span>
+        <span class="n">faces</span><span class="p">,</span> <span class="n">moods</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">moods</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">my_loss_fn</span><span class="p">(</span><span class="n">my_net</span><span class="p">(</span><span class="n">faces</span><span class="p">),</span> <span class="n">moods</span><span class="p">)</span>
+        <span class="n">my_opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">my_opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">check_accuracy</span><span class="p">(</span><span class="n">my_net</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"epoch"</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="s2">" validation"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">"%"</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
+<details>
+<summary>Hint for step 4d: keep the best epoch</summary>
+<div>
+<p>Use an <code>if</code> to compare <code>val</code> with <code>best_val</code>. This goes at the end of the epoch loop, at the same indent as <code>val = ...</code>.</p>
+<details>
+<summary>Show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code>    <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">best_val</span><span class="p">:</span>
+        <span class="n">best_val</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">my_net</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">"my_best.pth"</span><span class="p">)</span>
+</code></pre></div>
+
+</div>
+</details>
+</div>
+</details>
 <h2 id="share-and-explain">Share and Explain</h2>
-<p>Put your best test accuracy and its settings on the class leaderboard. Then explain to someone else why you think your change worked. Use what you know about the learning rate, epochs, the amount of training data and overfitting.</p>
+<p>Put your test accuracy, your route and your settings on the class leaderboard. Then explain to someone else why you think your change worked. Use what you know about the learning rate, epochs, the amount of training data and overfitting.</p>
+<p>Want to go further? The <a href="olympiad.html">Olympiad in AI</a> page shows the next ideas: a network that sees shapes, and better ways to measure a model than accuracy alone.</p>
 <h2 id="check-your-understanding">Check Your Understanding</h2>
 <div class="box exam">
 <p><span class="lbl">Check your understanding</span></p>
 <p><strong>1.</strong> A system that spots plant diseases from photos scores 96% on its test set. When farmers use it with their own photos, it does much worse. Suggest <strong>two</strong> reasons why. <span class="marks">2 points</span></p>
 <p><strong>2.</strong> Explain the difference between machine learning and deep learning. <span class="marks">2 points</span></p>
-<p><strong>3.</strong> A heating system learns to save energy. It changes the settings and gets a score based on energy used and how comfortable people say they are. Which kind of learning is this? Explain why it suits the task. <span class="marks">3 points</span></p>
+<p><strong>3.</strong> Explain why a model's settings are chosen using a validation set rather than the test set. <span class="marks">2 points</span></p>
+<p><strong>4.</strong> A heating system learns to save energy. It changes the settings and gets a score based on energy used and how comfortable people say they are. Which kind of learning is this? Explain why it suits the task. <span class="marks">3 points</span></p>
 </div>
 <details>
 <summary>What a full answer includes</summary>
@@ -148,7 +253,8 @@ epoch 20  training 85.8 %   test 65.0 %</pre>
 <li>the test photos came from the same place as the training photos, so the test didn't show the problem</li>
 </ul>
 <p><strong>2</strong> Machine learning: systems that learn from data instead of following rules a person wrote. Deep learning: a kind of machine learning that uses neural networks with many hidden layers.</p>
-<p><strong>3</strong> Reinforcement learning: the system takes actions and gets a reward (the score), not right answers. It suits the task because nobody knows the best setting for every situation, so it has to learn by trying, and it can keep adjusting as the weather and the building's use change.</p>
+<p><strong>3</strong> If settings are chosen because they score well on the test set, the settings have been tuned to those particular examples, so the test set is no longer unseen data. The final test score would then overestimate how well the model works on new data. Choosing on a validation set keeps the test set as a fair, unseen check.</p>
+<p><strong>4</strong> Reinforcement learning: the system takes actions and gets a reward (the score), not right answers. It suits the task because nobody knows the best setting for every situation, so it has to learn by trying, and it can keep adjusting as the weather and the building's use change.</p>
 </div>
 </details>
   <div class="prevnext"><a class="pn prev" href="session10.html"><small>Back</small>Catch It Out</a><a class="pn next" href="glossary.html"><small>Next</small>Glossary</a></div>

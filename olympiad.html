@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Olympiad in AI (IOAI) | The Mood Machine, Year 13</title>
+<link rel="icon" href="assets/img/mark.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="olympiad">
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
+  <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat Sheet</a><a href="olympiad.html" class="here">Olympiad</a></nav>
+</header>
+<div class="hero"><div class="hero-in">
+  <div class="kicker">Going further</div>
+  <h1>Olympiad in AI (IOAI)</h1>
+  <p class="lede">The Mood Machine has given you the core of how neural networks learn. This page is for anyone who wants to go further, towards the UK Olympiad in AI and the International Olympiad in Artificial Intelligence. It shows what they ask for, what you've already covered, and the next ideas, starting with a notebook that takes the Mood Machine from 81% to 96%.</p>
+  <div class="pills"><span class="pill">Optional extension</span><span class="pill">Notebook: olympiad-cnn-starter.ipynb</span></div>
+</div></div>
+<div class="page with-toc p-olympiad">
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#what-the-olympiads-are">What the Olympiads Are</a></li><li><a href="#what-you-ve-already-done">What You've Already Done</a></li><li><a href="#a-network-that-sees-shapes">A Network That Sees Shapes</a></li><li><a href="#augmentation">Augmentation</a></li><li><a href="#beyond-accuracy">Beyond Accuracy</a></li><li><a href="#next-ideas-to-learn">Next Ideas to Learn</a></li><li><a href="#resources">Resources</a></li></ol></div></aside>
+  <main><div class="dl"><a href="downloads/olympiad-cnn-starter.ipynb" download>olympiad-cnn-starter.ipynb</a></div>
+
+<div class="video"><video controls preload="metadata" playsinline poster="videos/o_0.jpg" src="videos/o_0.mp4"></video><p style="margin:8px 0 0">A short introduction. The sections with a notebook each have their own video. Captions are built in.</p></div>
+
+<h2 id="what-the-olympiads-are">What the Olympiads Are</h2>
+<p>The <strong>International Olympiad in Artificial Intelligence (IOAI)</strong> is the AI version of the maths and informatics olympiads, for school students. It started in Bulgaria in 2024. The 2026 Olympiad, in Astana, Kazakhstan, had about 500 students from more than 100 countries and territories.</p>
+<p>Medals come from the <strong>individual contest</strong>: two days, about six hours each. A task usually gives you a dataset, a starter notebook with a basic solution, and a score to beat. You have to improve the model yourself, in machine learning, computer vision or language tasks. There's also a team challenge, which doesn't count towards medals.</p>
+<p>The <strong>UK Olympiad in AI (UKOAI)</strong> chooses the UK team. In 2026 the route was:</p>
+<ol>
+<li>an online UKOAI test, plus an exam on programming and maths for deep learning</li>
+<li>an interview with a UKOAI mentor, testing problem-solving</li>
+<li>a residential training camp at King's College, Cambridge, for the strongest students</li>
+<li>four students chosen to represent the UK</li>
+</ol>
+<p>Dates, eligibility and how to register change each year, so check <strong><a href="https://ukoai.org">ukoai.org</a></strong> and ask your teacher.</p>
+<div class="box key">
+<p><span class="lbl">The honest picture</span></p>
+<p>This unit gives you the foundations, but it isn't olympiad preparation on its own. Olympiad students write whole experiments from a blank notebook, know a wide range of methods, and are comfortable with the maths behind them. The rest of this page shows the next steps.</p>
+</div>
+<h2 id="what-you-ve-already-done">What You've Already Done</h2>
+<p>The IOAI publishes a syllabus listing every topic it can set. Here's how the Mood Machine maps onto it.</p>
+<table>
+<thead>
+<tr>
+<th>IOAI topic</th>
+<th>Where you met it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PyTorch basics and tensors</td>
+<td>Sessions 2 and 3</td>
+</tr>
+<tr>
+<td>Linear regression and gradient descent</td>
+<td>Sessions 4 and 5</td>
+</tr>
+<tr>
+<td>Perceptrons, activation functions (ReLU)</td>
+<td>Session 3</td>
+</tr>
+<tr>
+<td>Multi-layer perceptrons</td>
+<td>Session 7</td>
+</tr>
+<tr>
+<td>Loss functions: mean squared error, cross-entropy</td>
+<td>Sessions 4 and 8</td>
+</tr>
+<tr>
+<td>Back propagation</td>
+<td>Sessions 8 and 9</td>
+</tr>
+<tr>
+<td>Mini-batch gradient descent, Adam, learning rates</td>
+<td>Sessions 5, 6 and 8</td>
+</tr>
+<tr>
+<td>Normalisation, splitting data</td>
+<td>Sessions 6 and 11</td>
+</tr>
+<tr>
+<td>Overfitting, hyperparameter tuning, early stopping</td>
+<td>Session 11</td>
+</tr>
+</tbody>
+</table>
+<p>That's the core of the "neural networks" part of the syllabus. Not yet covered: convolutional networks, augmentation, metrics beyond accuracy, classical machine learning, pretrained models and transformers. The first three are in this page's notebook.</p>
+<h2 id="a-network-that-sees-shapes">A Network That Sees Shapes</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/o_1.jpg" src="videos/o_1.mp4"></video></div>
+
+<p>In Session 7, Flatten unrolled each face into one long list, and MoodNet was never told which pixels were next to each other. A <strong>convolutional neural network (CNN)</strong> keeps the picture as a picture.</p>
+<p>A <strong>convolutional layer</strong> slides a small grid of weights, called a <strong>filter</strong>, across the image. At every position it multiplies and adds, just like a neuron, and writes one number into a new image. The same 9 weights are used at every position, so a filter that finds the edge of a mouth finds it anywhere in the picture.</p>
+<figure style="max-width:520px"><img src="assets/img/oly_5.png" alt="A face and the same face after a filter: bright and dark lines show where the picture changes from top to bottom"><figcaption>A filter set by hand. It responds where the picture changes from dark to light going down: the edges of the face, eyes and mouth.</figcaption></figure>
+
+<p>In a CNN the filters aren't set by hand. They're learned, like any other weights. After each convolutional layer, <strong>max pooling</strong> keeps the biggest value in each 2 by 2 square, halving the width and height. The network ends with Flatten and Linear layers, as MoodNet did.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Open <strong>olympiad-cnn-starter.ipynb</strong> and run the first cell straight away. Run <strong>sections 1 to 4</strong>. In section 2, do the YOUR TURN cell: change the filter so it finds edges from left to right.</p>
+</div>
+<pre class="out">MoodNet:  820,874 numbers to learn   validation 81.2 %
+MoodCNN:  136,874 numbers to learn   validation 95.8 %</pre>
+
+<p>The CNN has a sixth of the numbers to learn, and scores much higher, because it doesn't waste weights relearning the same shape in every position.</p>
+<h2 id="augmentation">Augmentation</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/o_2.jpg" src="videos/o_2.mp4"></video></div>
+
+<p>Turn the faces upside down, and the CNN fails as badly as MoodNet did in Session 10: <strong>9.7%</strong>. It has never seen an upside-down face.</p>
+<p><strong>Augmentation</strong> changes the training pictures as training goes on, so the model sees more variety without needing new data. In section 5, about half of every batch is turned upside down before the network sees it.</p>
+<pre class="out">                          upright    upside down
+MoodCNN                   95.8 %     9.7 %
+MoodCNN + augmentation    88.3 %     91.2 %</pre>
+
+<p>Upside-down faces jump from 9.7% to 91.2%. Upright faces drop a little, because the same filters now have to handle both. The YOUR TURN cell lets you win some of that back, for example by training for longer.</p>
+<div class="box think">
+<p><span class="lbl">Think</span></p>
+<p>Which augmentations would help a model that reads real photos of faces? Which would harm it?</p>
+</div>
+<details>
+<summary>Some answers</summary>
+<div>
+<p>Small rotations, flipping left to right, small changes of brightness and cropping all help, because real photos vary in those ways. Turning a real face upside down rarely helps, because real photos are almost never upside down. Flipping left to right would harm a model that has to tell a left wink from a right wink. Good augmentation copies the variety the model will meet, not every possible change.</p>
+</div>
+</details>
+<h2 id="beyond-accuracy">Beyond Accuracy</h2>
+<div class="video sm"><video controls preload="metadata" playsinline poster="videos/o_3.jpg" src="videos/o_3.mp4"></video></div>
+
+<p>Accuracy is one number for all ten moods. A <strong>confusion matrix</strong> shows every pair of right mood and guessed mood. The diagonal is right answers; anything off the diagonal is a mix-up.</p>
+<figure style="max-width:460px"><img src="assets/img/oly_14.png" alt="A 10 by 10 grid with a dark diagonal; the main mix-ups are Winking read as Happy and Sad read as Angry or Neutral"><figcaption>MoodCNN with augmentation on the validation faces. The main mix-up is Winking read as Happy.</figcaption></figure>
+
+<p>From the matrix you can work out three scores for each mood:</p>
+<ul>
+<li><strong>Precision</strong>: of the faces it called Happy, how many were Happy?</li>
+<li><strong>Recall</strong>: of the faces that were Happy, how many did it find?</li>
+<li><strong>F1</strong>: one score that balances the two: 2 × precision × recall ÷ (precision + recall).</li>
+</ul>
+<pre class="out">Happy     precision 0.72   recall 0.88   F1 0.79
+Winking   precision 0.93   recall 0.48   F1 0.64</pre>
+
+<p>Winking has high precision but low recall: when the network says Winking it's usually right, but it misses half the winking faces, mostly calling them Happy. Olympiad tasks are often scored with F1 or similar, especially when some classes are rarer than others.</p>
+<div class="box do">
+<p><span class="lbl">In your notebook</span></p>
+<p>Run <strong>section 6</strong>. Then use the last YOUR TURN cell to improve MoodCNN. Change one thing at a time and compare on the validation faces, as in Session 11.</p>
+</div>
+<h2 id="next-ideas-to-learn">Next Ideas to Learn</h2>
+<p>These are on the IOAI syllabus but not in the notebook. Each is worth a few evenings with the resources below.</p>
+<p><strong>Classical machine learning.</strong> Before neural networks, and still often the right choice for tables of data: <strong>k-nearest neighbours</strong> (label a new example by its closest training examples), <strong>decision trees</strong> and <strong>random forests</strong> (a series of yes/no questions), <strong>k-means</strong> (find groups without labels: unsupervised learning) and <strong>PCA</strong> (squash many features into a few). Python's scikit-learn library has all of them, in a few lines each. It isn't installed on the school PCs, so ask your teacher if you'd like it.</p>
+<p><strong>Pretrained models and fine-tuning.</strong> Big networks such as ResNet have already been trained on millions of photos. Their early layers have learned useful filters for edges, textures and shapes. <strong>Fine-tuning</strong> means taking one of these networks and training only its last layers on your own data. It's how most real image tasks are solved, and how most olympiad image tasks are approached.</p>
+<p><strong>Attention and transformers.</strong> The networks behind chatbots and translation. <strong>Attention</strong> lets every word in a sentence (or every patch of an image) look at every other one and decide which matter most for it. A <strong>transformer</strong> stacks many attention layers. The IOAI expects you to understand how attention works for text and images.</p>
+<p><strong>The maths.</strong> The olympiad exams test maths for deep learning. The most useful topics are differentiation and the chain rule (the maths behind back propagation), matrices and matrix multiplication (every layer is one), and logarithms and probability (behind softmax and cross-entropy).</p>
+<h2 id="resources">Resources</h2>
+<p>Every resource here is free.</p>
+<ul>
+<li><a href="https://ioai-official.org/wp-content/uploads/2025/10/Syllabus.pdf">IOAI syllabus</a>: the official list of topics</li>
+<li><a href="https://ioai-official.org/resources/">IOAI educational resources</a>: courses and past national olympiad problems</li>
+<li><a href="https://github.com/IOAI-official/IOAI-2025">IOAI 2025 tasks and solutions</a>: real olympiad problems, with data, to try yourself</li>
+<li><a href="https://ukoai.org">UK Olympiad in AI</a>: dates and how to enter</li>
+<li><a href="https://docs.pytorch.org/tutorials/">PyTorch tutorials</a>: the official guides, including CNNs and fine-tuning</li>
+<li><a href="https://www.3blue1brown.com/topics/neural-networks">3Blue1Brown: Neural networks</a>: visual explanations of back propagation, attention and transformers</li>
+<li><a href="https://scikit-learn.org/stable/getting_started.html">scikit-learn tutorials</a>: classical machine learning</li>
+<li><a href="https://course.fast.ai/">fast.ai Practical Deep Learning</a>: a free course that starts with real projects</li>
+</ul>
+  <div class="prevnext"><a class="pn prev" href="cheatsheet.html"><small>Back</small>PyTorch Cheat Sheet</a></div>
+  </main>
+</div>
+<footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
