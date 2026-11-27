@@ -20,7 +20,7 @@
   <div class="pills"><span class="pill">Optional extension</span><span class="pill">Three sessions</span><span class="pill">Notebook: double-agent-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-ioai-task">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#the-task">The Task</a></li><li><a href="#real-task-and-our-version">Real Task and Our Version</a></li><li><a href="#before-you-start-the-new-idea">Before You Start: The New Idea</a></li><li><a href="#levels-and-hints">Levels and Hints</a></li><li><a href="#contest">Contest</a></li><li><a href="#why-this-matters">Why This Matters</a></li><li><a href="#credits">Credits</a></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#the-task">The Task</a></li><li><a href="#what-you-need-first">What You Need First</a></li><li><a href="#before-you-start-the-new-idea">Before You Start: The New Idea</a></li><li><a href="#how-the-notebook-helps-you">How the Notebook Helps You</a></li><li><a href="#warm-up-one-face-by-hand">Warm-Up: One Face by Hand</a></li><li><a href="#levels-and-hints">Levels and Hints</a></li><li><a href="#when-something-goes-wrong">When Something Goes Wrong</a></li><li><a href="#contest">Contest</a></li><li><a href="#why-this-matters">Why This Matters</a></li><li><a href="#credits">Credits</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/double-agent-faces.zip" download>double-agent-faces.zip</a></div>
 
 <p>The zip holds four files. Keep them together in one folder:</p>
@@ -110,49 +110,43 @@
 </tbody>
 </table>
 <p>A change that doesn't work still counts towards the average size. If your method fails on a face, send no change at all.</p>
-<h2 id="real-task-and-our-version">Real Task and Our Version</h2>
+<h2 id="what-you-need-first">What You Need First</h2>
+<p>You'll use something from most of the sessions. If any of these feel shaky, look back before you start.</p>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>IOAI 2026: Double Agent Dilemma</th>
-<th>Double Agent Faces</th>
+<th>You need to</th>
+<th>Where you learned it</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>The two models</td>
-<td>ResNet-18 (a CNN) and ViT-Tiny (a transformer)</td>
-<td>MoodCNN and MoodNet</td>
+<td>slice a tensor, like <code>picture[:, 10:18, 4:12]</code></td>
+<td>Session 2</td>
 </tr>
 <tr>
-<td>Pictures</td>
-<td>photos from ImageNet, 1,000 classes</td>
-<td>emoji faces, 10 moods</td>
+<td>use <code>requires_grad=True</code>, <code>loss.backward()</code> and an optimiser</td>
+<td>Sessions 5 and 8</td>
 </tr>
 <tr>
-<td>Faces to change</td>
-<td>100 practice, 100 public test, 200 hidden</td>
-<td>100 practice, 100 test, 100 contest</td>
+<td>read cross-entropy as "how wrong is this guess?"</td>
+<td>Session 8</td>
 </tr>
 <tr>
-<td>Computer</td>
-<td>one large GPU</td>
-<td>a school laptop</td>
+<td>follow how gradients flow back to a value</td>
+<td>Session 9</td>
 </tr>
 <tr>
-<td>Time limit</td>
-<td>12 minutes</td>
-<td>5 minutes</td>
+<td>pick settings on one set of faces and check them once on another</td>
+<td>Session 11</td>
 </tr>
 <tr>
-<td>Score</td>
-<td>success times a penalty for size</td>
-<td>the same, with size measured in brightness steps</td>
+<td>know how MoodCNN differs from MoodNet</td>
+<td>Olympiad page</td>
 </tr>
 </tbody>
 </table>
-<p>The real task asked contestants to split a CNN from a transformer. Our version splits a CNN from a network that flattens the picture. The idea and the method are the same.</p>
+<p>The <a href="cheatsheet.html">cheat sheet</a> has all of these in one place.</p>
 <h2 id="before-you-start-the-new-idea">Before You Start: The New Idea</h2>
 <p>In every session so far, the <strong>weights</strong> learned and the picture stayed the same. In this task it's the other way round. The agents' weights are frozen, and the <strong>change</strong> to the picture is the value that learns.</p>
 <div class="hl"><pre><span></span><code><span class="n">change</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># the change learns</span>
@@ -165,36 +159,82 @@
 </code></pre></div>
 
 <p>The first part is small when the agent you <code>keep</code> is sure of the right mood. The minus sign means the second part <em>helps</em> when the agent you <code>fool</code> is far from the right mood. Going downhill does both at once.</p>
+<h2 id="how-the-notebook-helps-you">How the Notebook Helps You</h2>
+<p>Every level follows the same pattern, so you never start from an empty cell:</p>
+<ol>
+<li><strong>Try it on one face.</strong> A cell does the idea by hand on a single face, so you can see what happens before you write a function.</li>
+<li><strong>Write the function.</strong> You get a comment guide, or the outline with a few gaps (<code>______</code>) to fill in.</li>
+<li><strong>CHECK.</strong> <code>check(your_function)</code> tries it on 10 faces. It tells you if the function errors, returns the wrong shape, still returns no change, or is too slow, and it shows our numbers on the same 10 faces.</li>
+<li><strong>Score it</strong> on all 100 practice faces, and write the result in the Experiment Log.</li>
+</ol>
+<p>The cells are labelled as in the sessions: <strong>PREDICT</strong>, <strong>CHANGE ONE THING</strong>, <strong>FINISH THE LINES</strong> and <strong>WRITE IT YOURSELF</strong>.</p>
+<h2 id="warm-up-one-face-by-hand">Warm-Up: One Face by Hand</h2>
+<p>Section 3 of the notebook adds random speckles to one face. Small speckles fool nobody. Big ones can split the agents, but at size 77 out of 255 anyone can see them. Random changes don't work, so you need a method that chooses which pixels to change.</p>
 <h2 id="levels-and-hints">Levels and Hints</h2>
-<p>Work through the levels in the notebook. Each one builds on the last. The scores are what our versions got on the practice faces, so you know if you're on track. Open a hint only when you're stuck, one at a time.</p>
+<p>Work through the levels in order. The scores are what our versions got on the practice faces, so you know if you're on track. Open "In plain English" if you're not sure what the code has to do. Open a hint only when you're stuck, one at a time.</p>
 <h3>Level 1: Cover a Square (about 0.54)</h3>
-<p>No gradients yet. Paint a small square of the face in its own average colour, and test whether that splits the agents. Try every position and keep the smallest change that works.</p>
+<p>No gradients yet. Paint a small square of the face in its own average colour, and test whether that splits the agents. First move one square by hand (squares over the mouth are a good place to start). Then write <code>cover_square</code>, which tries every position and keeps the smallest change that works.</p>
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Start with "no change". If nothing works, that's what you send.</li>
+<li>For each square size, smallest first:</li>
+<li>For each position of the square:</li>
+<li>Make a change that turns that square into one flat colour, and leaves the rest of the face alone.</li>
+<li>If the change splits the agents the right way, and it's the smallest so far, remember it.</li>
+<li>When a square size has worked, stop and send the smallest change you found.</li>
+</ol>
+</div>
+</details>
 <details>
 <summary>Hint 1: where to start</summary>
 <div>
-<p>Use three loops: one over square sizes (smallest first), one over <code>top</code> and one over <code>left</code>. Inside, build a change that is zero everywhere except the square. Then call <code>works(picture, mood, keep, fool, change)</code>.</p>
+<p>Use three loops: one over square sizes (smallest first), one over <code>top</code> and one over <code>left</code>. Inside, build a change that is zero everywhere except the square. The one-square cell above the function has the code for a single square. Then call <code>works(picture, mood, keep, fool, change)</code>.</p>
 <details>
-<summary>Hint 2: building the change</summary>
+<summary>Hint 2: show the loops</summary>
 <div>
-<div class="hl"><pre><span></span><code><span class="n">change</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
-<span class="n">patch</span> <span class="o">=</span> <span class="n">picture</span><span class="p">[:,</span> <span class="n">top</span><span class="p">:</span><span class="n">top</span> <span class="o">+</span> <span class="n">side</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">left</span> <span class="o">+</span> <span class="n">side</span><span class="p">]</span>
-<span class="n">flat</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># average colour</span>
-<span class="n">change</span><span class="p">[:,</span> <span class="n">top</span><span class="p">:</span><span class="n">top</span> <span class="o">+</span> <span class="n">side</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">left</span> <span class="o">+</span> <span class="n">side</span><span class="p">]</span> <span class="o">=</span> <span class="n">flat</span> <span class="o">-</span> <span class="n">patch</span>
+<div class="hl"><pre><span></span><code><span class="n">best</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
+<span class="n">best_size</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">top</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">33</span> <span class="o">-</span> <span class="n">side</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">left</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">33</span> <span class="o">-</span> <span class="n">side</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="c1"># the four lines from the one-square cell go here</span>
+            <span class="k">if</span> <span class="n">works</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">fool</span><span class="p">,</span> <span class="n">change</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">best_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">size</span><span class="p">(</span><span class="n">change</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">best_size</span><span class="p">:</span>
+                    <span class="n">best</span> <span class="o">=</span> <span class="n">change</span>
+                    <span class="n">best_size</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">change</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">best_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">best</span>
+<span class="k">return</span> <span class="n">best</span>
 </code></pre></div>
 
-<p><code>flat - patch</code> is what you add to turn the square into one flat colour.</p>
 </div>
 </details>
 </div>
 </details>
 <h3>Level 2: Let the Gradients Choose (about 0.61, then 0.68)</h3>
-<p>Fill in the four gaps in <code>nudge</code>. Each gap is something you've written before, in a new place. Then use the CHANGE ONE THING cell to try a smaller learning rate with more steps.</p>
+<p>First watch the gradients work on one face, step by step: Agent C changes its mind at step 26. Then fill in the four gaps in <code>nudge</code>, which does the same for any face and either type. Then use the CHANGE ONE THING cell to try a smaller learning rate with more steps.</p>
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Start with a change of all zeros that is allowed to learn.</li>
+<li>Repeat for a set number of steps:</li>
+<li>If the change already splits the agents, stop.</li>
+<li>Add the change to the face and show it to both agents.</li>
+<li>Work out the loss: small when <code>keep</code> is sure of the right mood and <code>fool</code> isn't.</li>
+<li>Find the gradients and let Adam move the change a little downhill.</li>
+<li>Send the change.</li>
+</ol>
+</div>
+</details>
 <details>
 <summary>Hint 1: the four gaps</summary>
 <div>
 <ol>
 <li>The change has to learn, so it needs <code>requires_grad=True</code>.</li>
-<li>The loss is the <code>keep</code> part <strong>minus</strong> the <code>fool</code> part.</li>
+<li>The loss is the <code>keep</code> cross-entropy <strong>minus</strong> the <code>fool</code> cross-entropy. The step-by-step cell above has the same line, with <code>agent_m</code> and <code>agent_c</code> in place of <code>keep</code> and <code>fool</code>.</li>
 <li>and 4. After <code>zero_grad()</code> come the same two steps as every training loop since Session 8.</li>
 </ol>
 <details>
@@ -215,60 +255,84 @@
 <p>Why does a smaller learning rate with more steps give a better score, when it fools the agents no more often?</p>
 </div>
 <h3>Level 3: Make It Smaller (about 0.71)</h3>
-<p>When a change works, a fraction of it might work too. Halve the gap each time to find the smallest fraction that still works. This is the same search you'd use to guess a number between 1 and 100 in seven goes.</p>
+<p>When a change works, a fraction of it might work too. The PREDICT cell tests this on one face: half the change still works, and so does a quarter, but a tenth doesn't. <code>make_smaller</code> finds the smallest fraction that still works by halving the gap each time, the same way you'd guess a number between 1 and 100 in seven goes. Fill in its two gaps, then write <code>nudge_then_shrink</code> from the comment guide.</p>
 <details>
-<summary>Hint 1: the search</summary>
+<summary>In plain English</summary>
 <div>
-<p>Keep two numbers, <code>low = 0.0</code> (no change, doesn't work) and <code>high = 1.0</code> (the whole change, works). Try the middle. If <code>change * middle</code> works, it becomes the new <code>high</code>. If not, it becomes the new <code>low</code>. After 12 goes, <code>high</code> is very close to the smallest fraction that works.</p>
+<p><code>make_smaller</code>:</p>
+<ol>
+<li>You know the whole change works and no change doesn't.</li>
+<li>Try the fraction halfway between.</li>
+<li>If it still works, the answer is that fraction or smaller, so move the top down. If it doesn't, move the bottom up.</li>
+<li>After 12 tries, send the smallest fraction you know works.</li>
+</ol>
+<p><code>nudge_then_shrink</code>:</p>
+<ol>
+<li>Make a change with <code>nudge</code>, using small careful steps.</li>
+<li>If it doesn't work, send no change at all.</li>
+<li>If it does, make it smaller and send that.</li>
+</ol>
+</div>
+</details>
 <details>
-<summary>Hint 2: show the loop</summary>
+<summary>Hint 1: the two gaps</summary>
 <div>
-<div class="hl"><pre><span></span><code><span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
-    <span class="n">middle</span> <span class="o">=</span> <span class="p">(</span><span class="n">low</span> <span class="o">+</span> <span class="n">high</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="k">if</span> <span class="n">works</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">fool</span><span class="p">,</span> <span class="n">change</span> <span class="o">*</span> <span class="n">middle</span><span class="p">):</span>
-        <span class="n">high</span> <span class="o">=</span> <span class="n">middle</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">low</span> <span class="o">=</span> <span class="n">middle</span>
-<span class="k">return</span> <span class="n">change</span> <span class="o">*</span> <span class="n">high</span>
+<p>Both gaps are <code>middle</code>. If <code>change * middle</code> works, it becomes the new <code>high</code>. If not, it becomes the new <code>low</code>.</p>
+</div>
+</details>
+<details>
+<summary>Hint 2: nudge_then_shrink</summary>
+<div>
+<p>Call <code>nudge</code> with <code>steps=200, lr=0.002</code>. If the result doesn't work, return <code>torch.zeros_like(picture)</code>, because a failed change still adds to your average size. Otherwise return <code>make_smaller(...)</code> of it.</p>
+<details>
+<summary>Hint 3: show the code</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">nudge_then_shrink</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">fool</span><span class="p">):</span>
+    <span class="n">change</span> <span class="o">=</span> <span class="n">nudge</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">fool</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.002</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">works</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">fool</span><span class="p">,</span> <span class="n">change</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">make_smaller</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">fool</span><span class="p">,</span> <span class="n">change</span><span class="p">)</span>
 </code></pre></div>
 
 </div>
 </details>
-</div>
-</details>
-<details>
-<summary>Hint 3: nudge_then_shrink</summary>
-<div>
-<p>Call <code>nudge</code> with <code>steps=200, lr=0.002</code>. If the result doesn't work, return <code>torch.zeros_like(picture)</code>, because a failed change still adds to your average size. Otherwise return <code>make_smaller(...)</code> of it.</p>
 </div>
 </details>
 <h3>Level 4: Keep Squeezing (about 0.84)</h3>
-<p>Level 3 stops as soon as a change works. Level 4 keeps going. Every step, if the change works, remember it and use a loss that only makes it smaller. If it stops working, use the Level 2 loss to make it work again. At the end, keep the smallest change that worked.</p>
+<p>Level 3 stops as soon as a change works. Level 4 keeps going. The outline is written for you: fill in the two losses and the ending.</p>
 <details>
-<summary>Hint 1: two losses, one loop</summary>
+<summary>In plain English</summary>
 <div>
-<p>Start from a copy of <code>nudge</code>, then delete the <code>break</code>. Inside the loop, use an <code>if</code>: when <code>works(...)</code> is True, <code>loss = (change ** 2).sum()</code>, which is smallest when every pixel change is 0. Otherwise, use the Level 2 loss.</p>
+<ol>
+<li>Start with a change of all zeros that can learn, and no "best" change yet.</li>
+<li>Every step, check whether the change works.</li>
+<li>If it works: if it's the smallest working change so far, keep a copy. Then use a loss that only makes the change smaller.</li>
+<li>If it doesn't work: use the Level 2 loss to make it work again.</li>
+<li>Find the gradients and take a step.</li>
+<li>At the end, if nothing ever worked, send no change. Otherwise make the best change a little smaller with <code>make_smaller</code>, and send that.</li>
+</ol>
+<p>The change goes back and forth across the line between working and not working, getting smaller each time.</p>
+</div>
+</details>
 <details>
-<summary>Hint 2: remembering the best</summary>
+<summary>Hint 1: the two losses</summary>
 <div>
-<p>Before the loop, set <code>best = None</code>. Inside the "it works" branch:</p>
-<div class="hl"><pre><span></span><code><span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">size</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">(</span><span class="n">best</span><span class="p">):</span>
-    <span class="n">best</span> <span class="o">=</span> <span class="n">change</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+<p>When it works, you want a loss that is smallest when every number in the change is 0. Squaring makes every number positive, and adding them up gives one number: <code>(change ** 2).sum()</code>. When it doesn't work, use the same loss as <code>nudge</code>.</p>
+<details>
+<summary>Hint 2: the ending</summary>
+<div>
+<div class="hl"><pre><span></span><code><span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">make_smaller</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="n">mood</span><span class="p">,</span> <span class="n">keep</span><span class="p">,</span> <span class="n">fool</span><span class="p">,</span> <span class="n">best</span><span class="p">)</span>
 </code></pre></div>
 
-<p><code>.clone()</code> takes a copy. Without it, <code>best</code> would keep changing as <code>change</code> does.</p>
+<p>Replace the last line of the outline with these three.</p>
 </div>
 </details>
-</div>
-</details>
-<details>
-<summary>Hint 3: the end of the function</summary>
-<div>
-<p>If <code>best</code> is still <code>None</code>, nothing ever worked, so return <code>torch.zeros_like(picture)</code>. Otherwise return <code>make_smaller(picture, mood, keep, fool, best)</code>. Running Level 3's search at the end squeezes out a little more.</p>
 </div>
 </details>
 <h3>Level 5: Your Own Ideas</h3>
-<p>Our best is 0.844. Look at the faces where Type A fails: it's always harder to fool the CNN while keeping MoodNet right. Change one thing at a time, and write every attempt in the Experiment Log in the notebook.</p>
+<p>Our best is 0.844. Type A, fooling the CNN while keeping MoodNet right, is always the harder one. The notebook lists the faces where it fails: in our run, five of the seven were <strong>Cool</strong>, the face with sunglasses. Change one thing at a time, and write every attempt in the Experiment Log.</p>
 <ul>
 <li>Give Type A more steps or a different learning rate than Type B. Inside your function, <code>keep is agent_m</code> tells you it's Type A.</li>
 <li>Weight the loss: <code>2 * F.cross_entropy(keep(...))</code> protects the agent you keep; <code>2 * F.cross_entropy(fool(...))</code> pushes harder on the one you fool.</li>
@@ -276,10 +340,71 @@
 <li>Change only part of the picture, such as the middle of the face.</li>
 </ul>
 <p>Check the time as well as the score. A method that takes more than 5 minutes for 100 faces can't be entered.</p>
+<h2 id="when-something-goes-wrong">When Something Goes Wrong</h2>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SyntaxError</code> or <code>NameError: name '______' is not defined</code></td>
+<td>a gap is still there</td>
+<td>fill in every <code>______</code></td>
+</tr>
+<tr>
+<td><code>NameError: name 'nudge' is not defined</code></td>
+<td>the cell that defines it hasn't run, or has an error</td>
+<td>run that cell and fix any error first</td>
+</tr>
+<tr>
+<td>CHECK says every change is zero</td>
+<td>the function still ends with the starter's <code>return torch.zeros_like(picture)</code></td>
+<td>replace that line with your own ending</td>
+</tr>
+<tr>
+<td>The score is lower than CHECK suggested</td>
+<td>CHECK only uses 10 faces</td>
+<td>normal: trust the score on all 100</td>
+</tr>
+<tr>
+<td><code>element 0 of tensors does not require grad</code></td>
+<td>the change can't learn</td>
+<td>add <code>requires_grad=True</code> when you make it</td>
+</tr>
+<tr>
+<td>Type A and Type B both fail on every face</td>
+<td><code>keep</code> and <code>fool</code> are swapped in the loss</td>
+<td><code>keep</code> goes in the part before the minus sign</td>
+</tr>
+<tr>
+<td>Changes work but the size is huge</td>
+<td>the learning rate is too big, or the change isn't made smaller</td>
+<td>try <code>lr=0.002</code>, then add <code>make_smaller</code></td>
+</tr>
+<tr>
+<td>Over the 5-minute limit</td>
+<td>too many steps or squares</td>
+<td>fewer steps, or stop early once a change works</td>
+</tr>
+</tbody>
+</table>
 <h2 id="contest">Contest</h2>
+<p>Before the contest:</p>
+<ul>
+<li>Your best method scores well on the practice faces and passes CHECK.</li>
+<li>You've scored it <strong>once</strong> on the test faces.</li>
+<li>It takes well under 300 seconds for 100 faces.</li>
+<li><code>my_best</code> in the contest cell names your best function, with no brackets.</li>
+<li><code>MY_NAME</code> is your name, with no spaces.</li>
+</ul>
+<p>On the day:</p>
 <ol>
-<li>Pick your best method using the practice faces, and score it <strong>once</strong> on the test faces.</li>
-<li>Put your name and the contest <code>FIRST_SEED</code> into the last cell of the notebook, and run it.</li>
+<li>Your teacher writes the contest <code>FIRST_SEED</code> on the board.</li>
+<li>Put it into the last cell of the notebook, and run it.</li>
 <li>Hand in <code>submission-yourname.pt</code>. Your teacher marks every file on the same contest faces and puts up a leaderboard.</li>
 </ol>
 <p>The real olympiad worked in the same way. Contestants submitted notebooks, and the scores came from images they had never seen.</p>
