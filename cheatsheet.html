@@ -16,7 +16,7 @@
 <div class="hero"><div class="hero-in">
   <div class="kicker">Reference</div>
   <h1>PyTorch Cheat Sheet</h1>
-  <p class="lede">Every PyTorch pattern you use in the Mood Machine, in one place. Keep this page open when you write code yourself.</p>
+  <p class="lede">Every PyTorch pattern you use in the Mood Machine, in one place. Keep this page open when you write code yourself. Under each block, open "In plain English" for the same code as numbered steps.</p>
   <div class="pills"><span class="pill">Sessions 2 to 11</span></div>
 </div></div>
 <div class="page with-toc p-cheatsheet">
@@ -24,33 +24,60 @@
   <main><h2 id="tensors">Tensors</h2>
 
 <div class="hl"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>   <span class="c1"># from a list</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>   <span class="c1"># from a list: 2 rows, 3 columns</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>                    <span class="c1"># all zeros, shape (3, 4, 4)</span>
 <span class="n">t</span><span class="o">.</span><span class="n">shape</span>                                     <span class="c1"># torch.Size([2, 3])</span>
-<span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                                        <span class="c1"># first row</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                                        <span class="c1"># first row (counting starts at 0)</span>
 <span class="n">t</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>                                     <span class="c1"># second column, every row</span>
 <span class="n">t</span> <span class="o">*</span> <span class="mf">0.5</span>                                     <span class="c1"># maths on every number at once</span>
 <span class="n">t</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>                                  <span class="c1"># position of the biggest number</span>
 <span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>                                    <span class="c1"># one-number tensor to an ordinary number</span>
 </code></pre></div>
 
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Bring in PyTorch with <code>import torch</code>. You only need this once, at the top of the notebook.</li>
+<li>Make a tensor from a list of numbers. A list of lists gives you rows and columns.</li>
+<li>Check its shape to see how many numbers it holds along each direction. A face is <code>(3, 32, 32)</code>: three colours, 32 rows, 32 columns.</li>
+<li>Pick out parts with square brackets. <code>[0]</code> is the first row. <code>[:, 1]</code> means "every row, column 1".</li>
+<li>Do maths on the whole tensor at once. There's no need for a loop.</li>
+<li>Use <code>argmax()</code> to find where the biggest number is. That's how a guess becomes a mood.</li>
+<li>Use <code>item()</code> when you want a plain Python number back, for printing or comparing.</li>
+</ol>
+</div>
+</details>
 <h2 id="values-that-learn">Values That Learn</h2>
 
 <div class="hl"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># PyTorch tracks its gradient</span>
 <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>                             <span class="c1"># works out every gradient</span>
 <span class="n">w</span><span class="o">.</span><span class="n">grad</span>                                      <span class="c1"># the gradient for w</span>
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>                       <span class="c1"># change w without recording it</span>
-    <span class="n">w</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span>
+    <span class="n">w</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span>             <span class="c1"># step the opposite way to the gradient</span>
 <span class="n">w</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>                              <span class="c1"># wipe it before the next step</span>
 </code></pre></div>
 
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Make a value with <code>requires_grad=True</code>. This tells PyTorch you want it to learn, so it keeps track of every calculation that uses it.</li>
+<li>Work out the loss, a single number that says how wrong you are.</li>
+<li>Call <code>loss.backward()</code>. PyTorch works backwards through the calculation and finds the gradient for every learning value.</li>
+<li>Read the gradient from <code>w.grad</code>. A positive gradient means making <code>w</code> bigger makes the loss bigger.</li>
+<li>Change <code>w</code> a little in the opposite direction to the gradient. Do it inside <code>torch.no_grad()</code> so PyTorch doesn't count the change as part of the next calculation.</li>
+<li>Wipe the gradient with <code>zero_()</code>. If you don't, the next gradient is added on top of this one.</li>
+</ol>
+</div>
+</details>
 <h2 id="the-training-loop-one-value-at-a-time-session-5">The Training Loop: One Value at a Time (Session 5)</h2>
 
-<div class="hl"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="hl"><pre><span></span><code><span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># start both values at 0</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span>                         <span class="c1"># how big each step is</span>
 <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="p">((</span><span class="n">w</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># 1. how wrong are we?</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">((</span><span class="n">w</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>    <span class="c1"># 1. how wrong are we?</span>
     <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>                         <span class="c1"># 2. find the gradients</span>
     <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>                   <span class="c1"># 3. step downhill</span>
         <span class="n">w</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span>
@@ -59,20 +86,35 @@
     <span class="n">b</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
 </code></pre></div>
 
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Make the values that will learn, <code>w</code> and <code>b</code>, starting at 0.</li>
+<li>Choose a learning rate. Too big and the loss jumps about or grows. Too small and learning is very slow.</li>
+<li>Repeat the next four steps many times, here 1,000.</li>
+<li>Make predictions with <code>w * x + b</code>, compare them with the right answers <code>y</code>, and turn the errors into one loss number. Squaring makes every error positive. <code>mean()</code> averages them.</li>
+<li>Find the gradients with <code>loss.backward()</code>.</li>
+<li>Move <code>w</code> and <code>b</code> a small step downhill: subtract the learning rate times the gradient.</li>
+<li>Wipe both gradients, ready for the next time round.</li>
+<li>After the loop, print <code>w</code> and <code>b</code> to see what they learned.</li>
+</ol>
+</div>
+</details>
 <h2 id="building-a-network-session-7">Building a Network (Session 7)</h2>
 
 <div class="hl"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MoodNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>                     <span class="c1"># build the layers</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>                     <span class="c1"># face to one long row</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hidden1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>   <span class="c1"># inputs, neurons</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hidden2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>           <span class="c1"># must match the layer before</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>                <span class="c1"># one score per mood</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>                               <span class="c1"># how a face flows through</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hidden2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
@@ -81,21 +123,48 @@
 <span class="n">model</span> <span class="o">=</span> <span class="n">MoodNet</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>       <span class="c1"># build it and move it to the device</span>
 </code></pre></div>
 
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Start a class that is a kind of <code>nn.Module</code>. That gives it everything PyTorch needs for training.</li>
+<li>In <code>__init__</code>, make each layer once and give it a name.</li>
+<li>Flatten first: a face is 3 × 32 × 32, and a <code>Linear</code> layer needs one long row of 3,072 numbers.</li>
+<li>Each <code>nn.Linear(a, b)</code> takes <code>a</code> numbers in and gives <code>b</code> numbers out. The number going into each layer must equal the number coming out of the one before.</li>
+<li>Finish with 10 outputs, one score for each mood.</li>
+<li>In <code>forward</code>, say the order a face goes through: flatten, first layer then ReLU, second layer then ReLU, then the output layer.</li>
+<li>Don't put ReLU after the output layer. The scores can be negative, and the loss function needs them as they are.</li>
+<li>Build the model with <code>MoodNet()</code> and move it to the same device as the data.</li>
+</ol>
+</div>
+</details>
 <h2 id="loss-optimiser-and-batches">Loss, Optimiser and Batches</h2>
 
 <div class="hl"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Subset</span>
 
-<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
-<span class="n">optimiser</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>                                    <span class="c1"># the loss for choosing a class</span>
+<span class="n">optimiser</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>         <span class="c1"># updates every weight for you</span>
 
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_faces</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># shuffle training data</span>
 <span class="n">part</span> <span class="o">=</span> <span class="n">Subset</span><span class="p">(</span><span class="n">train_faces</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span>                              <span class="c1"># the first 10,000 faces</span>
 </code></pre></div>
 
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Choose the loss. <code>CrossEntropyLoss</code> is the one to use when the model picks one class out of several, like one mood out of ten.</li>
+<li>Make an optimiser and hand it all the model's weights with <code>model.parameters()</code>. It does the "step downhill" for every weight at once. Adam with a learning rate of 0.001 is a good place to start.</li>
+<li>Wrap the faces in a <code>DataLoader</code>. It serves them in batches, here 64 at a time.</li>
+<li>Shuffle the training faces so each epoch sees them in a new order. You don't need to shuffle validation or test faces.</li>
+<li>Use <code>Subset</code> to take part of a dataset, for example to keep some faces back for validation.</li>
+</ol>
+</div>
+</details>
 <h2 id="the-training-loop-batches-sessions-8-and-11">The Training Loop: Batches (Sessions 8 and 11)</h2>
 
-<div class="hl"><pre><span></span><code><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">faces</span><span class="p">,</span> <span class="n">moods</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+<div class="hl"><pre><span></span><code><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>                         <span class="c1"># training mode</span>
+<span class="k">for</span> <span class="n">faces</span><span class="p">,</span> <span class="n">moods</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>     <span class="c1"># one batch at a time</span>
     <span class="n">faces</span><span class="p">,</span> <span class="n">moods</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">moods</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
     <span class="n">guesses</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>            <span class="c1"># 1. make guesses</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">guesses</span><span class="p">,</span> <span class="n">moods</span><span class="p">)</span>    <span class="c1"># 2. how wrong were they?</span>
@@ -104,14 +173,42 @@
     <span class="n">optimiser</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>                  <span class="c1"># 5. nudge the weights</span>
 </code></pre></div>
 
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Put the model in training mode.</li>
+<li>Take one batch of faces and their right moods from the loader.</li>
+<li>Move both to the same device as the model.</li>
+<li>Give the faces to the model to get its guesses.</li>
+<li>Compare the guesses with the right moods to get the loss.</li>
+<li>Wipe the old gradients.</li>
+<li>Find the new gradients with <code>loss.backward()</code>.</li>
+<li>Let the optimiser nudge every weight.</li>
+<li>Go back to step 2 until every batch has been used. That's one epoch.</li>
+<li>To train for several epochs, put the whole loop inside <code>for epoch in range(epochs):</code>, then check the accuracy after each one.</li>
+</ol>
+</div>
+</details>
 <h2 id="marking-saving-and-loading">Marking, Saving and Loading</h2>
 
 <div class="hl"><pre><span></span><code><span class="n">score</span> <span class="o">=</span> <span class="n">check_accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>                  <span class="c1"># percentage right</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">"my_best.pth"</span><span class="p">)</span>              <span class="c1"># save the learned numbers</span>
-<span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"my_best.pth"</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"my_best.pth"</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>   <span class="c1"># put them back</span>
 <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>                                               <span class="c1"># marking mode</span>
 </code></pre></div>
 
+<details>
+<summary>In plain English</summary>
+<div>
+<ol>
+<li>Mark the model on faces it hasn't learned from, usually the validation faces, to get a percentage right.</li>
+<li>If that's your best score so far, save the model's learned numbers to a file.</li>
+<li>Later, build a model of the same shape and load the saved numbers into it.</li>
+<li>Switch to marking mode with <code>model.eval()</code> before you use it to make guesses.</li>
+</ol>
+</div>
+</details>
 <h2 id="three-piles-of-data">Three Piles of Data</h2>
 <table>
 <thead>
