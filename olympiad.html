@@ -11,7 +11,7 @@
 <header class="top">
   <a class="brand" href="index.html"><img src="assets/img/mark.svg" alt=""><span><b>The Mood Machine</b><small>Year 13 · AILitKit</small></span></a>
   <button class="menu" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">Menu</button>
-  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat Sheet</a><a href="olympiad.html" class="here">Olympiad</a></nav>
+  <nav><a href="setup.html">Setup</a><a href="session1.html">1</a><a href="session2.html">2</a><a href="session3.html">3</a><a href="session4.html">4</a><a href="session5.html">5</a><a href="session6.html">6</a><a href="session7.html">7</a><a href="session8.html">8</a><a href="session9.html">9</a><a href="session10.html">10</a><a href="session11.html">11</a><a href="glossary.html">Glossary</a><a href="cheatsheet.html">Cheat Sheet</a><a href="olympiad.html" class="here">Olympiad</a><a href="ioai-task.html">IOAI Task</a></nav>
 </header>
 <div class="hero"><div class="hero-in">
   <div class="kicker">Going further</div>
@@ -20,7 +20,7 @@
   <div class="pills"><span class="pill">Optional extension</span><span class="pill">Notebook: olympiad-cnn-starter.ipynb</span></div>
 </div></div>
 <div class="page with-toc p-olympiad">
-  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#what-the-olympiads-are">What the Olympiads Are</a></li><li><a href="#what-you-ve-already-done">What You've Already Done</a></li><li><a href="#a-network-that-sees-shapes">A Network That Sees Shapes</a></li><li><a href="#augmentation">Augmentation</a></li><li><a href="#beyond-accuracy">Beyond Accuracy</a></li><li><a href="#next-ideas-to-learn">Next Ideas to Learn</a></li><li><a href="#resources">Resources</a></li></ol></div></aside>
+  <aside class="toc"><div class="toc-in"><div class="toc-h">On this page</div><ol><li><a href="#what-the-olympiads-are">What the Olympiads Are</a></li><li><a href="#what-you-ve-already-done">What You've Already Done</a></li><li><a href="#a-network-that-sees-shapes">A Network That Sees Shapes</a></li><li><a href="#augmentation">Augmentation</a></li><li><a href="#beyond-accuracy">Beyond Accuracy</a></li><li><a href="#try-a-real-olympiad-task">Try a Real Olympiad Task</a></li><li><a href="#next-ideas-to-learn">Next Ideas to Learn</a></li><li><a href="#resources">Resources</a></li></ol></div></aside>
   <main><div class="dl"><a href="downloads/olympiad-cnn-starter.ipynb" download>olympiad-cnn-starter.ipynb</a></div>
 
 <div class="video"><video controls preload="metadata" playsinline poster="videos/o_0.jpg" src="videos/o_0.mp4"></video><p style="margin:8px 0 0">A short introduction. The sections with a notebook each have their own video. Captions are built in.</p></div>
@@ -141,6 +141,8 @@ Winking   precision 0.93   recall 0.48   F1 0.64</pre>
 <p><span class="lbl">In your notebook</span></p>
 <p>Run <strong>section 6</strong>. Then use the last YOUR TURN cell to improve MoodCNN. Change one thing at a time and compare on the validation faces, as in Session 11.</p>
 </div>
+<h2 id="try-a-real-olympiad-task">Try a Real Olympiad Task</h2>
+<p>When you've finished this page's notebook, try <strong><a href="ioai-task.html">Double Agent Faces</a></strong>. It's a task from the 2026 International Olympiad in AI, rebuilt so it runs on a school laptop. You use MoodNet and MoodCNN, the same rules and scoring as the real contest, and a set of levels and hints to get you started.</p>
 <h2 id="next-ideas-to-learn">Next Ideas to Learn</h2>
 <p>These are on the IOAI syllabus but not in the notebook. Each is worth a few evenings with the resources below.</p>
 <p><strong>Classical machine learning.</strong> Before neural networks, and still often the right choice for tables of data: <strong>k-nearest neighbours</strong> (label a new example by its closest training examples), <strong>decision trees</strong> and <strong>random forests</strong> (a series of yes/no questions), <strong>k-means</strong> (find groups without labels: unsupervised learning) and <strong>PCA</strong> (squash many features into a few). Python's scikit-learn library has all of them, in a few lines each. It isn't installed on the school PCs, so ask your teacher if you'd like it.</p>
@@ -159,7 +161,7 @@ Winking   precision 0.93   recall 0.48   F1 0.64</pre>
 <li><a href="https://scikit-learn.org/stable/getting_started.html">scikit-learn tutorials</a>: classical machine learning</li>
 <li><a href="https://course.fast.ai/">fast.ai Practical Deep Learning</a>: a free course that starts with real projects</li>
 </ul>
-  <div class="prevnext"><a class="pn prev" href="cheatsheet.html"><small>Back</small>PyTorch Cheat Sheet</a></div>
+  <div class="prevnext"><a class="pn prev" href="cheatsheet.html"><small>Back</small>PyTorch Cheat Sheet</a><a class="pn next" href="ioai-task.html"><small>Next</small>Olympiad Task: Double Agent Faces</a></div>
   </main>
 </div>
 <footer>Cambridge International AS &amp; A Level Computer Science 9618 · Topic 18.1 · Year 13</footer>
